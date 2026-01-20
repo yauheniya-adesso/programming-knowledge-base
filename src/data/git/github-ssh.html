@@ -1,0 +1,42 @@
+<p>Using GitHub with SSH:</p>
+
+<ul class="list-none ml-0 space-y-4">
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Generate an SSH key</strong> – Create a key pair for secure authentication.<br>
+    <code class="language-bash">ssh-keygen -t rsa -b 4096 -C "your.email@example.com"</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Locate the public key</strong> – This key will be shared with GitHub.<br>
+    <code class="language-bash">~/.ssh/id_rsa.pub</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Add the key to GitHub</strong> – Copy the public key and add it in GitHub under
+    <em>Settings → SSH and GPG keys</em>.<br>
+    <code class="language-bash">cat ~/.ssh/id_rsa.pub</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Start the SSH agent</strong> – Enable SSH key handling in your session.<br>
+    <code class="language-bash">eval "$(ssh-agent -s)"</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Add the key to the agent</strong> – Load your private key for authentication.<br>
+    <code class="language-bash">ssh-add ~/.ssh/id_rsa</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Use SSH with GitHub</strong> – Clone and interact with repositories using the SSH URL.<br>
+    <code class="language-bash">git clone git@github.com:username/repository.git</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Test the connection</strong> – Verify that GitHub accepts your SSH key.<br>
+    <code class="language-bash">ssh -T git@github.com</code><br>
+    <em>A successful message confirms SSH authentication is working.</em>
+  </li>
+
+</ul>

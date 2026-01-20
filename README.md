@@ -1,9 +1,10 @@
 # Programming Knowledge Base
+
 An interactive web application showcasing fundamental programming languages and technologies. It contains comprehensive notes, examples, and quick code references for essential programming concepts.
 
 <div align="center">
-  <img src="programming_knowledge_base_demo.webp" width="800" alt="Programming Knowledge Base Demo">
-  <sup><a href="https://yourusername.github.io/programming-knowledge-base/">> Live Demo</a></sup>
+  <img src="programming_knowledge_base_demo.webp" width="100%" alt="Programming Knowledge Base Demo">
+  <sup><a href="https://yauheniya-adesso.github.io/programming-knowledge-base/">Live Demo ></a></sup>
 </div>
 
 ## Tech Stack

@@ -5,6 +5,7 @@ import workflowExample from './git/workflow-example.html?raw';
 import cloningForking from './git/cloning-forking.html?raw';
 import managingProjects from './git/managing-projects.html?raw';
 import correctingCommits from './git/correcting-commits.html?raw';
+import githubSSH from './git/github-ssh.html?raw';
 
 export const gitContent = {
   icon: "simple-icons:git",
@@ -39,6 +40,11 @@ export const gitContent = {
       id: "managing-projects",
       title: "Managing Projects",
       content: managingProjects
+    },
+    {
+      id: "github-ssh",
+      title: "Github with SSH",
+      content: githubSSH
     },
   ]
 };

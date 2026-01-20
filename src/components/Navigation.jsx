@@ -65,7 +65,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
         {/* Logo + Title */}
         <button
           onClick={() => onNavigate('Home')}
-          className="flex items-center gap-2 text-white font-bold"
+          className="flex items-center gap-2 text-white font-bold cursor-pointer"
         >
           <img src={Icons.programmingIcon} width={28} height={28} color="white" />
           <span className="hidden md:inline">Programming Knowledge Base</span>
@@ -79,7 +79,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
               <button
                 key={page.name}
                 onClick={() => handleNavigate(page.name)}
-                className={`nav-link flex items-center gap-2 text-white font-medium ${
+                className={`nav-link flex items-center gap-2 text-white font-medium cursor-pointer ${
                   isActive ? 'active' : ''
                 }`}
               >
@@ -92,7 +92,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
 
         {/* Mobile menu button */}
         <div className="md:hidden">
-          <button onClick={() => setIsMobileOpen(!isMobileOpen)} className="text-white p-2">
+          <button onClick={() => setIsMobileOpen(!isMobileOpen)} className="text-white p-2 cursor-pointer">
             {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -108,7 +108,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
                 <button
                   key={page.name}
                   onClick={() => handleNavigate(page.name)}
-                  className={`nav-link flex items-center gap-2 text-white font-medium py-2 w-full text-left ${
+                  className={`nav-link flex items-center gap-2 text-white font-medium py-2 w-full text-left cursor-pointer ${
                     isActive ? 'active' : ''
                   }`}
                 >

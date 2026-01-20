@@ -1,16 +1,18 @@
-# React + Vite
+# Programming Knowledge Base
+An interactive web application showcasing fundamental programming languages and technologies. It contains comprehensive notes, examples, and quick code references for essential programming concepts.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Tech Stack
+- <img src="https://api.iconify.design/logos:javascript.svg?color=%231C3C3C" alt="JavaScript" height="12" /> JavaScript - Core programming language
+- <img src="https://api.iconify.design/logos:react.svg?color=%231C3C3C" alt="React" height="12" /> React - Frontend framework
+- <img src="https://api.iconify.design/devicon:tailwindcss.svg?color=%231C3C3C" alt="Tailwind CSS" height="12" /> Tailwind CSS - Utility-first CSS framework
+- <img src="https://api.iconify.design/devicon:vitejs.svg?color=%231C3C3C" alt="Vite" height="12" /> Vite - Build tool and development server
 
-Currently, two official plugins are available:
+## Deployment
+- <img src="https://api.iconify.design/codicon:github-inverted.svg?color=%231C3C3C" alt="Vite" height="12" /> GitHub Pages
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## License
+MIT 
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Acknowledgements
+- [Press Start Button (Synthwave & Starfield) - CSS by Josetxu](https://codepen.io/josetxu/pen/YPWWMbe) on <img src="https://api.iconify.design/ri:codepen-fill.svg?color=%231C3C3C" alt="CodePen" height="12" /> CodePen for the "Star Travel" animation on the homepage
+- [IBM Java Developer](https://www.coursera.org/professional-certificates/java-developer?utm_medium=sem&utm_source=gg&utm_campaign=b2c_emea_x_multi_ftcof_career-academy_cx_dr_bau_gg_pmax_gc_s1_en_m_hyb_23-12_desktop&campaignid=20858198824&adgroupid=&device=c&keyword=&matchtype=&network=x&devicemodel=&creativeid=&assetgroupid=6490027433&targetid=&extensionid=&placement=&gad_source=1&gad_campaignid=20854471652&gbraid=0AAAAADdKX6aHn8zRzj4KZlpK4sRDG4nWW&gclid=EAIaIQobChMIgvb0vf2akgMVqJODBx2xCTI1EAAYASAAEgKG2vD_BwE) course on Coursera for comprehensive materials on Java, HTML, CSS, JavaScript, and Git

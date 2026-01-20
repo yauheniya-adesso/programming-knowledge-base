@@ -2,9 +2,9 @@ import { Icons } from "./icons";
 
 export const planets = [
   {
-    src: Icons.javascript,
-    label: "JavaScript",
-    description: "Modern web development language with comprehensive DOM manipulation and API integration.",
+    src: Icons.java,
+    label: "Java",
+    description: "Object-oriented programming for enterprise applications.",
     size: 48,
     orbit: 120,
     speed: 20,
@@ -29,9 +29,9 @@ export const planets = [
     direction: "cw",
   },
   {
-    src: Icons.java,
-    label: "Java",
-    description: "Object-oriented programming for enterprise applications.",
+    src: Icons.javascript,
+    label: "JavaScript",
+    description: "Modern web development language with comprehensive DOM manipulation and API integration.",
     size: 44,
     orbit: 300,
     speed: 40,

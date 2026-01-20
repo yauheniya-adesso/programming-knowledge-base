@@ -1,7 +1,7 @@
 // src/constants/icons.js
 import programmingCore from '../assets/programming-core.svg';
+import programmingCoreAni from '../assets/programming-core-ani.svg';
 import programmingIcon from '../assets/programming-icon.png';
-
 import javascriptIcon from '../assets/js-white-bg.svg';
 import htmlIcon from '../assets/html5-white-bg.svg';
 import cssIcon from '../assets/css3-white-bg.svg';
@@ -15,6 +15,7 @@ import gitIconGradient from '../assets/git-white-bg.png';
 
 export const Icons = {
   programmingCore,
+  programmingCoreAni,
   programmingIcon,
   javascript: javascriptIcon,
   html: htmlIcon,

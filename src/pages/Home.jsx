@@ -29,7 +29,7 @@ const Home = ({ onNavigate }) => {  // Add onNavigate prop
       
       {/* Central Sun */}
       <img
-        src={Icons.programmingCore}
+        src={Icons.programmingCoreAni}
         alt="Programming"
         className="w-16 h-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{ zIndex: 100 }}

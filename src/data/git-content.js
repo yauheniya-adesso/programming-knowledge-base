@@ -4,6 +4,7 @@ import basicTerms from './git/basic-terms.html?raw';
 import workflowExample from './git/workflow-example.html?raw';
 import cloningForking from './git/cloning-forking.html?raw';
 import managingProjects from './git/managing-projects.html?raw';
+import correctingCommits from './git/correcting-commits.html?raw';
 
 export const gitContent = {
   icon: "simple-icons:git",
@@ -28,6 +29,11 @@ export const gitContent = {
       id: "cloning-forking",
       title: "Cloning and Forking",
       content: cloningForking
+    },
+    {
+      id: "correcting-commits",
+      title: "Correcting Commits",
+      content: correctingCommits
     },
     {
       id: "managing-projects",

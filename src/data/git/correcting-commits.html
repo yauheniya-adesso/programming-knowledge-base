@@ -1,0 +1,27 @@
+<p>Correcting commit message typos:</p>
+
+<ul class="list-none ml-0 space-y-4">
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Check commit history</strong> – Find the commit with the typo.<br>
+    <code class="language-bash">git log --oneline</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Amend last commit</strong> – Quickly fix the most recent commit message.<br>
+    <code class="language-bash">git commit --amend -m "Corrected commit message"</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Edit older commit messages</strong> – Reword previous commits interactively.<br>
+    <code class="language-bash">git rebase -i HEAD~N</code><br>
+    <em>Replace N with the number of commits to review. Mark commits with <code>reword</code> to fix their messages.</em>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Push amended commits</strong> – If commits were already pushed, use force push carefully.<br>
+    <code class="language-bash">git push --force</code><br>
+    <em>Be cautious: this rewrites history on the remote repository and can affect collaborators.</em>
+  </li>
+
+</ul>

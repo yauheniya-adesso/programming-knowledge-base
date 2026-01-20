@@ -7,19 +7,31 @@
   </li>
 
   <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
-    <strong>Repository</strong> – A storage location for all the files, history, and changes of a project in Git.
+    <strong>Repository</strong> – A storage location for all the files, history, and changes of a project in Git.<br>
+    <code class="language-bash">git init project-name</code>
   </li>
 
   <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
-    <strong>Forking</strong> – Forking creates a copy of a GitHub repository on which one can work without affecting the original repository.
+    <strong>Forking</strong> – Forking creates a copy of a GitHub repository on which one can work without affecting the original repository. 
+    After installing GitHub CLI (gh) on your system, e.g., 
+    <code>brew install gh</code> (on macOS):<br>
+  <code class="language-bash">gh auth login --web</code><br>
+  <code class="language-bash">gh repo fork https://github.com/ORIGINAL-OWNER/REPO-NAME</code>
   </li>
 
   <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
     <strong>Cloning</strong> – A process of creating a copy of the project's code and its complete version history from the remote repository on the local machine.<br>
+    <code class="language-bash">git clone https://github.com/USERNAME/REPO-NAME.git</code>
   </li>
 
   <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
-    <strong>Working directory</strong> – The local folder on your computer where files from a Git repository are checked out and edited.
+    <strong>Upstream</strong> – A term used by developers to refer to the original source where the local copy was cloned from.<br>
+    <code class="language-bash">git remote add upstream https://github.com/ORIGINAL-OWNER/REPO-NAME.git</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Working directory</strong> – The local folder on your computer where files from a Git repository are checked out and edited.<br>
+    <code class="language-bash">pwd</code>
   </li>
 
   <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
@@ -33,6 +45,11 @@
   </li>
 
   <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Config</strong> – Git configuration settings that store user information, preferences, and repository-specific options across local, global, or system scopes.<br>
+    <code class="language-bash">git config --local user.name "Your Name"</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
     <strong>Commit</strong> – A snapshot of changes in the repository, along with a descriptive message of what was changed.<br>
     <code class="language-bash">git commit -m "category: Describe your changes in present tense and active voice"</code>
   </li>
@@ -43,11 +60,8 @@
   </li>
 
   <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
-    <strong>Pull request</strong> – A request to merge changes from one branch or fork into another branch, typically in the original repository.
-  </li>
-
-  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
-    <strong>Upstream</strong> – A term used by developers to refer to the original source where the local copy was cloned from.<br>
+    <strong>Pull request</strong> – A request to merge changes from one branch or fork into another branch, typically in the original repository.<br>
+    <code class="language-bash">gh pr create</code>
   </li>
 
 </ul>

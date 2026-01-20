@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --color-*: initial;
+  --color-white: #fff;
+  --color-blue:  #006EC7;
+  --color-purple:#461EBE;
+  --color-orange:#FF9868;
+  --color-brown: #887D75;
+  --color-green: #76C800;
+  --color-pink:  #F566BA;
+  --color-teal:  #28DCAA;
+}
+
 /* ===============================
    Brand Colors
    =============================== */

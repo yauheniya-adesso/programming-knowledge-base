@@ -1,0 +1,60 @@
+<p>
+<iconify-icon icon="devicon:tailwindcss" height="14"></iconify-icon> Tailwind CSS is a <strong>utility-first</strong> CSS framework that lets you style
+elements directly using predefined classes.
+</p>
+
+<p><strong>Installation (via npm):</strong></p>
+<code class="language-bash">npm install -D tailwindcss</code>
+
+<p><strong>Example usage:</strong></p>
+<code class="language-html">&lt;button class="bg-blue-500 text-white px-4 py-2 rounded"&gt;
+Click me
+&lt;/button&gt;</code>
+
+<p><strong>Common Tailwind CSS utility classes with detailed explanations:</strong></p>
+
+<ul class="list-none ml-0 space-y-4">
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Colors</strong> – Set background, text, and border colors using a predefined palette.<br>
+    <code class="language-html">bg-blue-500, text-white, text-gray-700, bg-red-200</code><br>
+    <em>
+      Example: <code>bg-blue-500</code> sets a medium blue background. <br>
+      The number (100–900) represents the shade intensity (100 = light, 900 = dark).<br>
+      You can also add transparency: <code>bg-blue-500/50</code> is 50% opacity.<br>
+      <a href="https://tailwindcss.com/docs/colors" target="_blank">Full color palette</a>.
+    </em>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Spacing</strong> – Add margin and padding consistently.<br>
+    <code class="language-html">p-4, px-2, py-3, m-4, mt-2, mb-6</code><br>
+    <em>
+      Example: <code>p-4</code> adds padding on all sides, <code>m-4</code> adds margin on all sides.<br>
+      Prefixes: <code>t</code>=top, <code>b</code>=bottom, <code>l</code>=left, <code>r</code>=right.<br>
+      Axes: <code>x</code>=left+right, <code>y</code>=top+bottom.<br>
+      Numbers are based on a scale (e.g., 1=0.25rem, 4=1rem, 16=4rem by default).
+    </em>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Typography</strong> – Control font size, weight, line height, and alignment.<br>
+    <code class="language-html">text-sm, text-lg, font-bold, text-center</code><br>
+    <em>
+      Example: <code>text-sm</code> = small text, <code>text-lg</code> = larger text.<br>
+      Numbers indicate relative sizes; see the <a href="https://tailwindcss.com/docs/font-size" target="_blank">Tailwind font-size docs</a>.<br>
+      <code>font-bold</code> makes text bold; <code>text-center</code> centers text horizontally.
+    </em>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Layout</strong> – Manage display, flexbox, grid, width, height, and positioning.<br>
+    <code class="language-html">flex, grid, items-center, justify-between, w-full, h-16</code><br>
+    <em>
+      Example: <code>flex</code> creates a flex container, <code>items-center</code> vertically centers children.<br>
+      Width and height classes: <code>w-full</code> = 100% of parent, <code>h-16</code> = 4rem (based on scale, 1 unit = 0.25rem).<br>
+      Use grid classes for layout: <code>grid grid-cols-3 gap-4</code>.
+    </em>
+  </li>
+
+</ul>

@@ -1,52 +1,75 @@
 <p>
-Git is a <strong>distributed version control system</strong> used to track changes
-in source code during software development. It allows multiple developers to work
-on the same project efficiently, safely, and independently.
+  Git is a <strong>distributed version control system</strong> used to track changes
+  in source code during software development. It allows multiple developers to work
+  on the same project efficiently, safely, and independently.
 </p>
 
 <p>
-With Git, every developer has a full copy of the project history on their local
-machine. This makes Git fast, reliable, and usable even when offline.
+  Git was originally created in <strong>2005</strong> by Linus Torvalds, the creator of
+  Linux. It was developed to replace <strong>BitKeeper</strong>, a proprietary version
+  control system previously used for the Linux kernel, after licensing issues arose.
+  The design of Git was heavily influenced by the needs of large-scale,
+  fast-moving, open-source projects.
 </p>
 
-<pre><code class="language-bash"># Initialize a new Git repository
-git init
+<p>
+  From the beginning, Git was built with several key goals in mind:
+</p>
 
-# Check the current status of files
-git status
-
-# Add files to staging
-git add .
-
-# Commit changes with a message
-git commit -m "Initial commit"
-</code></pre>
+<ul>
+  <li><strong>Support for non-linear development</strong> through lightweight branching and merging</li>
+  <li><strong>Distributed development</strong>, allowing developers to work independently and collaborate later</li>
+  <li><strong>Compatibility with existing systems and protocols</strong> such as SSH, HTTP, and HTTPS</li>
+  <li><strong>Efficient handling of large projects</strong> with thousands of files and long histories</li>
+  <li><strong>Cryptographic authentication of history</strong>, ensuring the integrity and authenticity of commits</li>
+  <li><strong>Pluggable merge strategies</strong>, enabling different approaches to combining changes</li>
+</ul>
 
 <p>
-Git itself is a command-line tool and works locally. To collaborate with others,
-Git is commonly used together with remote hosting platforms such as:
+  Git follows a <strong>repository-based model</strong>. A Git repository contains
+  the complete project history, including all branches and commits. Because each
+  clone is a full repository, there is no single point of failure, and collaboration
+  remains flexible and resilient.
+</p>
+
+<p>
+  Modern Git workflows often follow <strong>agile development practices</strong>.
+  Short-lived branches, frequent commits, and regular merges help teams iterate
+  quickly and respond to change. In many projects, the <strong>main</strong> branch
+  represents stable, deployable code, while new features and fixes are developed in
+  separate branches and merged back once they are ready.
+</p>
+
+<p>
+  Git itself is a <strong>command-line tool</strong> and works entirely locally. To
+  collaborate with others, Git is commonly used together with remote hosting
+  platforms such as:
 </p>
 
 <ul class="list-none ml-0 space-y-4">
   <li class="flex items-center gap-2">
     <iconify-icon icon="mdi:github" width="20"></iconify-icon>
-    <strong>GitHub</strong> – Popular platform for open-source and team collaboration
+    <strong>GitHub</strong> – A popular platform for open-source projects and team collaboration
   </li>
 
   <li class="flex items-center gap-2">
     <iconify-icon icon="logos:gitlab-icon" width="20"></iconify-icon>
-    <strong>GitLab</strong> – Includes CI/CD and self-hosting capabilities
+    <strong>GitLab</strong> – Provides built-in CI/CD pipelines and supports self-hosted installations
   </li>
 
   <li class="flex items-center gap-2">
     <iconify-icon icon="logos:bitbucket" width="20"></iconify-icon>
-    <strong>Bitbucket</strong> – Often used with Atlassian tools like Jira
+    <strong>Bitbucket</strong> – Often used alongside Atlassian tools such as Jira and Confluence
   </li>
 
   <li class="flex items-center gap-2">
     <iconify-icon icon="devicon:azuredevops" width="20"></iconify-icon>
-    <strong>Azure DevOps</strong> – Enterprise platform for Git hosting, CI/CD, and project management
+    <strong>Azure DevOps</strong> – An enterprise platform offering Git hosting, CI/CD, and project management
   </li>
 </ul>
 
-
+<p>
+  These platforms extend Git with features like issue tracking, code reviews,
+  continuous integration, and access control, making collaboration easier and more
+  structured—especially for teams and large organizations.
+</p>

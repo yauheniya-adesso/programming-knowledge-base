@@ -1,0 +1,24 @@
+<p>Prototypes enable inheritance in JavaScript. Objects inherit properties and methods from their prototype.</p>
+
+<pre><code class="language-javascript">function Car(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+}
+
+// Add properties/methods to prototype
+Car.prototype.color = "Red";
+Car.prototype.getName = function() {
+  return this.make + ' ' + this.model + ' ' + this.year;
+};
+
+const car1 = new Car("Toyota", "Corolla", 2023);
+console.log(car1.color); // "Red" (inherited)
+console.log(car1.getName()); // "Toyota Corolla 2023"</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Benefits:</h3>
+<ul class="mt-4 space-y-2 list-disc list-inside">
+  <li>Memory efficient (methods shared across instances)</li>
+  <li>Enables inheritance</li>
+  <li>Can be modified at runtime</li>
+</ul>

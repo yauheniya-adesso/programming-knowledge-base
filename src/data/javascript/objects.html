@@ -1,0 +1,24 @@
+<p>Objects are collections of key-value pairs and methods.</p>
+
+<h3 class="mt-6 font-semibold text-lg">Constructor Function Pattern:</h3>
+<pre><code class="language-javascript">function Car(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+  this.getName = function() {
+    return this.make + ' ' + this.model + ' ' + this.year;
+  };
+}
+
+const myCar = new Car("Meridian", "Saber GT", 2012);
+console.log(myCar.getName()); // "Meridian Saber GT 2012"</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Object Literal:</h3>
+<pre><code class="language-javascript">const car = {
+  make: "Toyota",
+  model: "Camry",
+  year: 2023,
+  getName() {
+    return this.make + " " + this.model + " " + this.year;
+  }
+};</code></pre>

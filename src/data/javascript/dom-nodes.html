@@ -1,0 +1,30 @@
+<h3 class="font-semibold text-lg">DOM Hierarchy:</h3>
+<pre><code class="language-javascript">window
+├── document
+│   ├── documentElement (html)
+│   │   ├── head
+│   │   │   ├── meta
+│   │   │   └── title
+│   │   └── body
+│   │       ├── form
+│   │       ├── p
+│   │       └── input</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">DOM Level 2 Node Types:</h3>
+<ol class="mt-4 space-y-1 list-decimal list-inside">
+  <li>Element node</li>
+  <li>Attribute node</li>
+  <li>Text node</li>
+  <li>Comment node</li>
+  <li>Document node</li>
+  <li>Document Type node</li>
+  <li>Document Fragment node</li>
+</ol>
+
+<h3 class="mt-6 font-semibold text-lg">Accessing Form Elements:</h3>
+<pre><code class="language-javascript">document.forms[0].elements[0]
+document.forms["formName"].elements["fieldName"]
+document.formName.fieldName</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Using ID (Best Practice):</h3>
+<pre><code class="language-javascript">const container = document.getElementById("grid_container");</code></pre>

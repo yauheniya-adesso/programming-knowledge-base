@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ===============================
+   Brand Colors
+   =============================== */
+:root {
+  --color-blue:  #006EC7;
+  --color-purple:#461EBE;
+  --color-orange:#FF9868;
+  --color-brown: #887D75;
+  --color-green: #76C800;
+  --color-pink:  #F566BA;
+  --color-teal:  #28DCAA;
+}
+
+/* ===============================
+   Base Typography
+   =============================== */
+@layer base {
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose h1 {
+    @apply text-3xl font-bold;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold;
+  }
+
+  .prose h3 {
+    @apply text-lg font-semibold;
+  }
+
+  .prose strong {
+    @apply font-semibold;
+  }
+
+  .prose a {
+    @apply underline;
+  }
+}
+
+/* ===============================
+   Inline Code
+   =============================== */
+.prose :not(pre) > code {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* ===============================
+   Code Blocks
+   =============================== */
+pre {
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow-x: auto;
+}
+
+pre code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background: none;
+}
+
+/* Remove typography backticks */
+.prose code::before,
+.prose code::after {
+  content: none !important;
+}
+
+/* ===============================
+   Amimation
+   =============================== */
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse-slow {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow linear infinite;
+  animation-duration: 60s;
+}
+
+.animate-spin-reverse-slow {
+  animation: spin-reverse-slow linear infinite;
+  animation-duration: 80s;
+}
+

@@ -1,0 +1,25 @@
+<p>The Document Object Model (DOM) API allows JavaScript to interact with HTML.</p>
+
+<h3 class="mt-6 font-semibold text-lg">Selecting Elements:</h3>
+<ul class="mt-4 space-y-2 list-disc list-inside">
+  <li><code>document.getElementById("id")</code></li>
+  <li><code>document.getElementsByTagName("img")</code></li>
+  <li><code>document.getElementsByClassName("class")</code></li>
+  <li><code>document.querySelector(".class")</code> (modern, recommended)</li>
+  <li><code>document.querySelectorAll("div")</code> (returns NodeList)</li>
+</ul>
+
+<h3 class="mt-6 font-semibold text-lg">Modifying Elements:</h3>
+<ul class="mt-4 space-y-2 list-disc list-inside">
+  <li><code>element.innerHTML = "New content"</code></li>
+  <li><code>element.textContent = "Text only"</code></li>
+  <li><code>element.style.color = "blue"</code></li>
+  <li><code>element.setAttribute("src", "image.jpg")</code></li>
+  <li><code>element.removeAttribute("disabled")</code></li>
+  <li><code>element.getAttribute("href")</code></li>
+</ul>
+
+<h3 class="mt-6 font-semibold text-lg">Creating Elements:</h3>
+<pre><code class="language-javascript">const newDiv = document.createElement("div");
+newDiv.textContent = "Hello";
+document.body.appendChild(newDiv);</code></pre>

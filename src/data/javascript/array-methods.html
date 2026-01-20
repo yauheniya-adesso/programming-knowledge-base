@@ -1,0 +1,20 @@
+<h3 class="font-semibold text-lg"><strong>forEach</strong> - Execute function for each element:</h3>
+<pre><code class="language-javascript">planets.forEach((planet, index) => {
+  console.log(`${index}: ${planet}`);
+});</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg"><strong>map</strong> - Transform each element and return new array:</h3>
+<pre><code class="language-javascript">const planets = [
+  { name: 'Earth', radius: 6371 },
+  { name: 'Mars', radius: 3389 }
+];
+const names = planets.map(p => p.name);</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg"><strong>filter</strong> - Return elements that pass test:</h3>
+<pre><code class="language-javascript">const large = planets.filter(p => p.radius > 5000);</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg"><strong>reduce</strong> - Reduce array to single value:</h3>
+<pre><code class="language-javascript">const total = [1, 2, 3, 4].reduce((sum, num) => sum + num, 0);</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg"><strong>find</strong> - Return first element that matches:</h3>
+<pre><code class="language-javascript">const earth = planets.find(p => p.name === 'Earth');</code></pre>

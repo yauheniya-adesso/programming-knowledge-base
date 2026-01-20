@@ -1,0 +1,20 @@
+<p>Events allow scripts to respond to user interactions.</p>
+
+<h3 class="mt-6 font-semibold text-lg">Common Events:</h3>
+<ul class="mt-4 space-y-2 list-disc list-inside">
+  <li><code>onclick</code>: Element is clicked</li>
+  <li><code>onload</code>: Page/image has loaded</li>
+  <li><code>onmouseover</code>: Mouse enters element</li>
+  <li><code>onfocus</code>: Element receives focus</li>
+  <li><code>onselect</code>: Text is selected</li>
+  <li><code>onchange</code>: Input value changes</li>
+  <li><code>onsubmit</code>: Form is submitted</li>
+</ul>
+
+<h3 class="mt-6 font-semibold text-lg">Event Listeners (Modern Approach):</h3>
+<pre><code class="language-javascript">element.addEventListener('click', function(event) {
+  console.log('Clicked!');
+});</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Inline (Legacy):</h3>
+<pre><code class="language-javascript">&lt;button onclick="handleClick()"&gt;Click me&lt;/button&gt;</code></pre>

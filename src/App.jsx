@@ -14,7 +14,7 @@ export default function App() {
   const renderPage = () => {
     switch(currentPage) {
       case 'Home':
-        return <Home />;
+        return <Home onNavigate={setCurrentPage} />;
       case 'JavaScript':
         return <JavaScript />;
       case 'HTML':
@@ -26,7 +26,7 @@ export default function App() {
       case 'Git':
         return <Git />;
       default:
-        return <Home />;
+        return <Home onNavigate={setCurrentPage} />;
     }
   };
 

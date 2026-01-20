@@ -1,0 +1,35 @@
+<p>Cloning and forking GitHub projects:</p>
+
+<ul class="list-none ml-0 space-y-4">
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Clone</strong> – Create a local copy of a repository from GitHub.<br>
+    <pre><code class="language-bash">git clone https://github.com/user/repo.git</code></pre>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Fork</strong> – Make a personal copy of a repository to modify or extend the project independently.<br>
+    <em>Note:</em> <strong>origin</strong> refers to your fork, and <strong>upstream</strong> refers to the original repository.
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>View remotes</strong> – List configured remote repositories.<br>
+    <pre><code class="language-bash">git remote -v</code></pre>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Add upstream</strong> – Link your fork to the original repository.<br>
+    <pre><code class="language-bash">git remote add upstream &lt;clone-URL&gt;</code></pre>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Sync fork</strong> – Fetch updates from the original repository and merge into your main branch.<br>
+    <pre><code class="language-bash">git fetch upstream
+git checkout main
+git merge upstream/main</code></pre>
+    <em>Alternative:</em><br>
+    <pre><code class="language-bash">git checkout main
+git pull upstream main</code></pre>
+  </li>
+
+</ul>

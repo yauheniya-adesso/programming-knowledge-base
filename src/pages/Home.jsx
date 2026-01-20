@@ -3,7 +3,7 @@ import Startravel from "../components/Startravel";
 import { planets } from "../constants/planets";
 import { Icons } from "../constants/icons";
 
-const Home = () => {
+const Home = ({ onNavigate }) => {  // Add onNavigate prop
   const [hoveredPlanet, setHoveredPlanet] = useState(null);
 
   // Generate random start angles once and memoize them
@@ -37,7 +37,7 @@ const Home = () => {
       
       {/* Planets with orbits and tooltips */}
       {planets.map((planet, i) => {
-        const startAngle = startAngles[i]; // Use memoized angle instead of Math.random()
+        const startAngle = startAngles[i];
         const animationName = `orbit-${i}`;
         const counterAnimationName = `counter-orbit-${i}`;
         const isHovered = hoveredPlanet === i;
@@ -81,7 +81,7 @@ const Home = () => {
               }}
             >
               <div
-                className="absolute top-1/2 left-1/2 pointer-events-auto group"
+                className="absolute top-1/2 left-1/2 pointer-events-auto group cursor-pointer"
                 style={{
                   animation: `${counterAnimationName} ${planet.speed}s linear infinite`,
                   width: planet.size,
@@ -89,6 +89,7 @@ const Home = () => {
                 }}
                 onMouseEnter={() => setHoveredPlanet(i)}
                 onMouseLeave={() => setHoveredPlanet(null)}
+                onClick={() => onNavigate(planet.label)}  // Add click handler
               >
                 <img
                   src={displayIcon}

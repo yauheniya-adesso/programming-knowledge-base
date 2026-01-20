@@ -1,0 +1,78 @@
+<p>Example Git workflow for creating, merging, and deploying a patch:</p>
+
+<ul class="list-none ml-0 space-y-4">
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Clone repository</strong> – Create a local copy of the remote repository including its full history.<br>
+    <code class="language-bash">git clone https://github.com/repository/project.git</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Create patch branch</strong> – Create a new branch for isolated patch development.<br>
+    <code class="language-bash">git branch PATCH-1</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Switch branch</strong> – Move from the current branch to the patch branch.<br>
+    <code class="language-bash">git checkout PATCH-1</code>
+    <br>
+    <em>Alternative (create and switch in one step):</em><br>
+    <code class="language-bash">git checkout -b PATCH-1</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Check repository state</strong> – View current branch, modified files, and staging status.<br>
+    <code class="language-bash">git status</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Review changes</strong> – Show differences between the working directory and the last commit.<br>
+    <code class="language-bash">git diff</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Stage changes</strong> – Add modified files to the staging area in preparation for a commit.<br>
+    <code class="language-bash">git add .</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Commit patch</strong> – Save a snapshot of staged changes with a descriptive message.<br>
+    <code class="language-bash">git commit -m "fix: Execute patch"</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Return to main branch</strong> – Switch back to the stable branch.<br>
+    <code class="language-bash">git checkout main</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Merge patch</strong> – Integrate the patch branch into the main branch.<br>
+    <code class="language-bash">git merge PATCH-1</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Delete patch branch</strong> – Remove the branch after successful merge.<br>
+    <code class="language-bash">git branch -d PATCH-1</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Push main branch</strong> – Upload local commits and set upstream tracking for future pushes.<br>
+    <code class="language-bash">git push -u origin main</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Stage version update</strong> – Prepare version or metadata changes for release.<br>
+    <code class="language-bash">git add .</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Commit release update</strong> – Commit housekeeping or version bump changes.<br>
+    <code class="language-bash">git commit -m "chore: Update package version"</code>
+  </li>
+
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+    <strong>Push final changes</strong> – Upload the latest commits to the remote repository.<br>
+    <code class="language-bash">git push</code>
+  </li>
+
+</ul>

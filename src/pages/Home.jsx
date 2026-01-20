@@ -1,8 +1,28 @@
+import { useState, useMemo } from "react";
 import Startravel from "../components/Startravel";
 import { planets } from "../constants/planets";
 import { Icons } from "../constants/icons";
 
 const Home = () => {
+  const [hoveredPlanet, setHoveredPlanet] = useState(null);
+
+  // Generate random start angles once and memoize them
+  const startAngles = useMemo(() => {
+    return planets.map(() => Math.random() * 360);
+  }, []);
+
+  // Map to get the gradient version of each icon
+  const getGradientIcon = (label) => {
+    const iconMap = {
+      "JavaScript": Icons.javascriptFokus,
+      "HTML": Icons.htmlFokus,
+      "CSS": Icons.cssFokus,
+      "Java": Icons.javaFokus,
+      "Git": Icons.gitFokus,
+    };
+    return iconMap[label];
+  };
+
   return (
     <div className="relative w-full overflow-hidden bg-black p-0 m-0" style={{ height: 'calc(100vh - 64px)' }}>
       <Startravel />
@@ -10,16 +30,18 @@ const Home = () => {
       {/* Central Sun */}
       <img
         src={Icons.programmingCore}
-        alt="Programming Core"
+        alt="Programming"
         className="w-16 h-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{ zIndex: 100 }}
       />
       
       {/* Planets with orbits and tooltips */}
       {planets.map((planet, i) => {
-        const startAngle = Math.random() * 360;
+        const startAngle = startAngles[i]; // Use memoized angle instead of Math.random()
         const animationName = `orbit-${i}`;
         const counterAnimationName = `counter-orbit-${i}`;
+        const isHovered = hoveredPlanet === i;
+        const displayIcon = isHovered ? getGradientIcon(planet.label) : planet.src;
         
         return (
           <div key={i}>
@@ -65,13 +87,16 @@ const Home = () => {
                   width: planet.size,
                   height: planet.size,
                 }}
+                onMouseEnter={() => setHoveredPlanet(i)}
+                onMouseLeave={() => setHoveredPlanet(null)}
               >
                 <img
-                  src={planet.src}
+                  src={displayIcon}
                   alt={planet.label}
-                  className="w-full h-full object-contain relative"
+                  className="w-full h-full object-contain relative transition-all duration-300"
                   style={{ zIndex: 1 }}
                 />
+                
                 {/* Tooltip */}
                 <div 
                   className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-3 py-2 text-xs bg-white/95 text-black rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity w-[200px] text-center leading-tight pointer-events-none"

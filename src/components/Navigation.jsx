@@ -22,6 +22,45 @@ const Navigation = ({ currentPage, onNavigate }) => {
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-[#006EC7] z-50">
+      <style>{`
+        .nav-link {
+          position: relative;
+          padding: 8px 12px;
+          border-radius: 6px;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: 2px;
+          left: 12px;
+          right: 12px;
+          height: 2px;
+          background-color: transparent;
+          transition: background-color 0.3s ease;
+        }
+        .nav-link:hover {
+          background-color: white;
+          color: #F566BA;
+        }
+        .nav-link:hover::after {
+          background-color: #FF9868;
+        }
+        .nav-link:hover .nav-icon {
+          color: #F566BA;
+        }
+        .nav-link.active {
+          background-color: white;
+          color: #006EC7;
+        }
+        .nav-link.active::after {
+          background-color: #006EC7;
+        }
+        .nav-link.active .nav-icon {
+          color: #006EC7;
+        }
+      `}</style>
+      
       <div className="flex items-center justify-between px-4 md:px-8 h-16">
         {/* Logo + Title */}
         <button
@@ -33,18 +72,18 @@ const Navigation = ({ currentPage, onNavigate }) => {
         </button>
 
         {/* Desktop links */}
-        <div className="hidden md:flex space-x-6">
+        <div className="hidden md:flex space-x-2">
           {pages.map((page) => {
             const isActive = currentPage === page.name;
             return (
               <button
                 key={page.name}
                 onClick={() => handleNavigate(page.name)}
-                className={`flex items-center gap-2 text-white font-medium transition-colors ${
-                  isActive ? 'underline' : 'hover:underline'
+                className={`nav-link flex items-center gap-2 text-white font-medium ${
+                  isActive ? 'active' : ''
                 }`}
               >
-                {page.icon && <Icon icon={page.icon} width={20} height={20} color="white" />}
+                {page.icon && <Icon icon={page.icon} width={20} height={20} className="nav-icon transition-colors" />}
                 {page.name}
               </button>
             );
@@ -69,11 +108,11 @@ const Navigation = ({ currentPage, onNavigate }) => {
                 <button
                   key={page.name}
                   onClick={() => handleNavigate(page.name)}
-                  className={`flex items-center gap-2 text-white font-medium py-2 w-full text-left ${
-                    isActive ? 'underline' : 'hover:underline'
+                  className={`nav-link flex items-center gap-2 text-white font-medium py-2 w-full text-left ${
+                    isActive ? 'active' : ''
                   }`}
                 >
-                  {page.icon && <Icon icon={page.icon} width={20} height={20} color="white" />}
+                  {page.icon && <Icon icon={page.icon} width={20} height={20} className="nav-icon transition-colors" />}
                   {page.name}
                 </button>
               );

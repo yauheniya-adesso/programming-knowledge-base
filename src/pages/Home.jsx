@@ -1,14 +1,44 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Startravel from "../components/Startravel";
 import { planets } from "../constants/planets";
 import { Icons } from "../constants/icons";
 
-const Home = ({ onNavigate }) => {  // Add onNavigate prop
+const Home = ({ onNavigate }) => {
   const [hoveredPlanet, setHoveredPlanet] = useState(null);
+  const [scale, setScale] = useState(1);
 
   // Generate random start angles once and memoize them
   const startAngles = useMemo(() => {
     return planets.map(() => Math.random() * 360);
+  }, []);
+
+  // Calculate scale based on screen size
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight - 64; // Account for navbar
+      
+      // Find the largest orbit
+      const maxOrbit = Math.max(...planets.map(p => p.orbit));
+      
+      // Calculate scale to fit all orbits with some padding
+      const padding = 50;
+      const availableWidth = width - padding * 2;
+      const availableHeight = height - padding * 2;
+      const requiredSpace = maxOrbit * 2;
+      
+      const scaleX = availableWidth / requiredSpace;
+      const scaleY = availableHeight / requiredSpace;
+      
+      // On mobile multiply by 1.4 (70% of the previous 2x), on desktop keep at 1
+      const baseScale = Math.min(scaleX, scaleY, 1);
+      const isMobile = width < 768;
+      setScale(isMobile ? baseScale * 1.4 : 1);
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
   }, []);
 
   // Map to get the gradient version of each icon
@@ -31,8 +61,12 @@ const Home = ({ onNavigate }) => {  // Add onNavigate prop
       <img
         src={Icons.programmingCoreAni}
         alt="Programming"
-        className="w-16 h-16 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{ zIndex: 100 }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{ 
+          zIndex: 100,
+          width: `${64 * scale}px`,
+          height: `${64 * scale}px`
+        }}
       />
       
       {/* Planets with orbits and tooltips */}
@@ -43,6 +77,10 @@ const Home = ({ onNavigate }) => {  // Add onNavigate prop
         const isHovered = hoveredPlanet === i;
         const displayIcon = isHovered ? getGradientIcon(planet.label) : planet.src;
         
+        // Scale orbit and size
+        const scaledOrbit = planet.orbit * scale;
+        const scaledSize = planet.size * scale;
+        
         return (
           <div key={i}>
             <style>
@@ -52,8 +90,8 @@ const Home = ({ onNavigate }) => {  // Add onNavigate prop
                   to { transform: rotate(${planet.direction === "cw" ? startAngle + 360 : startAngle - 360}deg); }
                 }
                 @keyframes ${counterAnimationName} {
-                  from { transform: translate(${planet.orbit - planet.size / 2}px, -50%) rotate(${-startAngle}deg); }
-                  to { transform: translate(${planet.orbit - planet.size / 2}px, -50%) rotate(${planet.direction === "cw" ? -(startAngle + 360) : -(startAngle - 360)}deg); }
+                  from { transform: translate(${scaledOrbit - scaledSize / 2}px, -50%) rotate(${-startAngle}deg); }
+                  to { transform: translate(${scaledOrbit - scaledSize / 2}px, -50%) rotate(${planet.direction === "cw" ? -(startAngle + 360) : -(startAngle - 360)}deg); }
                 }
               `}
             </style>
@@ -62,10 +100,10 @@ const Home = ({ onNavigate }) => {  // Add onNavigate prop
             <div
               className="absolute top-1/2 left-1/2 rounded-full pointer-events-none"
               style={{
-                width: planet.orbit * 2,
-                height: planet.orbit * 2,
-                marginLeft: -planet.orbit,
-                marginTop: -planet.orbit,
+                width: scaledOrbit * 2,
+                height: scaledOrbit * 2,
+                marginLeft: -scaledOrbit,
+                marginTop: -scaledOrbit,
                 border: "1px solid #006EC7",
                 borderRadius: "50%",
                 zIndex: 10,
@@ -84,12 +122,12 @@ const Home = ({ onNavigate }) => {  // Add onNavigate prop
                 className="absolute top-1/2 left-1/2 pointer-events-auto group cursor-pointer"
                 style={{
                   animation: `${counterAnimationName} ${planet.speed}s linear infinite`,
-                  width: planet.size,
-                  height: planet.size,
+                  width: scaledSize,
+                  height: scaledSize,
                 }}
                 onMouseEnter={() => setHoveredPlanet(i)}
                 onMouseLeave={() => setHoveredPlanet(null)}
-                onClick={() => onNavigate(planet.label)}  // Add click handler
+                onClick={() => onNavigate(planet.label)}
               >
                 <img
                   src={displayIcon}

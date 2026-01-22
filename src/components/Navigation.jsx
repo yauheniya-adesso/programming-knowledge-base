@@ -59,6 +59,12 @@ const Navigation = ({ currentPage, onNavigate }) => {
         .nav-link.active .nav-icon {
           color: #006EC7;
         }
+        .mobile-menu {
+          background: rgba(0, 110, 199, 0.7);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+        }
       `}</style>
       
       <div className="flex items-center justify-between px-4 md:px-8 h-16">
@@ -100,15 +106,15 @@ const Navigation = ({ currentPage, onNavigate }) => {
 
       {/* Mobile menu */}
       {isMobileOpen && (
-        <div className="md:hidden bg-[#006EC7] w-full">
-          <div className="flex flex-col space-y-2 px-4 py-2">
+        <div className="md:hidden absolute top-16 right-4 rounded-lg shadow-lg mobile-menu">
+          <div className="flex flex-col space-y-2 px-4 py-3">
             {pages.map((page) => {
               const isActive = currentPage === page.name;
               return (
                 <button
                   key={page.name}
                   onClick={() => handleNavigate(page.name)}
-                  className={`nav-link flex items-center gap-2 text-white font-medium py-2 w-full text-left cursor-pointer ${
+                  className={`nav-link flex items-center gap-2 text-white font-medium py-2 text-left cursor-pointer whitespace-nowrap ${
                     isActive ? 'active' : ''
                   }`}
                 >

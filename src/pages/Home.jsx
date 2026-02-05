@@ -7,9 +7,9 @@ const Home = ({ onNavigate }) => {
   const [hoveredPlanet, setHoveredPlanet] = useState(null);
   const [scale, setScale] = useState(1);
 
-  // Generate random start angles once and memoize them
+  // Generate start angles - use specified angle or random
   const startAngles = useMemo(() => {
-    return planets.map(() => Math.random() * 360);
+    return planets.map((planet) => planet.startAngle ?? Math.random() * 360);
   }, []);
 
   // Calculate scale based on screen size
@@ -49,6 +49,9 @@ const Home = ({ onNavigate }) => {
       "CSS": Icons.cssFokus,
       "Java": Icons.javaFokus,
       "Git": Icons.gitFokus,
+      "React": Icons.reactFokus,
+      "Spring": Icons.springFokus,
+      "Tailwind CSS": Icons.tailwindcssFokus,
     };
     return iconMap[label];
   };
@@ -96,19 +99,21 @@ const Home = ({ onNavigate }) => {
               `}
             </style>
             
-            {/* Orbit circle */}
-            <div
-              className="absolute top-1/2 left-1/2 rounded-full pointer-events-none"
-              style={{
-                width: scaledOrbit * 2,
-                height: scaledOrbit * 2,
-                marginLeft: -scaledOrbit,
-                marginTop: -scaledOrbit,
-                border: "1px solid #006EC7",
-                borderRadius: "50%",
-                zIndex: 10,
-              }}
-            />
+            {/* Orbit circle - only render once per unique orbit */}
+            {i === 0 || planets[i - 1].orbit !== planet.orbit ? (
+              <div
+                className="absolute top-1/2 left-1/2 rounded-full pointer-events-none"
+                style={{
+                  width: scaledOrbit * 2,
+                  height: scaledOrbit * 2,
+                  marginLeft: -scaledOrbit,
+                  marginTop: -scaledOrbit,
+                  border: "1px solid #006EC7",
+                  borderRadius: "50%",
+                  zIndex: 10,
+                }}
+              />
+            ) : null}
             
             {/* Planet rotating container */}
             <div

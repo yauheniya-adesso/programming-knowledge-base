@@ -9,6 +9,17 @@ export const planets = [
     orbit: 120,
     speed: 20,
     direction: "cw",
+    startAngle: 0,
+  },
+  {
+    src: Icons.spring,
+    label: "Spring",
+    description: "Powerful framework for building Java enterprise applications.",
+    size: 42,
+    orbit: 120,
+    speed: 20,
+    direction: "cw",
+    startAngle: 150, // 150 degrees from Java
   },
   {
     src: Icons.html,
@@ -18,6 +29,7 @@ export const planets = [
     orbit: 180,
     speed: 35,
     direction: "ccw",
+    startAngle: 45,
   },
   {
     src: Icons.css,
@@ -27,6 +39,17 @@ export const planets = [
     orbit: 240,
     speed: 25,
     direction: "cw",
+    startAngle: 0,
+  },
+  {
+    src: Icons.tailwindcss,
+    label: "Tailwind CSS",
+    description: "Utility-first CSS framework for rapid UI development.",
+    size: 38,
+    orbit: 240,
+    speed: 25,
+    direction: "cw",
+    startAngle: 180, // 180 degrees from CSS
   },
   {
     src: Icons.javascript,
@@ -36,6 +59,17 @@ export const planets = [
     orbit: 300,
     speed: 40,
     direction: "ccw",
+    startAngle: 60,
+  },
+  {
+    src: Icons.react,
+    label: "React",
+    description: "JavaScript library for building dynamic user interfaces.",
+    size: 40,
+    orbit: 300,
+    speed: 40,
+    direction: "ccw",
+    startAngle: 240, // 180 degrees from JavaScript
   },
   {
     src: Icons.git,
@@ -45,5 +79,6 @@ export const planets = [
     orbit: 360,
     speed: 70,
     direction: "cw",
+    startAngle: 90,
   },
 ];

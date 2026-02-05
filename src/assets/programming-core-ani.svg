@@ -2,7 +2,7 @@
      width="256" height="256"
      viewBox="0 0 256 256">
 <defs>
-  <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+  <linearGradient id="bgGradient" x1="0%" y1="0%" x2="0%" y2="100%">
     <stop offset="0%" stop-color="#F566BA" stop-opacity="1" />
     <stop offset="100%" stop-color="#FF9868" stop-opacity="1" />
   </linearGradient>
@@ -16,6 +16,6 @@
       scale(3.733333333333333)
       translate(-24.0,-24.0)
   ">
-<g xmlns="http://www.w3.org/2000/svg"><g transform-box="view-box" transform-origin="24.0px 24.0px"><path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m9 7l14 14L9 35m8 6h22" /><animateTransform attributeName="transform" attributeType="XML" type="scale" values="1 1;0.1 0.1;1 1" keyTimes="0;0.5;1" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" /></g></g>
+<g xmlns="http://www.w3.org/2000/svg"><g transform-box="view-box" transform-origin="24.0px 24.0px"><path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="m9 7l14 14L9 35m8 6h22" /><animateTransform attributeName="transform" attributeType="XML" type="scale" values="1 1;0.1 0.1;1 1" keyTimes="0;0.5;1" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" /></g></g>
   </g>
 </svg>

@@ -1,0 +1,77 @@
+<p>Constructors are special methods called when an object is created. They initialize object state.</p>
+
+<h3 class="mt-6 font-semibold text-lg">Default Constructor:</h3>
+<pre><code class="language-java">public class Car {
+    String brand;
+    String model;
+    
+    // Default constructor
+    public Car() {
+        brand = "Unknown";
+        model = "Unknown";
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Parameterized Constructor:</h3>
+<pre><code class="language-java">public class Car {
+    String brand;
+    String model;
+    int year;
+    
+    // Parameterized constructor
+    public Car(String brand, String model, int year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+    
+    public void displayInfo() {
+        System.out.println(brand + " " + model + " (" + year + ")");
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Using Constructors:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        // Using parameterized constructor
+        Car car1 = new Car("Tesla", "Model 3", 2023);
+        car1.displayInfo(); // Output: Tesla Model 3 (2023)
+        
+        // Using default constructor
+        Car car2 = new Car();
+        car2.displayInfo(); // Output: Unknown Unknown
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Constructor Overloading:</h3>
+<pre><code class="language-java">public class Car {
+    String brand;
+    String model;
+    int year;
+    
+    // Constructor with no parameters
+    public Car() {
+        this("Unknown", "Unknown", 0);
+    }
+    
+    // Constructor with brand only
+    public Car(String brand) {
+        this(brand, "Unknown", 0);
+    }
+    
+    // Constructor with all parameters
+    public Car(String brand, String model, int year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Key Points:</h3>
+<ul class="mt-4 space-y-2 list-disc list-inside">
+  <li>Constructor name must match class name</li>
+  <li>No return type (not even void)</li>
+  <li>Called automatically when object is created</li>
+  <li>Can be overloaded</li>
+  <li><code>this</code> keyword refers to current object</li>
+</ul>

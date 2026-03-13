@@ -1,0 +1,118 @@
+<p>Polymorphism allows objects to take many forms. The same method can behave differently based on the object calling it.</p>
+
+<h3 class="mt-6 font-semibold text-lg">Runtime Polymorphism (Method Overriding):</h3>
+<pre><code class="language-java">class Shape {
+    public void draw() {
+        System.out.println("Drawing a shape");
+    }
+}
+
+class Circle extends Shape {
+    @Override
+    public void draw() {
+        System.out.println("Drawing a circle");
+    }
+}
+
+class Rectangle extends Shape {
+    @Override
+    public void draw() {
+        System.out.println("Drawing a rectangle");
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Polymorphic Behavior:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        // Parent reference, child object
+        Shape shape1 = new Circle();
+        Shape shape2 = new Rectangle();
+        Shape shape3 = new Shape();
+        
+        shape1.draw(); // Output: Drawing a circle
+        shape2.draw(); // Output: Drawing a rectangle
+        shape3.draw(); // Output: Drawing a shape
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Polymorphism with Arrays:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        Shape[] shapes = new Shape[3];
+        shapes[0] = new Circle();
+        shapes[1] = new Rectangle();
+        shapes[2] = new Shape();
+        
+        // Polymorphic behavior in loop
+        for (Shape shape : shapes) {
+            shape.draw();
+        }
+        // Output:
+        // Drawing a circle
+        // Drawing a rectangle
+        // Drawing a shape
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Practical Example:</h3>
+<pre><code class="language-java">class Employee {
+    protected String name;
+    protected double baseSalary;
+    
+    public Employee(String name, double baseSalary) {
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+    
+    public double calculateSalary() {
+        return baseSalary;
+    }
+}
+
+class Manager extends Employee {
+    private double bonus;
+    
+    public Manager(String name, double baseSalary, double bonus) {
+        super(name, baseSalary);
+        this.bonus = bonus;
+    }
+    
+    @Override
+    public double calculateSalary() {
+        return baseSalary + bonus;
+    }
+}
+
+class Developer extends Employee {
+    private int hoursWorked;
+    private double hourlyRate;
+    
+    public Developer(String name, double baseSalary, int hours, double rate) {
+        super(name, baseSalary);
+        this.hoursWorked = hours;
+        this.hourlyRate = rate;
+    }
+    
+    @Override
+    public double calculateSalary() {
+        return baseSalary + (hoursWorked * hourlyRate);
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Using Polymorphism:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        Employee[] employees = new Employee[3];
+        employees[0] = new Employee("John", 50000);
+        employees[1] = new Manager("Sarah", 60000, 10000);
+        employees[2] = new Developer("Mike", 55000, 40, 50);
+        
+        for (Employee emp : employees) {
+            System.out.println(emp.name + ": $" + emp.calculateSalary());
+        }
+        // Output:
+        // John: $50000.0
+        // Sarah: $70000.0
+        // Mike: $57000.0
+    }
+}</code></pre>

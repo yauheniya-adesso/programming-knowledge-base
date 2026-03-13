@@ -1,0 +1,152 @@
+<p>Interfaces define a contract that classes must follow. All methods are abstract by default (until Java 8).</p>
+
+<h3 class="mt-6 font-semibold text-lg">Defining an Interface:</h3>
+<pre><code class="language-java">public interface Drawable {
+    // Abstract method (implicitly public abstract)
+    void draw();
+    
+    // Constant (implicitly public static final)
+    int MAX_SIZE = 100;
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Implementing an Interface:</h3>
+<pre><code class="language-java">public class Circle implements Drawable {
+    private double radius;
+    
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+    
+    @Override
+    public void draw() {
+        System.out.println("Drawing circle with radius: " + radius);
+    }
+}
+
+public class Square implements Drawable {
+    private double side;
+    
+    public Square(double side) {
+        this.side = side;
+    }
+    
+    @Override
+    public void draw() {
+        System.out.println("Drawing square with side: " + side);
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Multiple Interface Implementation:</h3>
+<pre><code class="language-java">interface Movable {
+    void move(int x, int y);
+}
+
+interface Resizable {
+    void resize(double scale);
+}
+
+public class Shape implements Drawable, Movable, Resizable {
+    private int x, y;
+    private double size;
+    
+    @Override
+    public void draw() {
+        System.out.println("Drawing shape at (" + x + ", " + y + ")");
+    }
+    
+    @Override
+    public void move(int newX, int newY) {
+        this.x = newX;
+        this.y = newY;
+    }
+    
+    @Override
+    public void resize(double scale) {
+        this.size *= scale;
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Interface with Default Methods (Java 8+):</h3>
+<pre><code class="language-java">public interface Vehicle {
+    // Abstract method
+    void start();
+    
+    // Default method with implementation
+    default void honk() {
+        System.out.println("Beep beep!");
+    }
+    
+    // Static method
+    static void displayInfo() {
+        System.out.println("This is a vehicle interface");
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Practical Example:</h3>
+<pre><code class="language-java">interface PaymentMethod {
+    boolean processPayment(double amount);
+    void printReceipt();
+}
+
+class CreditCard implements PaymentMethod {
+    private String cardNumber;
+    
+    public CreditCard(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+    
+    @Override
+    public boolean processPayment(double amount) {
+        System.out.println("Processing $" + amount + " via Credit Card");
+        return true;
+    }
+    
+    @Override
+    public void printReceipt() {
+        System.out.println("Credit Card Receipt - Card: ****" + 
+                          cardNumber.substring(cardNumber.length() - 4));
+    }
+}
+
+class PayPal implements PaymentMethod {
+    private String email;
+    
+    public PayPal(String email) {
+        this.email = email;
+    }
+    
+    @Override
+    public boolean processPayment(double amount) {
+        System.out.println("Processing $" + amount + " via PayPal");
+        return true;
+    }
+    
+    @Override
+    public void printReceipt() {
+        System.out.println("PayPal Receipt - Email: " + email);
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Using Interfaces:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        PaymentMethod payment1 = new CreditCard("1234567890123456");
+        PaymentMethod payment2 = new PayPal("user@email.com");
+        
+        payment1.processPayment(99.99);
+        payment1.printReceipt();
+        
+        System.out.println();
+        
+        payment2.processPayment(49.99);
+        payment2.printReceipt();
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Interface vs Abstract Class:</h3>
+<ul class="list-none ml-0 space-y-4">
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0"><strong>Interface</strong>: Use when defining a capability/contract; supports multiple inheritance</li>
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0"><strong>Abstract Class</strong>: Use when sharing code among related classes; single inheritance only</li>
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">Interfaces cannot have instance variables (only constants)</li>
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">All interface methods are public; abstract classes can have any access modifier</li>
+</ul>

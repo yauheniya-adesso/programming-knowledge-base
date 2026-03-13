@@ -1,0 +1,56 @@
+<p>A class is a blueprint for creating objects. It defines the properties (fields) and behaviors (methods) that objects will have.</p>
+
+<h3 class="mt-6 font-semibold text-lg">Basic Class Structure:</h3>
+<pre><code class="language-java">public class Car {
+    // Fields (attributes)
+    String brand;
+    String model;
+    int year;
+    
+    // Method
+    public void displayInfo() {
+        System.out.println(brand + " " + model + " (" + year + ")");
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Creating Objects:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        // Create object using 'new' keyword
+        Car myCar = new Car();
+        
+        // Set field values
+        myCar.brand = "Toyota";
+        myCar.model = "Camry";
+        myCar.year = 2023;
+        
+        // Call method
+        myCar.displayInfo(); // Output: Toyota Camry (2023)
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Class with Multiple Objects:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        Car car1 = new Car();
+        car1.brand = "Honda";
+        car1.model = "Civic";
+        car1.year = 2022;
+        
+        Car car2 = new Car();
+        car2.brand = "Ford";
+        car2.model = "Mustang";
+        car2.year = 2024;
+        
+        car1.displayInfo(); // Output: Honda Civic (2022)
+        car2.displayInfo(); // Output: Ford Mustang (2024)
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Access Modifiers:</h3>
+<ul class="mt-4 space-y-2 list-disc list-inside">
+  <li><code>public</code>: Accessible from anywhere</li>
+  <li><code>private</code>: Accessible only within the class</li>
+  <li><code>protected</code>: Accessible within package and subclasses</li>
+  <li><code>default</code> (no modifier): Accessible within package</li>
+</ul>

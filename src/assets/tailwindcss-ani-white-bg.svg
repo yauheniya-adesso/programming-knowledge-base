@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="256" height="256"
+     viewBox="0 0 256 256">
+
+  <rect x="0" y="0"
+        width="256" height="256"
+        rx="128" ry="128"
+        fill="#ffffff" />
+  <g transform="
+      translate(128.0,128.0)
+      scale(7.466666666666666)
+      translate(-12.0,-12.0)
+  ">
+<g xmlns="http://www.w3.org/2000/svg"><g transform-box="view-box" transform-origin="12.0px 12.0px"><path fill="#006EC7" fill-rule="evenodd" d="M7 9.969q1-4.063 5-4.063c4 0 4.5 3.047 6.5 3.555q2 .508 3.5-1.524Q21 12 17 12c-4 0-4.5-3.047-6.5-3.555Q8.5 7.938 7 9.97m-5 6.094Q3 12 7 12c4 0 4.5 3.047 6.5 3.555q2 .507 3.5-1.524q-1 4.063-5 4.063c-4 0-4.5-3.047-6.5-3.555q-2-.508-3.5 1.524" clip-rule="evenodd" /><animateTransform attributeName="transform" attributeType="XML" type="scale" values="1 1;1 1;1 -1;1 1;1 1;1 -1;1 1" keyTimes="0.000000;0.400000;0.450000;0.500000;0.900000;0.950000;1.000000" dur="17.000s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1" /></g></g>
+  </g>
+</svg>

@@ -1,0 +1,54 @@
+<p>Methods are blocks of code that perform specific tasks. They promote code reusability and organization.</p>
+
+<h3 class="mt-6 font-semibold text-lg">Method Syntax:</h3>
+<pre><code class="language-java">accessModifier returnType methodName(parameters) {
+    // method body
+    return value; // if returnType is not void
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Non-Parameterized Method:</h3>
+<pre><code class="language-java">public class Calculator {
+    public void greet() {
+        System.out.println("Welcome to Calculator!");
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Parameterized Method:</h3>
+<pre><code class="language-java">public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public double multiply(double x, double y) {
+        return x * y;
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Method with Return Value:</h3>
+<pre><code class="language-java">public class MathUtils {
+    public int square(int number) {
+        return number * number;
+    }
+    
+    public boolean isEven(int number) {
+        return number % 2 == 0;
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Void Method (No Return):</h3>
+<pre><code class="language-java">public class Printer {
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Calling Methods:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        int result = calc.add(5, 3);
+        System.out.println("Sum: " + result); // Output: Sum: 8
+        
+        calc.greet(); // Output: Welcome to Calculator!
+    }
+}</code></pre>

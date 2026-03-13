@@ -1,0 +1,47 @@
+<p>Method overloading allows multiple methods with the same name but different parameters (different number or type).</p>
+
+<h3 class="mt-6 font-semibold text-lg">Overloading by Number of Parameters:</h3>
+<pre><code class="language-java">public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Overloading by Type of Parameters:</h3>
+<pre><code class="language-java">public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public double add(double a, double b) {
+        return a + b;
+    }
+    
+    public String add(String a, String b) {
+        return a + b;
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Example Usage:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        
+        System.out.println(calc.add(5, 3));           // Output: 8
+        System.out.println(calc.add(5, 3, 2));        // Output: 10
+        System.out.println(calc.add(5.5, 3.2));       // Output: 8.7
+        System.out.println(calc.add("Hello", "World")); // Output: HelloWorld
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Key Points:</h3>
+<ul class="mt-4 space-y-2 list-disc list-inside">
+  <li>Method name must be the same</li>
+  <li>Parameters must differ in number or type</li>
+  <li>Return type alone is not sufficient for overloading</li>
+  <li>Helps improve code readability</li>
+</ul>

@@ -9,7 +9,7 @@ import javaIcon from '../assets/java-ani-white-bg.svg';
 import gitIcon from '../assets/git-white-bg.svg';
 import reactIcon from '../assets/react-ani-white-bg.svg';
 import springIcon from '../assets/spring-ani-white-bg.svg';
-import tailwindcssIcon from '../assets/tailwindcss-white-bg.svg';
+import tailwindcssIcon from '../assets/tailwindcss-ani-white-bg.svg';
 
 import javascriptIconGradient from '../assets/js-white-bg.png';
 import htmlIconGradient from '../assets/html5-white-bg.png';
@@ -18,7 +18,7 @@ import javaIconGradient from '../assets/java-ani-white-bg.webp';
 import gitIconGradient from '../assets/git-white-bg.png';
 import reactIconGradient from '../assets/react-ani-white-bg.webp';
 import springIconGradient from '../assets/spring-ani-white-bg.webp';
-import tailwindcssIconGradient from '../assets/tailwindcss-white-bg.png';
+import tailwindcssIconGradient from '../assets/tailwindcss-ani-white-bg.webp';
 
 export const Icons = {
   programmingCore,

@@ -1,4 +1,3 @@
-// src/components/LanguagePage.jsx
 import { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import TableOfContents from './TableOfContents';
@@ -6,7 +5,9 @@ import Prism from 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-jsx';
-import 'prismjs/components/prism-markup';
+import 'prismjs/components/prism-java'; // Add this for Java syntax highlighting
+import 'prismjs/components/prism-markup'; // For HTML
+import 'prismjs/components/prism-css';
 
 const LanguagePage = ({ content }) => {
   const [activeSection, setActiveSection] = useState(content.sections[0]?.id);
@@ -21,18 +22,17 @@ const LanguagePage = ({ content }) => {
     });
   };
 
-  // Highlight all code blocks after every render
+  // Highlight all code blocks when content changes
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.querySelectorAll('pre code').forEach((block) => {
         Prism.highlightElement(block);
       });
     }
-  });
+  }, [content]); // Only re-run when content changes
 
   return (
     <div className="flex gap-8">
-
       {/* Table of contents */}
       <aside className="hidden lg:block w-64">
         <TableOfContents
@@ -41,7 +41,7 @@ const LanguagePage = ({ content }) => {
           onSectionClick={scrollToSection}
         />
       </aside>
-      
+
       {/* Main content */}
       <div className="flex-1" ref={containerRef}>
         <h1 className="text-4xl font-bold mb-8 flex items-center gap-4 text-black">
@@ -58,7 +58,6 @@ const LanguagePage = ({ content }) => {
             <h2 className="text-2xl font-bold mb-4 border-b-2 border-[#006EC7] pb-2 text-[#006EC7]">
               {section.title}
             </h2>
-
             {/* Render raw HTML from imported files */}
             <div
               className="prose max-w-none text-black"

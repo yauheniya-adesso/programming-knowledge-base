@@ -1,0 +1,81 @@
+<p>Abstract classes cannot be instantiated and may contain abstract methods (methods without implementation).</p>
+
+<h3 class="mt-6 font-semibold text-lg">Defining Abstract Class:</h3>
+<pre><code class="language-java">public abstract class Vehicle {
+    protected String brand;
+    protected int year;
+    
+    // Regular method with implementation
+    public void displayInfo() {
+        System.out.println(brand + " (" + year + ")");
+    }
+    
+    // Abstract method (no implementation)
+    public abstract void start();
+    public abstract void stop();
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Implementing Abstract Class:</h3>
+<pre><code class="language-java">public class Car extends Vehicle {
+    public Car(String brand, int year) {
+        this.brand = brand;
+        this.year = year;
+    }
+    
+    // Must implement all abstract methods
+    @Override
+    public void start() {
+        System.out.println(brand + " car is starting with ignition");
+    }
+    
+    @Override
+    public void stop() {
+        System.out.println(brand + " car is stopping");
+    }
+}
+
+public class ElectricCar extends Vehicle {
+    public ElectricCar(String brand, int year) {
+        this.brand = brand;
+        this.year = year;
+    }
+    
+    @Override
+    public void start() {
+        System.out.println(brand + " electric car is starting silently");
+    }
+    
+    @Override
+    public void stop() {
+        System.out.println(brand + " electric car is stopping");
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Using Abstract Classes:</h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        // Cannot instantiate abstract class
+        // Vehicle v = new Vehicle(); // ERROR
+        
+        Vehicle car1 = new Car("Toyota", 2023);
+        Vehicle car2 = new ElectricCar("Tesla", 2024);
+        
+        car1.displayInfo();
+        car1.start();
+        car1.stop();
+        
+        System.out.println();
+        
+        car2.displayInfo();
+        car2.start();
+        car2.stop();
+    }
+}</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">When to Use Abstract Classes:</h3>
+<ul class="list-none ml-0 space-y-4">
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">When you want to share code among related classes</li>
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">When you need to define common behavior with some methods implemented</li>
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">When you want to declare non-static, non-final fields</li>
+  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">When you need access modifiers other than public</li>
+</ul>

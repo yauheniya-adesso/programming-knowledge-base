@@ -30,10 +30,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .prose {
-    @apply max-w-none;
-  }
-
   .prose h1 {
     @apply text-3xl font-bold;
   }
@@ -53,6 +49,61 @@
   .prose a {
     @apply underline;
   }
+}
+
+/* ===============================
+   Custom List Styles - Override Typography
+   =============================== */
+/* Blue arrow bullet list */
+ul.list-arrow {
+  list-style-type: none !important;
+  margin-left: 0 !important;
+  padding-left: 0.5 !important;
+}
+
+ul.list-arrow li {
+  position: relative !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0rem !important;
+}
+
+ul.list-arrow li::before {
+  content: '>' !important;
+  color: #006EC7 !important;
+  position: absolute !important;
+  left: 0 !important;
+  font-weight: bold !important;
+}
+
+ul.list-arrow li::marker {
+  content: none !important;
+}
+
+/* Blue numbered list */
+ol.list-numbered {
+  list-style-type: none !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  counter-reset: item !important;
+}
+
+ol.list-numbered li {
+  position: relative !important;
+  padding-left: 1.5rem !important;
+  margin-top: 1rem !important;
+  counter-increment: item !important;
+}
+
+ol.list-numbered li::before {
+  content: counter(item) '.' !important;
+  color: #006EC7 !important;
+  position: absolute !important;
+  left: 0 !important;
+  font-weight: bold !important;
+}
+
+ol.list-numbered li::marker {
+  content: none !important;
 }
 
 /* ===============================
@@ -90,9 +141,8 @@ pre code {
 }
 
 /* ===============================
-   Amimation
+   Animation
    =============================== */
-
 @keyframes spin-slow {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -112,4 +162,3 @@ pre code {
   animation: spin-reverse-slow linear infinite;
   animation-duration: 80s;
 }
-

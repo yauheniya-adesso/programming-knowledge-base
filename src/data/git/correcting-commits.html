@@ -1,30 +1,30 @@
 <p>Correcting commit message typos:</p>
 
-<ul class="list-none ml-0 space-y-4">
+<ul class="list-arrow">
 
-  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+  <li >
     <strong>Check commit history</strong> – Find the commit with the typo.<br>
     <code class="language-bash">git log --oneline</code>
   </li>
 
-  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+  <li >
     <strong>Amend last commit</strong> – Fix the most recent commit message (local commits only).<br>
     <code class="language-bash">git commit --amend -m "Corrected commit message"</code>
   </li>
 
-  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+  <li >
     <strong>Edit older commit messages</strong> – Reword previous commits interactively (rewrites history).<br>
     <code class="language-bash">git rebase -i HEAD~N</code><br>
     <em>Replace <code>N</code> with the number of commits to review and mark commits with <code>reword</code>.</em>
   </li>
 
-  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+  <li >
     <strong>Revert a commit safely</strong> – Undo a commit without changing history (recommended for pushed commits).<br>
     <code class="language-bash">git revert HEAD --no-edit</code><br>
     <em>Creates a new commit that reverses the changes from the previous commit.</em>
   </li>
 
-  <li class="relative pl-6 before:content-['>'] before:text-[#006EC7] before:absolute before:left-0">
+  <li >
     <strong>Push amended history</strong> – Update the remote repository after rewriting commits.<br>
     <code class="language-bash">git push --force</code><br>
     <em>Use with caution: force-pushing can affect other collaborators.</em>

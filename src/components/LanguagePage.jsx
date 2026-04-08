@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import TableOfContents from './TableOfContents';
 import Prism from 'prismjs';
-
 import 'prismjs/themes/prism-tomorrow.css';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-jsx';
@@ -23,67 +22,72 @@ const LanguagePage = ({ content }) => {
     });
   };
 
-  // Highlight + add copy buttons
+  // Update active section when content changes
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const pres = containerRef.current.querySelectorAll('pre');
-
-    pres.forEach((pre) => {
-      const code = pre.querySelector('code');
-      if (!code) return;
-
-      // Highlight code
-      Prism.highlightElement(code);
-
-      // Prevent duplicate buttons
-      if (pre.querySelector('.copy-button')) return;
-
-      // Ensure positioning context
-      pre.style.position = 'relative';
-
-      // Create button
-      const button = document.createElement('button');
-      button.className = 'copy-button';
-      button.setAttribute('aria-label', 'Copy code');
-
-      // Copy icon (two squares)
-      const copyIcon = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
-          <rect x="2" y="2" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `;
-
-      // Check icon
-      const checkIcon = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      `;
-
-      button.innerHTML = copyIcon;
-
-      // Click handler
-      button.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(code.innerText);
-
-          // Show checkmark
-          button.innerHTML = checkIcon;
-
-          // Reset after 2 seconds
-          setTimeout(() => {
-            button.innerHTML = copyIcon;
-          }, 2000);
-        } catch (err) {
-          console.error('Copy failed:', err);
-        }
-      });
-
-      pre.appendChild(button);
-    });
+    setActiveSection(content.sections[0]?.id);
   }, [content]);
+
+  // Highlight + add copy buttons after DOM updates
+  useEffect(() => {
+    const highlightAndAddButtons = () => {
+      const pres = containerRef.current?.querySelectorAll('pre code');
+      if (!pres) return;
+
+      pres.forEach((code) => {
+        // Highlight with Prism
+        Prism.highlightElement(code);
+
+        const pre = code.parentElement;
+        
+        // Remove existing button if any
+        const existingButton = pre.querySelector('.copy-button');
+        if (existingButton) {
+          existingButton.remove();
+        }
+
+        pre.style.position = 'relative';
+
+        const button = document.createElement('button');
+        button.className = 'copy-button';
+        button.setAttribute('aria-label', 'Copy code');
+
+        const copyIcon = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+            <rect x="2" y="2" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        `;
+
+        const checkIcon = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        `;
+
+        button.innerHTML = copyIcon;
+
+        button.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(code.innerText);
+            button.innerHTML = checkIcon;
+            setTimeout(() => (button.innerHTML = copyIcon), 2000);
+          } catch (err) {
+            console.error('Copy failed:', err);
+          }
+        });
+
+        pre.appendChild(button);
+      });
+    };
+
+    // Run after DOM updates
+    const timeoutId = setTimeout(() => {
+      Prism.highlightAll();
+      highlightAndAddButtons();
+    }, 0);
+    
+    return () => clearTimeout(timeoutId);
+  }, [content, activeSection]); // Changed from content.sections to content
 
   return (
     <div className="flex gap-8">
@@ -114,7 +118,6 @@ const LanguagePage = ({ content }) => {
             <h2 className="text-2xl font-bold mb-4 border-b-2 border-[#006EC7] pb-2 text-[#006EC7]">
               {section.title}
             </h2>
-
             <div
               className="prose max-w-none text-black"
               dangerouslySetInnerHTML={{ __html: section.content }}

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { ColladaLoader } from "three-stdlib";
+import { GLTFLoader } from "three-stdlib";
+import { OrbitControls } from "three-stdlib";
 
 const DukeCarModel = () => {
   const mountRef = useRef(null);
@@ -19,30 +20,52 @@ const DukeCarModel = () => {
       0.1,
       1000
     );
-    camera.position.set(3, 2, 5);
+    camera.position.set(3, 1, 5);
+    camera.lookAt(0, 0, 0);
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     mount.appendChild(renderer.domElement);
 
-    // Light
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(5, 5, 5);
+    // Lights (much brighter)
+    const light = new THREE.DirectionalLight(0xffffff, 7.0);
+    light.position.set(5, 10, 7);
     scene.add(light);
 
-    // Load model (.dae or .jas)
-    const loader = new ColladaLoader();
-    loader.load("models/DukeCar.dae", (collada) => {
-      const model = collada.scene;
+    const ambient = new THREE.AmbientLight(0xffffff, 1.5);
+    scene.add(ambient);
+
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
+    scene.add(hemi);
+
+    // Controls (horizontal only)
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = false;
+    controls.enablePan = false;
+
+    // Lock vertical rotation
+    controls.minPolarAngle = Math.PI / 3;
+    controls.maxPolarAngle = Math.PI / 4;
+
+    // Load GLB model
+    const loader = new GLTFLoader();
+    loader.load("models/DukeCar.glb", (gltf) => {
+      const model = gltf.scene;
       model.scale.set(0.5, 0.5, 0.5);
+      model.position.set(0, 0, 0);
       scene.add(model);
 
       const animate = () => {
         requestAnimationFrame(animate);
-        model.rotation.y += 0.01;
+
+        // Slow rotation
+        model.rotation.y += 0.002;
+
+        controls.update();
         renderer.render(scene, camera);
       };
+
       animate();
     });
 

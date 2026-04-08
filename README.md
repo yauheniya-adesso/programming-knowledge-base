@@ -21,7 +21,10 @@ MIT
 
 ## Acknowledgements
 
-- [IBM Java Developer](https://www.coursera.org/professional-certificates/java-developer?utm_medium=sem&utm_source=gg&utm_campaign=b2c_emea_x_multi_ftcof_career-academy_cx_dr_bau_gg_pmax_gc_s1_en_m_hyb_23-12_desktop&campaignid=20858198824&adgroupid=&device=c&keyword=&matchtype=&network=x&devicemodel=&creativeid=&assetgroupid=6490027433&targetid=&extensionid=&placement=&gad_source=1&gad_campaignid=20854471652&gbraid=0AAAAADdKX6aHn8zRzj4KZlpK4sRDG4nWW&gclid=EAIaIQobChMIgvb0vf2akgMVqJODBx2xCTI1EAAYASAAEgKG2vD_BwE) course on Coursera for comprehensive materials on Java, HTML, CSS, JavaScript, and Git
+- [IBM Java Developer](https://www.coursera.org/professional-certificates/java-developer?utm_medium=sem&utm_source=gg&utm_campaign=b2c_emea_x_multi_ftcof_career-academy_cx_dr_bau_gg_pmax_gc_s1_en_m_hyb_23-12_desktop&campaignid=20858198824&adgroupid=&device=c&keyword=&matchtype=&network=x&devicemodel=&creativeid=&assetgroupid=6490027433&targetid=&extensionid=&placement=&gad_source=1&gad_campaignid=20854471652&gbraid=0AAAAADdKX6aHn8zRzj4KZlpK4sRDG4nWW&gclid=EAIaIQobChMIgvb0vf2akgMVqJODBx2xCTI1EAAYASAAEgKG2vD_BwE) course on <img src="https://api.iconify.design/simple-icons:coursera.svg?color=%230056D2" alt="CodePen" height="12" /> Coursera for comprehensive materials on Java, HTML, CSS, JavaScript, and Git
 
 - [Press Start Button (Synthwave & Starfield) - CSS by Josetxu](https://codepen.io/josetxu/pen/YPWWMbe) on <img src="https://api.iconify.design/ri:codepen-fill.svg?color=%231C3C3C" alt="CodePen" height="12" /> CodePen for the "Star Travel" animation on the homepage
+
+
+- [Duke Car](https://hg.openjdk.org/duke/duke/) – Duke 3D model from the OpenJDK project
 

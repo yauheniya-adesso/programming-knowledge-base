@@ -1,5 +1,5 @@
 <p class="mb-2">
-  Every Java program runs from the <code>main</code> method inside a class. The file name must match the class name.
+  Every Java program runs from the <code>main</code> method inside a class. The file name must match the class name: <code>touch HelloWorld.java</code>.
 </p>
 <pre><code class="language-java">public class HelloWorld {
     public static void main(String[] args) {
@@ -11,8 +11,17 @@
   Compile with <code>javac HelloWorld.java</code>, then run using <code>java HelloWorld</code>.
 </p>
 
-<h3 class="mt-6 font-semibold text-lg">Data Types:</h3>
+<pre><code class="language-bash">Hello, World!</code></pre>
+
+<h3 class="mt-6 font-semibold text-lg">Java Keywords Explained:</h3>
 <ul class="list-arrow">
-  <li><strong>Primitive</strong>: <code>int</code>, <code>double</code>, <code>boolean</code>, <code>char</code>, <code>byte</code>, <code>short</code>, <code>long</code>, <code>float</code></li>
-  <li><strong>Reference</strong>: Objects, Arrays, Strings</li>
+  <li><strong>public</strong>: Makes the class or method accessible from anywhere. The <code>main</code> method must be <code>public</code> so the Java runtime can call it.</li>
+  <li><strong>class</strong>: Defines a class, which is a blueprint for objects. All Java code resides in classes.</li>
+  <li><strong>HelloWorld</strong>: The name of the class. Must match the filename <code>HelloWorld.java</code>.</li>
+  <li><strong>static</strong>: Means the method belongs to the class itself, not an instance of the class. This allows Java to call <code>main</code> without creating an object.</li>
+  <li><strong>void</strong>: Specifies that the method does not return any value.</li>
+  <li><strong>main</strong>: The entry point method that Java looks for when running a program.</li>
+  <li><strong>String[] args</strong>: An array of command-line arguments passed to the program. Each argument is a string.</li>
+  <li><strong>System.out.println</strong>: Prints text to the console followed by a new line. <code>System</code> is a built-in class, <code>out</code> is the output stream, and <code>println</code> prints the message.</li>
 </ul>
+

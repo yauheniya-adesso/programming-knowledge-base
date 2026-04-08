@@ -180,6 +180,53 @@ pre:hover .copy-button {
   transform: scale(0.9);
 }
 
+/* ===============================
+   Brand Table Style - Blue
+   =============================== */
+.brand-table {
+  width: 100%;
+  border-collapse: collapse; /* keeps everything flush */
+  border-radius: 0.5rem;
+  overflow: hidden;
+  text-align: left;
+}
+
+.brand-table th,
+.brand-table td {
+  padding: 0.5rem 1rem;
+  border: none; /* remove cell borders */
+}
+
+.brand-table thead th {
+  background-color: var(--color-blue);
+  color: var(--color-white);
+}
+
+.brand-table tbody tr:nth-child(odd) {
+  background-color: rgba(0, 110, 199, 0.05); /* light blue stripe */
+}
+
+.brand-table tbody tr:nth-child(even) {
+  background-color: rgba(0, 110, 199, 0.1); /* slightly darker stripe */
+}
+
+.brand-table code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  background: none;
+}
+
+/* Hover effect */
+.brand-table tbody tr:hover {
+  background: linear-gradient(to bottom, var(--color-pink), var(--color-orange));
+  color: var(--color-white);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.brand-table tbody tr:hover td {
+  color: var(--color-white);
+}
+
 
 /* ===============================
    Animation

@@ -1,4 +1,5 @@
 import introduction from './java/introduction.html?raw';
+import basicStructure from './java/basic-structure.html?raw';
 import methods from './java/methods.html?raw';
 import methodOverloading from './java/method-overloading.html?raw';
 import classes from './java/classes.html?raw';
@@ -17,6 +18,11 @@ export const javaContent = {
       id: "introduction",
       title: "Introduction",
       content: introduction
+    },
+    {
+      id: "basic-structure",
+      title: "Basic Structure",
+      content: basicStructure
     },
     {
       id: "methods",

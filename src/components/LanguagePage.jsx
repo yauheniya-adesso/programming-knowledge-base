@@ -87,7 +87,7 @@ const LanguagePage = ({ content }) => {
     }, 0);
     
     return () => clearTimeout(timeoutId);
-  }, [content, activeSection]); // Changed from content.sections to content
+  }, [content, activeSection]); 
 
   return (
     <div className="flex gap-8">

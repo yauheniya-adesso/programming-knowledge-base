@@ -1,4 +1,10 @@
-<!-- Data Types Table -->
+<p>In Java, all data you work with falls into two broad categories that behave differently in memory and in how they’re used:</p>
+<ul class="list-arrow">
+  <li><strong>Primitive types</strong> are the built‑in, low‑level data types that store simple values directly in memory and have fixed sizes.</li>
+  <li><strong>Non‑primitive types</strong> are more complex structures created from classes, and they store references to objects rather than the actual data itself.</li>
+</ul>
+
+<!-- Java Data Types Table -->
 <table class="brand-table">
   <thead>
     <tr>
@@ -7,58 +13,130 @@
       <th>Example</th>
     </tr>
   </thead>
+
   <tbody>
+    <!-- ===================== -->
+    <!-- PRIMITIVE DATA TYPES -->
+    <!-- ===================== -->
+    <tr>
+      <td colspan="3" >Primitive Types</td>
+    </tr>
+
     <tr>
       <td><strong>byte</strong></td>
-      <td>8-bit integer, stores -128 to 127.</td>
+      <td>8‑bit integer, stores −128 to 127.</td>
       <td><code>byte b = 100;</code></td>
     </tr>
+
     <tr>
       <td><strong>short</strong></td>
-      <td>16-bit integer, -32,768 to 32,767.</td>
+      <td>16‑bit integer, −32,768 to 32,767.</td>
       <td><code>short s = 30000;</code></td>
     </tr>
+
     <tr>
       <td><strong>int</strong></td>
-      <td>32-bit integer, most commonly used.</td>
+      <td>32‑bit integer, most commonly used.</td>
       <td><code>int age = 25;</code></td>
     </tr>
+
     <tr>
       <td><strong>long</strong></td>
-      <td>64-bit integer, for very large numbers.</td>
+      <td>64‑bit integer, for very large numbers.</td>
       <td><code>long distance = 100000L;</code></td>
     </tr>
+
     <tr>
       <td><strong>float</strong></td>
-      <td>32-bit decimal numbers, less precise than double.</td>
+      <td>32‑bit decimal, less precise than double.</td>
       <td><code>float pi = 3.14f;</code></td>
     </tr>
+
     <tr>
       <td><strong>double</strong></td>
-      <td>64-bit decimal numbers, more precise.</td>
+      <td>64‑bit decimal, more precise.</td>
       <td><code>double price = 19.99;</code></td>
     </tr>
+
     <tr>
       <td><strong>char</strong></td>
-      <td>Single 16-bit Unicode character.</td>
+      <td>Single 16‑bit Unicode character.</td>
       <td><code>char grade = 'A';</code></td>
     </tr>
+
     <tr>
       <td><strong>boolean</strong></td>
-      <td>Represents true or false.</td>
+      <td>Represents <code>true</code> or <code>false</code>.</td>
       <td><code>boolean isJavaFun = true;</code></td>
     </tr>
+
+    <!-- ========================= -->
+    <!-- NON‑PRIMITIVE DATA TYPES -->
+    <!-- ========================= -->
+    <tr>
+      <td colspan="3">Non‑Primitive Types</td>
+    </tr>
+
+    <tr>
+      <td><strong>String</strong></td>
+      <td>Sequence of characters; most commonly used non‑primitive type.</td>
+      <td><code>String name = "Java";</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>Arrays</strong></td>
+      <td>Fixed‑size collection of elements of the same type.</td>
+      <td><code>int[] nums = {1, 2, 3};</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>Object</strong></td>
+      <td>Root of all Java classes; every class inherits from Object.</td>
+      <td><code>Object obj = new Object();</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>BigInteger</strong></td>
+      <td>Handles integers larger than <code>long</code> can store.</td>
+      <td><code>BigInteger big = new BigInteger("123456789");</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>BigDecimal</strong></td>
+      <td>High‑precision decimal numbers; ideal for currency.</td>
+      <td><code>BigDecimal price = new BigDecimal("19.99");</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>enum</strong></td>
+      <td>Custom type representing a fixed set of constants.</td>
+      <td><code>enum Day { MON, TUE, WED }</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>List&lt;T&gt;</strong></td>
+      <td>Ordered collection from the Java Collections Framework.</td>
+      <td><code>List&lt;String&gt; list = List.of("A", "B");</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>Map&lt;K,V&gt;</strong></td>
+      <td>Key‑value data structure.</td>
+      <td><code>Map&lt;String, Integer&gt; map = Map.of("A", 1);</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>Set&lt;T&gt;</strong></td>
+      <td>Collection of unique elements.</td>
+      <td><code>Set&lt;Integer&gt; set = Set.of(1, 2, 3);</code></td>
+    </tr>
+
+    <tr>
+      <td><strong>var</strong></td>
+      <td>Type inference keyword (Java 10+). Compiler determines the type.</td>
+      <td><code>var count = 10;</code></td>
+    </tr>
+
   </tbody>
 </table>
 
-<!-- Reference Types Section -->
-<h3 class="mt-6 font-semibold text-lg">Reference Types</h3>
-<ul class="list-arrow">
-  <li>Store references to objects, arrays, or Strings, e.g.:</li>
-    <ul class="list-arrow ml-4">
-      <li><code>MyClass obj = new MyClass();</code></li>
-      <li><code>int[] numbers = {1,2,3};</code></li>
-      <li><code>String name = "Java";</code></li>
-    </ul>
-  </li>
-</ul>

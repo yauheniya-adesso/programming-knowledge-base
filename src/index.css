@@ -194,7 +194,7 @@ pre:hover .copy-button {
 .brand-table th,
 .brand-table td {
   padding: 0.5rem 1rem;
-  border: none; /* remove cell borders */
+  border-bottom: 1px solid var(--color-white);
 }
 
 .brand-table thead th {

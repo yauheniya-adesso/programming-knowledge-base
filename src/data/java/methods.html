@@ -6,10 +6,17 @@
     return value; // if returnType is not void
 }</code></pre>
 
-<p>There are two main types of methods: <strong>Parameterized</strong> and <strong>Non-Parameterized</strong>. Create a file <code>Calculator.java</code> to define some methods:</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start content-start !mt-0">
 
+  <!-- LEFT COLUMN -->
+  <div>
+    <p>
+      There are two main types of methods: <strong>Parameterized</strong> and 
+      <strong>Non-Parameterized</strong>. Create a file 
+      <code>Calculator.java</code> to define some methods:
+    </p>
 
-<pre><code class="language-java">public class Calculator {
+    <pre><code class="language-java">public class Calculator {
     // Non-Parameterized Method:
     public void greet() {
         System.out.println("Welcome to Calculator!");
@@ -24,12 +31,15 @@
         return x * y;
     }
 }</code></pre>
+  </div>
 
-<p class="mt-2">
-  To use the methods, create another file <code>Main.java</code> and call them:
-</p>
+  <!-- RIGHT COLUMN -->
+  <div>
+    <p class="mt-2">
+      To use the methods, create another file <code>Main.java</code> and call them:
+    </p>
 
-<pre><code class="language-java">public class Main {
+    <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
         // Create an object of Calculator
         Calculator calc = new Calculator();
@@ -47,6 +57,10 @@
         System.out.println(" Multiply Result: " + multResult); 
     }
 }</code></pre>
+  </div>
+
+</div>
+
 
 <p class="mt-2">
   Compile all Java files in the folder and run <code>Main</code>:

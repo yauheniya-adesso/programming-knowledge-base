@@ -1,4 +1,4 @@
-<p>Methods are blocks of code that perform specific tasks. They promote code reusability and organization.</p>
+<p>Methods are blocks of code that perform specific tasks. They promote code reusability and organization. </p>
 
 <h3 class="mt-6 font-semibold text-lg">Method Syntax:</h3>
 <pre><code class="language-java">accessModifier returnType methodName(parameters) {
@@ -6,15 +6,16 @@
     return value; // if returnType is not void
 }</code></pre>
 
-<h3 class="mt-6 font-semibold text-lg">Non-Parameterized Method:</h3>
+<p>There are two main types of methods: <strong>Parameterized</strong> and <strong>Non-Parameterized</strong>. Create a file <code>Calculator.java</code> to define some methods:</p>
+
+
 <pre><code class="language-java">public class Calculator {
+    // Non-Parameterized Method:
     public void greet() {
         System.out.println("Welcome to Calculator!");
     }
-}</code></pre>
 
-<h3 class="mt-6 font-semibold text-lg">Parameterized Method:</h3>
-<pre><code class="language-java">public class Calculator {
+    // Parameterized Methods:
     public int add(int a, int b) {
         return a + b;
     }
@@ -24,31 +25,36 @@
     }
 }</code></pre>
 
-<h3 class="mt-6 font-semibold text-lg">Method with Return Value:</h3>
-<pre><code class="language-java">public class MathUtils {
-    public int square(int number) {
-        return number * number;
-    }
-    
-    public boolean isEven(int number) {
-        return number % 2 == 0;
-    }
-}</code></pre>
+<p class="mt-2">
+  To use the methods, create another file <code>Main.java</code> and call them:
+</p>
 
-<h3 class="mt-6 font-semibold text-lg">Void Method (No Return):</h3>
-<pre><code class="language-java">public class Printer {
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
-}</code></pre>
-
-<h3 class="mt-6 font-semibold text-lg">Calling Methods:</h3>
 <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
+        // Create an object of Calculator
         Calculator calc = new Calculator();
-        int result = calc.add(5, 3);
-        System.out.println("Sum: " + result); // Output: Sum: 8
         
-        calc.greet(); // Output: Welcome to Calculator!
+        // Call non-parameterized method
+        calc.greet(); 
+        
+        // Call parameterized methods
+        int sumResult = calc.add(3, 4);
+        double multResult = calc.multiply(3, 4);
+
+        // Display results
+        System.out.println("Take 3 and 4");
+        System.out.println(" Sum Result: " + sumResult); 
+        System.out.println(" Multiply Result: " + multResult); 
     }
 }</code></pre>
+
+<p class="mt-2">
+  Compile all Java files in the folder and run <code>Main</code>:
+</p>
+
+<pre><code class="language-bash">javac *.java
+java Main
+Welcome to Calculator!
+Take 3 and 4
+ Sum Result: 7
+ Multiply Result: 12.0</code></pre>

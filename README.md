@@ -26,5 +26,5 @@ MIT
 - [Press Start Button (Synthwave & Starfield) - CSS by Josetxu](https://codepen.io/josetxu/pen/YPWWMbe) on <img src="https://api.iconify.design/ri:codepen-fill.svg?color=%231C3C3C" alt="CodePen" height="12" /> CodePen for the "Star Travel" animation on the homepage
 
 
-- [Duke Car](https://hg.openjdk.org/duke/duke/) – Duke 3D model from the OpenJDK project
+- [Duke Car](https://hg.openjdk.org/duke/duke/) – Duke 3D model from the <img src="https://api.iconify.design/simple-icons:openjdk.svg" alt="CodePen" height="12" /> OpenJDK project
 

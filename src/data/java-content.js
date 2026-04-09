@@ -5,6 +5,7 @@ import methods from './java/methods.html?raw';
 import methodOverloading from './java/method-overloading.html?raw';
 import classes from './java/classes.html?raw';
 import constructors from './java/constructors.html?raw';
+import constructorOverloading from './java/constructor-overloading.html?raw';
 import encapsulation from './java/encapsulation.html?raw';
 import inheritance from './java/inheritance.html?raw';
 import polymorphism from './java/polymorphism.html?raw';
@@ -49,6 +50,11 @@ export const javaContent = {
       id: "constructors",
       title: "Constructors",
       content: constructors
+    },
+    {
+      id: "constructor-overloading",
+      title: "Constructor Overloading",
+      content: constructorOverloading
     },
     {
       id: "encapsulation",

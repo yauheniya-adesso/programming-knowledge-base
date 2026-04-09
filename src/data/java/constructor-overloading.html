@@ -1,0 +1,57 @@
+<div>
+
+  <p>Constructor overloading allows a class to have <strong>multiple constructors with the same name</strong> but <strong>different parameters</strong> (different number or type). It is similar to method overloading, but constructors are special methods called automatically when an object is created and <strong>do not have a return type</strong>.</p>
+
+  <p><strong>Difference from method overloading:</strong></p>
+  <ul>
+    <li>Method overloading: multiple methods with the same name but different parameters; you call them explicitly.</li>
+    <li>Constructor overloading: multiple constructors with the same name (class name) but different parameters; called automatically when creating objects with <code>new</code>.</li>
+  </ul>
+
+  <h3 class="mt-6 font-semibold text-lg">Example: Constructor Overloading</h3>
+  <pre><code class="language-java">public class Car {
+    String brand;
+    String model;
+    int year;
+
+    // Constructor with no parameters
+    public Car() {
+        this("Unknown", "Unknown", 0); // calls the 3-parameter constructor
+    }
+
+    // Constructor with brand only
+    public Car(String brand) {
+        this(brand, "Unknown", 0); // calls the 3-parameter constructor
+    }
+
+    // Constructor with all parameters
+    public Car(String brand, String model, int year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+}</code></pre>
+
+  <h3 class="mt-6 font-semibold text-lg">Usage:</h3>
+  <pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        Car car1 = new Car();                        // Default constructor
+        Car car2 = new Car("Toyota");               // Constructor with 1 parameter
+        Car car3 = new Car("Tesla", "Model 3", 2023); // Constructor with 3 parameters
+
+        System.out.println(car1.brand); // Unknown
+        System.out.println(car2.brand); // Toyota
+        System.out.println(car3.brand); // Tesla
+    }
+}</code></pre>
+
+  <h3 class="mt-6 font-semibold text-lg">Key Points:</h3>
+  <ul class="list-arrow">
+    <li>Constructor name must match the class name exactly</li>
+    <li>No return type (not even <code>void</code>)</li>
+    <li>Called automatically when an object is created</li>
+    <li>Can be overloaded with different parameters</li>
+    <li><code>this(...)</code> can be used to call another constructor in the same class</li>
+  </ul>
+
+</div>

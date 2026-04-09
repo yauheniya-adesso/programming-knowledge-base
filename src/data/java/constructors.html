@@ -1,65 +1,46 @@
 <p>Constructors are special methods called when an object is created. They initialize object state.</p>
 
-<h3 class="mt-6 font-semibold text-lg">Default Constructor:</h3>
-<pre><code class="language-java">public class Car {
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+
+  <!-- Default Constructor -->
+  <div>
+    <h3 class="font-semibold text-lg">Default Constructor</h3>
+
+    <pre><code class="language-java">public class Car {
     String brand;
     String model;
-    
-    // Default constructor
+    int year;
+
     public Car() {
         brand = "Unknown";
         model = "Unknown";
+        year = 0;
     }
 }</code></pre>
 
-<h3 class="mt-6 font-semibold text-lg">Parameterized Constructor:</h3>
-<pre><code class="language-java">public class Car {
+    <h4 class="mt-4 font-semibold">Calling:</h4>
+    <pre><code class="language-java">Car car = new Car();</code></pre>
+
+    <h4 class="mt-4 font-semibold">Result:</h4>
+    <pre><code>brand = "Unknown"
+model = "Unknown"
+year = 0</code></pre>
+
+    <ul class="list-arrow">
+      <li>No arguments passed</li>
+      <li>Values are hardcoded defaults</li>
+    </ul>
+  </div>
+
+  <!-- Parameterized Constructor -->
+  <div>
+    <h3 class="font-semibold text-lg">Parameterized Constructor</h3>
+
+    <pre><code class="language-java">public class Car {
     String brand;
     String model;
     int year;
-    
-    // Parameterized constructor
-    public Car(String brand, String model, int year) {
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
-    }
-    
-    public void displayInfo() {
-        System.out.println(brand + " " + model + " (" + year + ")");
-    }
-}</code></pre>
 
-<h3 class="mt-6 font-semibold text-lg">Using Constructors:</h3>
-<pre><code class="language-java">public class Main {
-    public static void main(String[] args) {
-        // Using parameterized constructor
-        Car car1 = new Car("Tesla", "Model 3", 2023);
-        car1.displayInfo(); // Output: Tesla Model 3 (2023)
-        
-        // Using default constructor
-        Car car2 = new Car();
-        car2.displayInfo(); // Output: Unknown Unknown
-    }
-}</code></pre>
-
-<h3 class="mt-6 font-semibold text-lg">Constructor Overloading:</h3>
-<pre><code class="language-java">public class Car {
-    String brand;
-    String model;
-    int year;
-    
-    // Constructor with no parameters
-    public Car() {
-        this("Unknown", "Unknown", 0);
-    }
-    
-    // Constructor with brand only
-    public Car(String brand) {
-        this(brand, "Unknown", 0);
-    }
-    
-    // Constructor with all parameters
     public Car(String brand, String model, int year) {
         this.brand = brand;
         this.model = model;
@@ -67,11 +48,19 @@
     }
 }</code></pre>
 
-<h3 class="mt-6 font-semibold text-lg">Key Points:</h3>
-<ul class="list-arrow">
-  <li>Constructor name must match class name</li>
-  <li>No return type (not even void)</li>
-  <li>Called automatically when object is created</li>
-  <li>Can be overloaded</li>
-  <li><code>this</code> keyword refers to current object</li>
-</ul>
+    <h4 class="mt-4 font-semibold">Calling:</h4>
+    <pre><code class="language-java">Car car = new Car("Tesla", "Model 3", 2023);</code></pre>
+
+    <h4 class="mt-4 font-semibold">Result:</h4>
+    <pre><code>brand = "Tesla"
+model = "Model 3"
+year = 2023</code></pre>
+
+    <ul class="list-arrow">
+      <li>Arguments are passed</li>
+      <li>Values come from user input</li>
+    </ul>
+  </div>
+
+</div>
+

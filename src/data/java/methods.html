@@ -6,7 +6,7 @@
     return value; // if returnType is not void
 }</code></pre>
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start content-start !mt-0">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
   <!-- LEFT COLUMN -->
   <div>
@@ -36,7 +36,7 @@
   <!-- RIGHT COLUMN -->
   <div>
     <p class="mt-2">
-      To use the methods, create another file <code>Main.java</code> and call them:
+      To use the methods, create another file <code>Main.java</code> and call them create an object of Calculator and call each method using that object. 
     </p>
 
     <pre><code class="language-java">public class Main {
@@ -44,14 +44,11 @@
         // Create an object of Calculator
         Calculator calc = new Calculator();
         
-        // Call non-parameterized method
+        // Call methods
         calc.greet(); 
-        
-        // Call parameterized methods
         int sumResult = calc.add(3, 4);
         double multResult = calc.multiply(3, 4);
 
-        // Display results
         System.out.println("Take 3 and 4");
         System.out.println(" Sum Result: " + sumResult); 
         System.out.println(" Multiply Result: " + multResult); 

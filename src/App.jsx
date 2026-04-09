@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import JavaScript from './pages/JavaScript';
 import HTML from './pages/HTML';
@@ -33,7 +34,7 @@ export default function App() {
   const isHomePage = currentPage === 'Home';
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navigation 
         currentPage={currentPage}
         onNavigate={setCurrentPage}
@@ -41,9 +42,11 @@ export default function App() {
         onToggle={() => setIsNavOpen(!isNavOpen)}
       />
       
-      <main className={isHomePage ? 'pt-16 p-0 m-0' : 'pt-20 p-8'}>
+      <main className={`flex-1 ${isHomePage ? 'pt-16 p-0 m-0' : 'pt-20 p-8'}`}>
         {renderPage()}
       </main>
+
+      <Footer />
     </div>
   );
 }

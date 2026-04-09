@@ -1,33 +1,33 @@
 <p>A class is a blueprint for creating objects. It defines the properties (fields) and behaviors (methods) that objects will have.</p>
 
 <h3 class="mt-6 font-semibold text-lg">Basic Class Structure:</h3>
-<pre><code class="language-java">public class Car {
+<pre><code class="language-java">public class AIModel {
     // Fields (attributes)
-    String brand;
-    String model;
-    int year;
+    String name;
+    String provider;
+    int releaseYear;
     
     // Method
     public void displayInfo() {
-        System.out.println(brand + " " + model + " (" + year + ")");
+        System.out.println(name + " by " + provider + " (" + releaseYear + ")");
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Creating a Class with Multiple Objects:</h3>
 <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
-        Car car1 = new Car();
-        car1.brand = "Honda";
-        car1.model = "Civic";
-        car1.year = 2022;
+        AIModel model1 = new AIModel();
+        model1.name = "Claude Sonnet 4.6";
+        model1.provider = "Anthropic";
+        model1.releaseYear = 2025;
         
-        Car car2 = new Car();
-        car2.brand = "Ford";
-        car2.model = "Mustang";
-        car2.year = 2024;
+        AIModel model2 = new AIModel();
+        model2.name = "GPT-4o";
+        model2.provider = "OpenAI";
+        model2.releaseYear = 2024;
         
-        car1.displayInfo(); // Output: Honda Civic (2022)
-        car2.displayInfo(); // Output: Ford Mustang (2024)
+        model1.displayInfo(); // Output: Claude Sonnet 4.6 by Anthropic (2025)
+        model2.displayInfo(); // Output: GPT-4o by OpenAI (2024)
     }
 }</code></pre>
 

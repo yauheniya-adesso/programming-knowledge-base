@@ -9,39 +9,41 @@
   </ul>
 
   <h3 class="mt-6 font-semibold text-lg">Example: Constructor Overloading</h3>
-  <pre><code class="language-java">public class Car {
-    String brand;
-    String model;
-    int year;
+  <pre><code class="language-java">public class AIModel {
+    String name;
+    String provider;
+    int releaseYear;
 
     // Constructor with no parameters
-    public Car() {
+    public AIModel() {
         this("Unknown", "Unknown", 0); // calls the 3-parameter constructor
     }
 
-    // Constructor with brand only
-    public Car(String brand) {
-        this(brand, "Unknown", 0); // calls the 3-parameter constructor
+    // Constructor with provider only
+    public AIModel(String provider) {
+        this("Unknown", provider, 0); // calls the 3-parameter constructor
     }
 
     // Constructor with all parameters
-    public Car(String brand, String model, int year) {
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
+    public AIModel(String name, String provider, int releaseYear) {
+        this.name = name;
+        this.provider = provider;
+        this.releaseYear = releaseYear;
     }
 }</code></pre>
 
   <h3 class="mt-6 font-semibold text-lg">Usage:</h3>
   <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
-        Car car1 = new Car();                        // Default constructor
-        Car car2 = new Car("Toyota");               // Constructor with 1 parameter
-        Car car3 = new Car("Tesla", "Model 3", 2023); // Constructor with 3 parameters
+        AIModel model1 = new AIModel();                               // Default constructor
+        AIModel model2 = new AIModel("Mistral");                     // Constructor with 1 parameter
+        AIModel model3 = new AIModel("Gemini 2.0", "Google", 2025); // Constructor with 3 parameters
+        AIModel model4 = new AIModel("Command R+", "Cohere", 2024); // Constructor with 3 parameters
 
-        System.out.println(car1.brand); // Unknown
-        System.out.println(car2.brand); // Toyota
-        System.out.println(car3.brand); // Tesla
+        System.out.println(model1.provider); // Unknown
+        System.out.println(model2.provider); // Mistral
+        System.out.println(model3.provider); // Google
+        System.out.println(model4.provider); // Cohere
     }
 }</code></pre>
 

@@ -6,25 +6,25 @@
   <div>
     <h3 class="font-semibold text-lg">Default Constructor</h3>
 
-    <pre><code class="language-java">public class Car {
-    String brand;
-    String model;
-    int year;
+    <pre><code class="language-java">public class AIModel {
+    String name;
+    String provider;
+    int releaseYear;
 
-    public Car() {
-        brand = "Unknown";
-        model = "Unknown";
-        year = 0;
+    public AIModel() {
+        name = "Unknown";
+        provider = "Unknown";
+        releaseYear = 0;
     }
 }</code></pre>
 
     <h4 class="mt-4 font-semibold">Calling:</h4>
-    <pre><code class="language-java">Car car = new Car();</code></pre>
+    <pre><code class="language-java">AIModel model = new AIModel();</code></pre>
 
     <h4 class="mt-4 font-semibold">Result:</h4>
-    <pre><code>brand = "Unknown"
-model = "Unknown"
-year = 0</code></pre>
+    <pre><code>name = "Unknown"
+provider = "Unknown"
+releaseYear = 0</code></pre>
 
     <ul class="list-arrow">
       <li>No arguments passed</li>
@@ -36,25 +36,25 @@ year = 0</code></pre>
   <div>
     <h3 class="font-semibold text-lg">Parameterized Constructor</h3>
 
-    <pre><code class="language-java">public class Car {
-    String brand;
-    String model;
-    int year;
+    <pre><code class="language-java">public class AIModel {
+    String name;
+    String provider;
+    int releaseYear;
 
-    public Car(String brand, String model, int year) {
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
+    public AIModel(String name, String provider, int releaseYear) {
+        this.name = name;
+        this.provider = provider;
+        this.releaseYear = releaseYear;
     }
 }</code></pre>
 
     <h4 class="mt-4 font-semibold">Calling:</h4>
-    <pre><code class="language-java">Car car = new Car("Tesla", "Model 3", 2023);</code></pre>
+    <pre><code class="language-java">AIModel model = new AIModel("Claude Sonnet 4.6", "Anthropic", 2025);</code></pre>
 
     <h4 class="mt-4 font-semibold">Result:</h4>
-    <pre><code>brand = "Tesla"
-model = "Model 3"
-year = 2023</code></pre>
+    <pre><code>name = "Claude Sonnet 4.6"
+provider = "Anthropic"
+releaseYear = 2025</code></pre>
 
     <ul class="list-arrow">
       <li>Arguments are passed</li>

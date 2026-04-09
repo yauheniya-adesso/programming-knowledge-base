@@ -1,145 +1,146 @@
 <p>Interfaces define a contract that classes must follow. All methods are abstract by default (until Java 8).</p>
 
 <h3 class="mt-6 font-semibold text-lg">Defining an Interface:</h3>
-<pre><code class="language-java">public interface Drawable {
+<pre><code class="language-java">public interface GenerativeModel {
     // Abstract method (implicitly public abstract)
-    void draw();
+    String generate(String prompt);
     
     // Constant (implicitly public static final)
-    int MAX_SIZE = 100;
+    int MAX_TOKENS = 4096;
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Implementing an Interface:</h3>
-<pre><code class="language-java">public class Circle implements Drawable {
-    private double radius;
+<pre><code class="language-java">public class ClaudeModel implements GenerativeModel {
+    private String version;
     
-    public Circle(double radius) {
-        this.radius = radius;
+    public ClaudeModel(String version) {
+        this.version = version;
     }
     
     @Override
-    public void draw() {
-        System.out.println("Drawing circle with radius: " + radius);
+    public String generate(String prompt) {
+        return "Claude " + version + " response to: " + prompt;
     }
 }
 
-public class Square implements Drawable {
-    private double side;
+public class GeminiModel implements GenerativeModel {
+    private String version;
     
-    public Square(double side) {
-        this.side = side;
+    public GeminiModel(String version) {
+        this.version = version;
     }
     
     @Override
-    public void draw() {
-        System.out.println("Drawing square with side: " + side);
+    public String generate(String prompt) {
+        return "Gemini " + version + " response to: " + prompt;
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Multiple Interface Implementation:</h3>
-<pre><code class="language-java">interface Movable {
-    void move(int x, int y);
+<pre><code class="language-java">interface Trainable {
+    void train(String dataset);
 }
 
-interface Resizable {
-    void resize(double scale);
+interface Deployable {
+    void deploy(String environment);
 }
 
-public class Shape implements Drawable, Movable, Resizable {
-    private int x, y;
-    private double size;
+public class FoundationModel implements GenerativeModel, Trainable, Deployable {
+    private String name;
     
-    @Override
-    public void draw() {
-        System.out.println("Drawing shape at (" + x + ", " + y + ")");
+    public FoundationModel(String name) {
+        this.name = name;
     }
     
     @Override
-    public void move(int newX, int newY) {
-        this.x = newX;
-        this.y = newY;
+    public String generate(String prompt) {
+        return name + " generating response for: " + prompt;
     }
     
     @Override
-    public void resize(double scale) {
-        this.size *= scale;
+    public void train(String dataset) {
+        System.out.println(name + " training on dataset: " + dataset);
+    }
+    
+    @Override
+    public void deploy(String environment) {
+        System.out.println(name + " deployed to: " + environment);
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Interface with Default Methods (Java 8+):</h3>
-<pre><code class="language-java">public interface Vehicle {
+<pre><code class="language-java">public interface AIService {
     // Abstract method
-    void start();
+    String sendRequest(String prompt);
     
     // Default method with implementation
-    default void honk() {
-        System.out.println("Beep beep!");
+    default void logUsage(String prompt) {
+        System.out.println("Request logged: " + prompt.substring(0, Math.min(50, prompt.length())));
     }
     
     // Static method
     static void displayInfo() {
-        System.out.println("This is a vehicle interface");
+        System.out.println("This is an AI service interface");
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Practical Example:</h3>
-<pre><code class="language-java">interface PaymentMethod {
-    boolean processPayment(double amount);
-    void printReceipt();
+<pre><code class="language-java">interface AIProvider {
+    String sendRequest(String prompt);
+    void printModelInfo();
 }
 
-class CreditCard implements PaymentMethod {
-    private String cardNumber;
+class AnthropicProvider implements AIProvider {
+    private String modelName;
     
-    public CreditCard(String cardNumber) {
-        this.cardNumber = cardNumber;
+    public AnthropicProvider(String modelName) {
+        this.modelName = modelName;
     }
     
     @Override
-    public boolean processPayment(double amount) {
-        System.out.println("Processing $" + amount + " via Credit Card");
-        return true;
+    public String sendRequest(String prompt) {
+        System.out.println("Sending request to Anthropic API with model: " + modelName);
+        return "Response from " + modelName;
     }
     
     @Override
-    public void printReceipt() {
-        System.out.println("Credit Card Receipt - Card: ****" + 
-                          cardNumber.substring(cardNumber.length() - 4));
+    public void printModelInfo() {
+        System.out.println("Provider: Anthropic | Model: " + modelName + " | Released: 2025");
     }
 }
 
-class PayPal implements PaymentMethod {
-    private String email;
+class MistralProvider implements AIProvider {
+    private String modelName;
     
-    public PayPal(String email) {
-        this.email = email;
+    public MistralProvider(String modelName) {
+        this.modelName = modelName;
     }
     
     @Override
-    public boolean processPayment(double amount) {
-        System.out.println("Processing $" + amount + " via PayPal");
-        return true;
+    public String sendRequest(String prompt) {
+        System.out.println("Sending request to Mistral API with model: " + modelName);
+        return "Response from " + modelName;
     }
     
     @Override
-    public void printReceipt() {
-        System.out.println("PayPal Receipt - Email: " + email);
+    public void printModelInfo() {
+        System.out.println("Provider: Mistral | Model: " + modelName + " | Released: 2024");
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Using Interfaces:</h3>
 <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
-        PaymentMethod payment1 = new CreditCard("1234567890123456");
-        PaymentMethod payment2 = new PayPal("user@email.com");
+        AIProvider provider1 = new AnthropicProvider("Claude Sonnet 4.6");
+        AIProvider provider2 = new MistralProvider("Mistral Large");
         
-        payment1.processPayment(99.99);
-        payment1.printReceipt();
+        provider1.sendRequest("Explain interfaces in Java");
+        provider1.printModelInfo();
         
         System.out.println();
         
-        payment2.processPayment(49.99);
-        payment2.printReceipt();
+        provider2.sendRequest("What is encapsulation?");
+        provider2.printModelInfo();
     }
 }</code></pre>
 

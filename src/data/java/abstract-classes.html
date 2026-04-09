@@ -1,53 +1,56 @@
 <p>Abstract classes cannot be instantiated and may contain abstract methods (methods without implementation).</p>
 
 <h3 class="mt-6 font-semibold text-lg">Defining Abstract Class:</h3>
-<pre><code class="language-java">public abstract class Vehicle {
-    protected String brand;
-    protected int year;
+<pre><code class="language-java">public abstract class AIModel {
+    protected String name;
+    protected String provider;
+    protected int releaseYear;
     
     // Regular method with implementation
     public void displayInfo() {
-        System.out.println(brand + " (" + year + ")");
+        System.out.println(name + " by " + provider + " (" + releaseYear + ")");
     }
     
     // Abstract method (no implementation)
-    public abstract void start();
-    public abstract void stop();
+    public abstract void generate(String prompt);
+    public abstract void shutdown();
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Implementing Abstract Class:</h3>
-<pre><code class="language-java">public class Car extends Vehicle {
-    public Car(String brand, int year) {
-        this.brand = brand;
-        this.year = year;
+<pre><code class="language-java">public class ChatModel extends AIModel {
+    public ChatModel(String name, String provider, int releaseYear) {
+        this.name = name;
+        this.provider = provider;
+        this.releaseYear = releaseYear;
     }
     
     // Must implement all abstract methods
     @Override
-    public void start() {
-        System.out.println(brand + " car is starting with ignition");
+    public void generate(String prompt) {
+        System.out.println(name + " is generating a chat response for: " + prompt);
     }
     
     @Override
-    public void stop() {
-        System.out.println(brand + " car is stopping");
+    public void shutdown() {
+        System.out.println(name + " chat model is shutting down");
     }
 }
 
-public class ElectricCar extends Vehicle {
-    public ElectricCar(String brand, int year) {
-        this.brand = brand;
-        this.year = year;
+public class ImageModel extends AIModel {
+    public ImageModel(String name, String provider, int releaseYear) {
+        this.name = name;
+        this.provider = provider;
+        this.releaseYear = releaseYear;
     }
     
     @Override
-    public void start() {
-        System.out.println(brand + " electric car is starting silently");
+    public void generate(String prompt) {
+        System.out.println(name + " is generating an image for: " + prompt);
     }
     
     @Override
-    public void stop() {
-        System.out.println(brand + " electric car is stopping");
+    public void shutdown() {
+        System.out.println(name + " image model is shutting down");
     }
 }</code></pre>
 
@@ -55,20 +58,20 @@ public class ElectricCar extends Vehicle {
 <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
         // Cannot instantiate abstract class
-        // Vehicle v = new Vehicle(); // ERROR
+        // AIModel m = new AIModel(); // ERROR
         
-        Vehicle car1 = new Car("Toyota", 2023);
-        Vehicle car2 = new ElectricCar("Tesla", 2024);
+        AIModel model1 = new ChatModel("Claude Sonnet 4.6", "Anthropic", 2025);
+        AIModel model2 = new ImageModel("DALL-E 3", "OpenAI", 2024);
         
-        car1.displayInfo();
-        car1.start();
-        car1.stop();
+        model1.displayInfo();
+        model1.generate("Explain polymorphism");
+        model1.shutdown();
         
         System.out.println();
         
-        car2.displayInfo();
-        car2.start();
-        car2.stop();
+        model2.displayInfo();
+        model2.generate("A sunset over mountains");
+        model2.shutdown();
     }
 }</code></pre>
 

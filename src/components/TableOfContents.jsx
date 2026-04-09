@@ -2,10 +2,10 @@ import { ChevronRight } from 'lucide-react';
 
 const TableOfContents = ({ sections, activeSection, onSectionClick }) => {
   return (
-    <div className="rounded-lg p-6 sticky top-6 bg-white shadow-md">
-      <h3 className="text-lg font-bold mb-4 text-black">Table of Contents</h3>
+    <div className="rounded-lg p-6 sticky top-24 bg-white shadow-md max-h-[calc(100vh-7rem)] flex flex-col">
+      <h3 className="text-lg font-bold mb-4 text-black shrink-0">Table of Contents</h3>
 
-      <ul className="space-y-2">
+      <ul className="space-y-2 overflow-y-auto">
         {sections.map((section) => {
           const isActive = activeSection === section.id;
           return (

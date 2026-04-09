@@ -2,83 +2,83 @@
 
 <h3 class="mt-6 font-semibold text-lg">Basic Inheritance:</h3>
 <pre><code class="language-java">// Parent class (superclass)
-public class Animal {
-    protected String name;
-    protected int age;
+public class AIModel {
+    protected String modelName;
+    protected int version;
     
-    public void eat() {
-        System.out.println(name + " is eating");
+    public void train() {
+        System.out.println(modelName + " is training");
     }
     
-    public void sleep() {
-        System.out.println(name + " is sleeping");
+    public void deploy() {
+        System.out.println(modelName + " is deployed");
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Child Class (Subclass):</h3>
 <pre><code class="language-java">// Child class extends parent
-public class Dog extends Animal {
-    private String breed;
+public class ChatModel extends AIModel {
+    private String language;
     
-    public Dog(String name, int age, String breed) {
-        this.name = name;
-        this.age = age;
-        this.breed = breed;
+    public ChatModel(String modelName, int version, String language) {
+        this.modelName = modelName;
+        this.version = version;
+        this.language = language;
     }
     
-    // Additional method specific to Dog
-    public void bark() {
-        System.out.println(name + " is barking!");
+    // Additional method specific to ChatModel
+    public void generateResponse() {
+        System.out.println(modelName + " is generating a response in " + language);
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Using Inheritance:</h3>
 <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
-        Dog myDog = new Dog("Buddy", 3, "Golden Retriever");
+        ChatModel myModel = new ChatModel("GPT", 5, "English");
         
-        // Inherited methods from Animal
-        myDog.eat();    // Output: Buddy is eating
-        myDog.sleep();  // Output: Buddy is sleeping
+        // Inherited methods from AIModel
+        myModel.train();   // Output: GPT is training
+        myModel.deploy();  // Output: GPT is deployed
         
-        // Dog-specific method
-        myDog.bark();   // Output: Buddy is barking!
+        // ChatModel-specific method
+        myModel.generateResponse(); // Output: GPT is generating a response in English
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Method Overriding:</h3>
-<pre><code class="language-java">public class Cat extends Animal {
-    public Cat(String name, int age) {
-        this.name = name;
-        this.age = age;
+<pre><code class="language-java">public class VisionModel extends AIModel {
+    public VisionModel(String modelName, int version) {
+        this.modelName = modelName;
+        this.version = version;
     }
     
     // Override parent method
     @Override
-    public void eat() {
-        System.out.println(name + " is eating fish");
+    public void train() {
+        System.out.println(modelName + " is training on image data");
     }
     
-    public void meow() {
-        System.out.println(name + " says meow!");
+    public void detectObjects() {
+        System.out.println(modelName + " is detecting objects");
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Using super Keyword:</h3>
-<pre><code class="language-java">public class Bird extends Animal {
-    private double wingspan;
+<pre><code class="language-java">public class SpeechModel extends AIModel {
+    private double accuracy;
     
-    public Bird(String name, int age, double wingspan) {
+    public SpeechModel(String modelName, int version, double accuracy) {
         super(); // Call parent constructor
-        this.name = name;
-        this.age = age;
-        this.wingspan = wingspan;
+        this.modelName = modelName;
+        this.version = version;
+        this.accuracy = accuracy;
     }
     
     @Override
-    public void eat() {
-        super.eat(); // Call parent method
-        System.out.println("and pecking seeds");
+    public void train() {
+        super.train(); // Call parent method
+        System.out.println("with speech recognition data");
     }
 }</code></pre>
 

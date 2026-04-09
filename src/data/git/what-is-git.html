@@ -1,29 +1,63 @@
-<p>
-  Git is a <strong>distributed version control system</strong> used to track changes
-  in source code during software development. It allows multiple developers to work
-  on the same project efficiently, safely, and independently.
-</p>
+<div class="flex items-start gap-6">
+  
+  <!-- Left: Text -->
+  <div class="w-3/5">
+    <p>
+      Git is a <strong>distributed version control system</strong> used to track changes
+      in source code during software development. It allows multiple developers to work
+      on the same project efficiently, safely, and independently.
+    </p>
 
-<p>
-  Git was originally created in <strong>2005</strong> by Linus Torvalds, the creator of
-  Linux. It was developed to replace <strong>BitKeeper</strong>, a proprietary version
-  control system previously used for the Linux kernel, after licensing issues arose.
-  The design of Git was heavily influenced by the needs of large-scale,
-  fast-moving, open-source projects.
-</p>
+    <p>
+      Git was originally created in <strong>2005</strong> by <strong>Linus Torvalds</strong>, the creator of
+      <iconify-icon icon="logos:linux-tux" width="16" height="16"></iconify-icon> <strong>Linux</strong>. It was developed to replace <strong>BitKeeper</strong>, a proprietary version
+      control system previously used for the Linux kernel, after licensing issues arose.
+      The design of Git was heavily influenced by the needs of large-scale,
+      fast-moving, open-source projects. 
+      <a href="https://git-scm.com/book/ms/v2/Getting-Started-A-Short-History-of-Git" data-tooltip="Learn more about the history of Git">
+        <iconify-icon icon="eos-icons:machine-learning-outlined" width="16" height="16"></iconify-icon>
+      </a>
+    </p>
 
-<p>
-  From the beginning, Git was built with several key goals in mind:
-</p>
+    <p>
+      From the beginning, Git was built with several key goals in mind:
+    </p>
 
-<ul class="list-arrow">
-  <li ><strong>Support for non-linear development</strong> through lightweight branching and merging</li>
-  <li ><strong>Distributed development</strong>, allowing developers to work independently and collaborate later</li>
-  <li ><strong>Compatibility with existing systems and protocols</strong> such as SSH, HTTP, and HTTPS</li>
-  <li ><strong>Efficient handling of large projects</strong> with thousands of files and long histories</li>
-  <li ><strong>Cryptographic authentication of history</strong>, ensuring the integrity and authenticity of commits</li>
-  <li ><strong>Pluggable merge strategies</strong>, enabling different approaches to combining changes</li>
-</ul>
+    <ul class="list-arrow">
+      <li ><strong>Support for non-linear development</strong> through lightweight branching and merging</li>
+      <li ><strong>Distributed development</strong>, allowing developers to work independently and collaborate later</li>
+      <li ><strong>Compatibility with existing systems and protocols</strong> such as SSH, HTTP, and HTTPS</li>
+      <li ><strong>Efficient handling of large projects</strong> with thousands of files and long histories</li>
+      <li ><strong>Cryptographic authentication of history</strong>, ensuring the integrity and authenticity of commits</li>
+      <li ><strong>Pluggable merge strategies</strong>, enabling different approaches to combining changes</li>
+    </ul>
+  </div>
+
+  <!-- Right: Image -->
+  <div class="w-2/5 flex flex-col items-center">
+    <figure class="flex flex-col items-center">
+      <img 
+        src="images/git_version_control.png"
+        alt="Git Version Control" 
+        class="h-70 w-auto" 
+      />
+      <figcaption class="text-sm mt-2 text-center">
+        Storing data as changes to a base version of each file<br />
+        <span class="text-xs text-gray-500">
+          Source: 
+          <a 
+            href="https://git-scm.com/book/ms/v2/Getting-Started-What-is-Git%3F" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="underline"
+          >
+            Git SCM Book
+          </a>
+        </span>
+      </figcaption>
+    </figure>
+  </div>
+</div>
 
 <p>
   Git follows a <strong>repository-based model</strong>. A Git repository contains

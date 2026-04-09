@@ -1,36 +1,37 @@
 <p>Encapsulation is the bundling of data and methods that operate on that data within a class, restricting direct access to some components.</p>
 
 <h3 class="mt-6 font-semibold text-lg">Private Fields with Getters and Setters:</h3>
-<pre><code class="language-java">public class BankAccount {
-    private String accountNumber;
-    private double balance;
+<pre><code class="language-java">public class AIModel {
+    private String modelName;
+    private double accuracy;
     
     // Constructor
-    public BankAccount(String accountNumber, double initialBalance) {
-        this.accountNumber = accountNumber;
-        this.balance = initialBalance;
+    public AIModel(String modelName, double initialAccuracy) {
+        this.modelName = modelName;
+        this.accuracy = initialAccuracy;
     }
     
-    // Getter for accountNumber
-    public String getAccountNumber() {
-        return accountNumber;
+    // Getter for modelName
+    public String getModelName() {
+        return modelName;
     }
     
-    // Getter for balance
-    public double getBalance() {
-        return balance;
+    // Getter for accuracy
+    public double getAccuracy() {
+        return accuracy;
     }
     
-    // Setter with validation
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
+    // Method to improve model accuracy (like training)
+    public void train(double improvement) {
+        if (improvement > 0) {
+            accuracy += improvement;
         }
     }
     
-    public void withdraw(double amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
+    // Method to reduce accuracy (e.g., due to bad data)
+    public void degrade(double loss) {
+        if (loss > 0 && loss <= accuracy) {
+            accuracy -= loss;
         }
     }
 }</code></pre>
@@ -38,23 +39,24 @@
 <h3 class="mt-6 font-semibold text-lg">Using Encapsulated Class:</h3>
 <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
-        BankAccount account = new BankAccount("123456", 1000.0);
+        AIModel model = new AIModel("GPT", 0.85);
         
-        // Cannot access directly: account.balance = 5000; // ERROR
+        // Cannot access directly:
+        // model.accuracy = 1.0; // ERROR
         
         // Use public methods instead
-        account.deposit(500);
-        System.out.println("Balance: " + account.getBalance()); // Output: 1500.0
+        model.train(0.05);
+        System.out.println("Accuracy: " + model.getAccuracy()); // Output: 0.90
         
-        account.withdraw(200);
-        System.out.println("Balance: " + account.getBalance()); // Output: 1300.0
+        model.degrade(0.02);
+        System.out.println("Accuracy: " + model.getAccuracy()); // Output: 0.88
     }
 }</code></pre>
 
 <h3 class="mt-6 font-semibold text-lg">Benefits of Encapsulation:</h3>
 <ul class="list-arrow">
-  <li><strong>Data Hiding</strong>: Internal state is protected from outside access</li>
-  <li><strong>Validation</strong>: Control how data is modified through setters</li>
-  <li><strong>Flexibility</strong>: Change internal implementation without affecting external code</li>
-  <li><strong>Security</strong>: Prevent unauthorized access to sensitive data</li>
+  <li><strong>Data Hiding</strong>: Internal state (e.g., model accuracy) is protected from direct access</li>
+  <li><strong>Validation</strong>: Control how data changes (e.g., prevent negative accuracy)</li>
+  <li><strong>Flexibility</strong>: Internal logic (training, updates) can change without affecting external code</li>
+  <li><strong>Security</strong>: Prevent invalid or unsafe modifications</li>
 </ul>

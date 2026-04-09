@@ -55,7 +55,7 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           className="group flex items-center gap-1.5 px-3 py-1.5 rounded-md
-                     border-b-2 border-transparent
+                     border-b-4 border-transparent
                      transition-all duration-200
                      hover:bg-white hover:border-[var(--color-orange)]"
         >

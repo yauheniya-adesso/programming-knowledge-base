@@ -8,7 +8,8 @@
   --color-*: initial;
   --color-white: #fff;
   --color-black: #000000;
-  --color-blue:  #006EC7;
+  --color-blue:     #006EC7;
+  --color-blue-500: #006EC7;
   --color-purple:#461EBE;
   --color-orange:#FF9868;
   --color-brown: #887D75;
@@ -267,6 +268,22 @@ pre:hover .copy-button {
 
 [data-tooltip]:hover iconify-icon {
   color: var(--color-orange);
+}
+
+/* ===============================
+   Brand Link Style
+   =============================== */
+.brand-link {
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.brand-link:hover {
+  color: var(--color-pink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-orange);
+  text-decoration-thickness: 2px;
 }
 
 /* ===============================

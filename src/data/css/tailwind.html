@@ -1,15 +1,27 @@
 <p>
-<iconify-icon icon="devicon:tailwindcss" height="14"></iconify-icon> Tailwind CSS is a <strong>utility-first</strong> CSS framework that lets you style
+<iconify-icon icon="devicon:tailwindcss" height="14"></iconify-icon> <a href="https://tailwindcss.com/" target="_blank" class="brand-link">Tailwind CSS</a> is a <strong>utility-first</strong> CSS framework that lets you style
 elements directly using predefined classes.
 </p>
 
 <p><strong>Installation (via npm):</strong></p>
-<code class="language-bash">npm install -D tailwindcss</code>
+<pre class="inline-block"><code class="language-bash">npm install -D tailwindcss</code></pre>
 
-<p><strong>Example usage:</strong></p>
-<code class="language-html">&lt;button class="bg-blue-500 text-white px-4 py-2 rounded"&gt;
-Click me
-&lt;/button&gt;</code>
+<div class="flex gap-4 items-start">
+  <div class="w-1/2">
+    <p><strong>Example usage:</strong></p>
+    <pre><code class="language-html">&lt;button class="bg-transparent hover:bg-blue-500 
+      text-blue-500 font-semibold hover:text-white 
+      py-2 px-4 border border-blue-500 rounded"&gt;
+  Button
+&lt;/button&gt;</code></pre>
+  </div>
+  <div class="w-1/2">
+    <p><strong>Rendered result:</strong></p>
+    <button class="bg-transparent hover:bg-blue-500 text-blue-500 font-semibold hover:text-white py-2 px-4 border border-blue-500 rounded">
+      Button
+    </button>
+  </div>
+</div>
 
 <p><strong>Common Tailwind CSS utility classes:</strong></p>
 
@@ -22,7 +34,7 @@ Click me
       Example: <code>bg-blue-500</code> sets a medium blue background. <br>
       The number (100–900) represents the shade intensity (100 = light, 900 = dark).<br>
       You can also add transparency: <code>bg-blue-500/50</code> is 50% opacity.<br>
-      <a href="https://tailwindcss.com/docs/colors" target="_blank">Full color palette</a>.
+      <a href="https://tailwindcss.com/docs/colors" target="_blank" class="brand-link">Full color palette</a>.
     </em>
   </li>
 
@@ -42,7 +54,7 @@ Click me
     <code class="language-html">text-sm, text-lg, font-bold, text-center</code><br>
     <em>
       Example: <code>text-sm</code> = small text, <code>text-lg</code> = larger text.<br>
-      Numbers indicate relative sizes; see the <a href="https://tailwindcss.com/docs/font-size" target="_blank">Tailwind font-size docs</a>.<br>
+      Numbers indicate relative sizes; see the <a href="https://tailwindcss.com/docs/font-size" target="_blank" class="brand-link">Tailwind font-size docs</a>.<br>
       <code>font-bold</code> makes text bold; <code>text-center</code> centers text horizontally.
     </em>
   </li>

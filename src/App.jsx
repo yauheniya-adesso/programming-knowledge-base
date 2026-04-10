@@ -10,24 +10,35 @@ import Git from './pages/Git';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('Home');
+  const [targetSection, setTargetSection] = useState(null);
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const handleNavigate = (destination) => {
+    if (typeof destination === 'object') {
+      setCurrentPage(destination.page);
+      setTargetSection(destination.section ?? null);
+    } else {
+      setCurrentPage(destination);
+      setTargetSection(null);
+    }
+  };
 
   const renderPage = () => {
     switch(currentPage) {
       case 'Home':
-        return <Home onNavigate={setCurrentPage} />;
+        return <Home onNavigate={handleNavigate} />;
       case 'JavaScript':
         return <JavaScript />;
       case 'HTML':
         return <HTML />;
       case 'CSS':
-        return <CSS />;
+        return <CSS initialSection={targetSection} />;
       case 'Java':
         return <Java />;
       case 'Git':
         return <Git />;
       default:
-        return <Home onNavigate={setCurrentPage} />;
+        return <Home onNavigate={handleNavigate} />;
     }
   };
 
@@ -37,7 +48,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navigation 
         currentPage={currentPage}
-        onNavigate={setCurrentPage}
+        onNavigate={handleNavigate}
         isOpen={isNavOpen}
         onToggle={() => setIsNavOpen(!isNavOpen)}
       />

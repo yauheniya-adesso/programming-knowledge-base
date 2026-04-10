@@ -132,7 +132,13 @@ const Home = ({ onNavigate }) => {
                 }}
                 onMouseEnter={() => setHoveredPlanet(i)}
                 onMouseLeave={() => setHoveredPlanet(null)}
-                onClick={() => onNavigate(planet.label)}
+                onClick={() => {
+                  if (planet.label === 'Tailwind CSS') {
+                    onNavigate({ page: 'CSS', section: 'tailwind-css' });
+                  } else {
+                    onNavigate(planet.label);
+                  }
+                }}
               >
                 <img
                   src={displayIcon}

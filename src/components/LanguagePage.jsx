@@ -9,8 +9,8 @@ import 'prismjs/components/prism-java';
 import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-css';
 
-const LanguagePage = ({ content }) => {
-  const [activeSection, setActiveSection] = useState(content.sections[0]?.id);
+const LanguagePage = ({ content, initialSection }) => {
+  const [activeSection, setActiveSection] = useState(initialSection ?? content.sections[0]?.id);
   const containerRef = useRef(null);
 
   // Scroll to section
@@ -24,8 +24,17 @@ const LanguagePage = ({ content }) => {
 
   // Update active section when content changes
   useEffect(() => {
-    setActiveSection(content.sections[0]?.id);
+    setActiveSection(initialSection ?? content.sections[0]?.id);
   }, [content]);
+
+  // Scroll to initialSection on mount
+  useEffect(() => {
+    if (initialSection) {
+      setTimeout(() => {
+        document.getElementById(initialSection)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [initialSection]);
 
   // Highlight + add copy buttons after DOM updates
   useEffect(() => {

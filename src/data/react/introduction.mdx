@@ -1,0 +1,74 @@
+import { Icon } from '@iconify/react'
+
+<Icon icon="logos:react" height={14} style={{display: 'inline', verticalAlign: 'middle'}} /> **React** is an open-source JavaScript **library** for building user interfaces, maintained by <Icon icon="logos:meta-icon" height={14} style={{display: 'inline', verticalAlign: 'middle'}} /> **Meta (Facebook)** and an active community of developers and companies.
+
+React was first developed internally at Facebook by **Jordan Walke** and was publicly released in **May 2013**. It introduced the concept of a **virtual DOM** to efficiently update only the parts of the UI that changed.
+
+---
+
+## Create React App vs Vite
+
+Both are tools for bootstrapping a React project, but they differ significantly in speed and architecture:
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2">
+    <p><strong>Create React App (CRA)</strong></p>
+    <ul className="list-arrow">
+      <li>Official React starter by the React team (now in maintenance mode)</li>
+      <li>Uses <strong>Webpack</strong> under the hood — slower cold starts and rebuilds</li>
+      <li>Zero configuration out of the box</li>
+      <li>Larger bundle and longer startup time on big projects</li>
+      <li>No longer recommended for new projects</li>
+    </ul>
+  </div>
+  <div className="w-1/2">
+    <p><Icon icon="devicon:vitejs" height={14} style={{display: 'inline', verticalAlign: 'middle'}} /> <strong>Vite</strong></p>
+    <ul className="list-arrow">
+      <li>Modern build tool by <strong>Evan You</strong> (creator of <Icon icon="logos:vue" height={14} style={{display: 'inline', verticalAlign: 'middle'}} /> Vue)</li>
+      <li>Uses native <strong>ES modules</strong> in dev — near-instant startup</li>
+      <li>Uses <strong>Rollup</strong> for production builds</li>
+      <li>Noticeably faster HMR (Hot Module Replacement)</li>
+      <li><strong>Recommended</strong> for new React projects</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Setting Up a React Project with Vite
+
+<div className="flex gap-2 items-start">
+  <div className="flex-1">
+    <p><strong>Step 1 – Scaffold the project</strong></p>
+    <pre><code className="language-bash">{`npm create vite@latest my-app -- --template react`}</code></pre>
+  </div>
+  <div className="flex items-center self-center text-2xl px-1 text-blue">→</div>
+  <div className="flex-1">
+    <p><strong>Step 2 – Install dependencies</strong></p>
+    <pre><code className="language-bash">{`cd my-app
+npm install`}</code></pre>
+  </div>
+  <div className="flex items-center self-center text-2xl px-1 text-blue">→</div>
+  <div className="flex-1">
+    <p><strong>Step 3 – Start the dev server</strong></p>
+    <pre><code className="language-bash">{`npm run dev`}</code></pre>
+  </div>
+</div>
+
+The generated project structure looks like this:
+
+<pre><code className="language-bash">{`my-app/
+├── index.html          ← entry HTML file
+├── vite.config.js      ← Vite configuration
+├── package.json
+└── src/
+    ├── main.jsx        ← mounts the React app
+    ├── App.jsx         ← root component
+    └── assets/         ← static assets`}</code></pre>
+
+<ul className="list-arrow">
+  <li><code>main.jsx</code> — bootstraps React and renders <code>{`<App />`}</code> into <code>index.html</code></li>
+  <li><code>App.jsx</code> — the root component where you build your UI</li>
+  <li><code>vite.config.js</code> — configure plugins, aliases, and build options</li>
+  <li><code>package.json</code> — lists project dependencies, scripts (<code>dev</code>, <code>build</code>, <code>preview</code>), and metadata</li>
+</ul>

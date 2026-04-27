@@ -1,0 +1,16 @@
+CSS can be applied to HTML in three main ways:
+
+<ul className="list-arrow">
+  <li>
+    <strong>External stylesheet</strong> – Recommended approach for maintainability.<br />
+    <code className="language-html">{`<link rel="stylesheet" href="styles.css">`}</code>
+  </li>
+  <li>
+    <strong>Internal CSS</strong> – Defined inside the <code>{`<head>`}</code> tag.<br />
+    <code className="language-html">{`<style> body { color: black; } </style>`}</code>
+  </li>
+  <li>
+    <strong>Inline CSS</strong> – Applied directly to an element (use sparingly).<br />
+    <code className="language-html">{`<p style="color: red;">Text</p>`}</code>
+  </li>
+</ul>

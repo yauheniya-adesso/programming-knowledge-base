@@ -3,6 +3,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import JavaScript from './pages/JavaScript';
+import React from './pages/React';
 import HTML from './pages/HTML';
 import CSS from './pages/CSS';
 import Java from './pages/Java';
@@ -29,6 +30,8 @@ export default function App() {
         return <Home onNavigate={handleNavigate} />;
       case 'JavaScript':
         return <JavaScript />;
+      case 'React':
+        return <React />;
       case 'HTML':
         return <HTML />;
       case 'CSS':

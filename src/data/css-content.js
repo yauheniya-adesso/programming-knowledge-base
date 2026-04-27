@@ -1,8 +1,8 @@
 // src/data/css-content.js
-import cssIntro from './css/intro.html?raw';
-import cssUsage from './css/usage.html?raw';
-import tailwind from './css/tailwind.html?raw';
-import bootstrap from './css/bootstrap.html?raw';
+import CssIntro from './css/intro.mdx';
+import CssUsage from './css/usage.mdx';
+import Tailwind from './css/tailwind.mdx';
+import Bootstrap from './css/bootstrap.mdx';
 
 export const cssContent = {
   icon: "simple-icons:css3",
@@ -11,22 +11,22 @@ export const cssContent = {
     {
       id: "css-intro",
       title: "Overview",
-      content: cssIntro
+      Content: CssIntro
     },
     {
       id: "css-usage",
       title: "Using CSS",
-      content: cssUsage
+      Content: CssUsage
     },
     {
       id: "tailwind-css",
       title: "Tailwind CSS",
-      content: tailwind
+      Content: Tailwind
     },
     {
       id: "bootstrap",
       title: "Bootstrap",
-      content: bootstrap
+      Content: Bootstrap
     }
   ]
 };

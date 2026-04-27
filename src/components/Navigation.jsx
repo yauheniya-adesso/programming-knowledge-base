@@ -12,6 +12,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
     { name: 'HTML', icon: 'simple-icons:html5' },
     { name: 'CSS', icon: 'simple-icons:css3' },
     { name: 'JavaScript', icon: 'simple-icons:javascript' },
+    { name: 'React', icon: 'simple-icons:react' },
     { name: 'Git', icon: 'simple-icons:git' },
   ];
 

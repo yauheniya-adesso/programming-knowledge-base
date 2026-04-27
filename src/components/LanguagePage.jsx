@@ -110,7 +110,7 @@ const LanguagePage = ({ content, initialSection }) => {
       </aside>
 
       {/* Main content */}
-      <div className="flex-1" ref={containerRef}>
+      <div className="flex-1 min-w-0 overflow-x-hidden" ref={containerRef}>
         <div className="sticky top-16 z-10 -mx-8 px-8 -mt-8 pt-8 pb-3 bg-white">
           <h1 className="text-4xl font-bold flex items-center gap-4 text-black">
             {content.icon && (
@@ -121,21 +121,26 @@ const LanguagePage = ({ content, initialSection }) => {
         </div>
         <div className="mb-8" />
 
-        {content.sections.map((section) => (
-          <section
-            key={section.id}
-            id={section.id}
-            className="mb-12 bg-white rounded-lg shadow-md p-8"
-          >
-            <h2 className="text-2xl font-bold mb-4 border-b-2 border-[#006EC7] pb-2 text-[#006EC7]">
-              {section.title}
-            </h2>
-            <div
-              className="prose max-w-none text-black"
-              dangerouslySetInnerHTML={{ __html: section.content }}
-            />
-          </section>
-        ))}
+        {content.sections.map((section) => {
+          const SectionContent = section.Content;
+          return (
+            <section
+              key={section.id}
+              id={section.id}
+              className="mb-12 bg-white rounded-lg shadow-md p-8"
+            >
+              <h2 className="text-2xl font-bold mb-4 border-b-2 border-[#006EC7] pb-2 text-[#006EC7]">
+                {section.title}
+              </h2>
+              <div className="prose max-w-none text-black">
+                {SectionContent
+                  ? <SectionContent />
+                  : <div dangerouslySetInnerHTML={{ __html: section.content }} />
+                }
+              </div>
+            </section>
+          );
+        })}
       </div>
     </div>
   );

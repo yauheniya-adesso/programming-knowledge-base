@@ -8,10 +8,11 @@ An interactive web application showcasing fundamental programming languages and 
 </div>
 
 ## Tech Stack
-- <img src="https://api.iconify.design/logos:javascript.svg?color=%231C3C3C" alt="JavaScript" height="12" /> JavaScript - Core programming language
 - <img src="https://api.iconify.design/logos:react.svg?color=%231C3C3C" alt="React" height="12" /> React - Frontend framework
-- <img src="https://api.iconify.design/devicon:tailwindcss.svg?color=%231C3C3C" alt="Tailwind CSS" height="12" /> Tailwind CSS - Utility-first CSS framework
 - <img src="https://api.iconify.design/devicon:vitejs.svg?color=%231C3C3C" alt="Vite" height="12" /> Vite - Build tool and development server
+- <img src="https://api.iconify.design/logos:javascript.svg?color=%231C3C3C" alt="JavaScript" height="12" /> JavaScript - Core programming language
+- <img src="https://api.iconify.design/devicon:tailwindcss.svg?color=%231C3C3C" alt="Tailwind CSS" height="12" /> Tailwind CSS - Utility-first CSS framework
+- <img src="https://api.iconify.design/simple-icons:mdx.svg?color=%231C3C3C" alt="MDX" height="12" /> MDX - Preferred format for documentation content
 
 ## Deployment
 - <img src="https://api.iconify.design/codicon:github-inverted.svg?color=%231C3C3C" alt="Vite" height="12" /> GitHub Pages

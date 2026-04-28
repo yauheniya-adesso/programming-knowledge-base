@@ -17,7 +17,7 @@ An interactive web application showcasing fundamental programming languages and 
 - <img src="https://api.iconify.design/codicon:github-inverted.svg?color=%231C3C3C" alt="Vite" height="12" /> GitHub Pages
 
 ## License
-[MIT](LICENSE) 
+MIT
 
 ## Acknowledgements
 

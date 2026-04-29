@@ -14,9 +14,9 @@
   --color-blue-50:  #f7fafc;
   --color-purple:#461EBE;
   --color-orange:#FF9868;
+  --color-pink:  #F566BA;
   --color-brown: #887D75;
   --color-green: #76C800;
-  --color-pink:  #F566BA;
   --color-teal:  #28DCAA;
 }
 
@@ -79,6 +79,31 @@ ul.list-arrow li::before {
 }
 
 ul.list-arrow li::marker {
+  content: none !important;
+}
+
+ul.list-dash {
+  list-style-type: none !important;
+  margin-left: 0 !important;
+  margin-top: 0.5rem !important;
+  padding-left: 0.5rem !important;
+}
+
+ul.list-dash li {
+  position: relative !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0.25rem !important;
+}
+
+ul.list-dash li::before {
+  content: '–' !important;
+  color: #006EC7 !important;
+  position: absolute !important;
+  left: 0 !important;
+  font-weight: bold !important;
+}
+
+ul.list-dash li::marker {
   content: none !important;
 }
 

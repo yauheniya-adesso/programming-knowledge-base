@@ -1,0 +1,109 @@
+import { useState, useEffect } from 'react';
+
+export const TimerDemo = () => {
+  const [seconds, setSeconds] = useState(0);
+  const [running, setRunning] = useState(false);
+
+  useEffect(() => {
+    if (!running) return;
+    const id = setInterval(() => setSeconds(s => s + 1), 1000);
+    return () => clearInterval(id);
+  }, [running]);
+
+  const format = s =>
+    [Math.floor(s / 3600), Math.floor((s % 3600) / 60), s % 60]
+      .map(n => String(n).padStart(2, '0'))
+      .join(':');
+
+  return (
+    <div>
+      <p className="text-lg font-mono">{format(seconds)}</p>
+      <div className="flex gap-2 mt-2">
+        <button className="ad-button" onClick={() => setRunning(r => !r)}>
+          {running ? 'Pause' : 'Start'}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+**Hooks** are functions that let you "hook into" React features from function components. They always start with <code>use</code>.
+
+<ul className="list-arrow">
+  <li>
+    <strong><code>useState</code></strong> — manage local component state<br />
+    <div className="flex gap-4 items-start mt-2">
+      <div className="w-1/2 min-w-0">
+        <pre className="overflow-x-auto"><code className="language-jsx">{`import { useState } from 'react';
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+  const [running, setRunning] = useState(false);
+
+  const format = s =>
+    [Math.floor(s / 3600), Math.floor((s % 3600) / 60), s % 60]
+      .map(n => String(n).padStart(2, '0'))
+      .join(':');
+
+  return (
+    <div>
+      <p>{format(seconds)}</p>
+      <button onClick={() => setRunning(r => !r)}>
+        {running ? 'Pause' : 'Start'}
+      </button>
+    </div>
+  );
+}`}</code></pre>
+      </div>
+      <div className="w-1/2 min-w-0">
+        <div className="border-1 border-blue rounded-lg overflow-hidden text-sm">
+          <div className="bg-blue-50 px-4 py-2 border-b border-blue">
+            <strong>Rendered result</strong>
+          </div>
+          <div className="p-4">
+            <TimerDemo />
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+  <li>
+    <strong><code>useEffect</code></strong> — run side effects (data fetching, subscriptions, DOM updates) after render<br />
+    <pre className="overflow-x-auto"><code className="language-jsx">{`import { useEffect } from 'react';
+
+useEffect(() => {
+  document.title = 'Page loaded';
+}, []); // [] = run once on mount`}</code></pre>
+  </li>
+  <li>
+    <strong><code>useRef</code></strong> — hold a mutable value or reference a DOM element without triggering re-renders<br />
+    <pre className="overflow-x-auto"><code className="language-jsx">{`import { useRef } from 'react';
+
+const inputRef = useRef(null);
+// <input ref={inputRef} />
+// inputRef.current.focus();`}</code></pre>
+  </li>
+  <li>
+    <strong><code>useContext</code></strong> — consume a React context value without prop drilling<br />
+    <pre className="overflow-x-auto"><code className="language-jsx">{`import { useContext } from 'react';
+
+const theme = useContext(ThemeContext);`}</code></pre>
+  </li>
+  <li>
+    <strong><code>useMemo</code></strong> — memoize an expensive computed value so it only recalculates when dependencies change<br />
+    <pre className="overflow-x-auto"><code className="language-jsx">{`import { useMemo } from 'react';
+
+const sorted = useMemo(
+  () => items.sort(),
+  [items]
+);`}</code></pre>
+  </li>
+  <li>
+    <strong><code>useCallback</code></strong> — memoize a function reference to prevent unnecessary re-renders in child components<br />
+    <pre className="overflow-x-auto"><code className="language-jsx">{`import { useCallback } from 'react';
+
+const handleClick = useCallback(() => {
+  doSomething(id);
+}, [id]);`}</code></pre>
+  </li>
+</ul>

@@ -1,0 +1,52 @@
+React handles events using **camelCase** event handler props (e.g. `onClick`, `onChange`). Handlers are functions passed as prop values.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Inline handler:</strong></p>
+    <pre className="overflow-x-auto"><code className="language-jsx">{`function App() {
+  return (
+    <button
+      className="ad-button"
+      onClick={() => alert('Clicked!')}
+    >
+      Click me
+    </button>
+  );
+}`}</code></pre>
+    <div className="border-1 border-blue rounded-lg overflow-hidden text-sm">
+      <div className="bg-blue-50 px-4 py-2 border-b border-blue"><strong>Rendered result</strong></div>
+      <div className="p-4"><button onClick={() => alert('Clicked!')} className="ad-button">Click me</button></div>
+    </div>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Named handler:</strong></p>
+    <pre className="overflow-x-auto"><code className="language-jsx">{`function App() {
+  function handleClick(e) {
+    console.log(e.target);
+  }
+
+  return (
+    <button className="ad-button" onClick={handleClick}>
+      Click me
+    </button>
+  );
+}`}</code></pre>
+    <div className="border-1 border-blue rounded-lg overflow-hidden text-sm">
+      <div className="bg-blue-50 px-4 py-2 border-b border-blue"><strong>Rendered result</strong></div>
+      <div className="p-4">
+        <button onClick={(e) => console.log(e.target)} className="ad-button">Click me</button>
+        <p className="mt-2 text-brown italic">Open DevTools console to see the log</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+**Common event props:**
+
+<ul className="list-arrow">
+  <li><code>onClick</code> — button / element click</li>
+  <li><code>onChange</code> — input / select value change</li>
+  <li><code>onSubmit</code> — form submission</li>
+  <li><code>onMouseEnter</code> / <code>onMouseLeave</code> — hover</li>
+  <li><code>onKeyDown</code> / <code>onKeyUp</code> — keyboard events</li>
+</ul>

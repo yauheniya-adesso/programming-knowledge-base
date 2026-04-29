@@ -1,0 +1,84 @@
+import { useState } from 'react';
+
+export const CounterDemo = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button className="ad-button" onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+};
+
+export const NameInputDemo = () => {
+  const [name, setName] = useState('');
+  return (
+    <div>
+      <input
+        value={name}
+        onChange={e => setName(e.target.value)}
+        placeholder="Type your name..."
+        className="ad-input"
+      />
+      <p>Hello, {name || '…'}!</p>
+    </div>
+  );
+};
+
+**State** is data managed *within* a component that can change over time. When state changes, React re-renders the component.
+
+Use the <code>useState</code> hook to add state to a function component:
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Counter example:</strong></p>
+    <pre className="overflow-x-auto"><code className="language-jsx">{`import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button className="ad-button" onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+    </div>
+  );
+}`}</code></pre>
+    <div className="border-1 border-blue rounded-lg overflow-hidden text-sm">
+      <div className="bg-blue-50 px-4 py-2 border-b border-blue"><strong>Rendered result</strong></div>
+      <div className="p-4"><CounterDemo /></div>
+    </div>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Text input example:</strong></p>
+    <pre className="overflow-x-auto"><code className="language-jsx">{`import { useState } from 'react';
+
+function NameInput() {
+  const [name, setName] = useState('');
+
+  return (
+    <div>
+      <input
+        value={name}
+        onChange={e => setName(e.target.value)}
+        className="ad-input"
+      />
+      <p>Hello, {name || '…'}!</p>
+    </div>
+  );
+}`}</code></pre>
+    <div className="border-1 border-blue rounded-lg overflow-hidden text-sm">
+      <div className="bg-blue-50 px-4 py-2 border-b border-blue"><strong>Rendered result</strong></div>
+      <div className="p-4"><NameInputDemo /></div>
+    </div>
+  </div>
+</div>
+
+<ul className="list-arrow">
+  <li><code>useState(initialValue)</code> returns <code>[currentValue, setterFunction]</code></li>
+  <li>Always use the setter function — never mutate state directly</li>
+  <li>State updates are <strong>asynchronous</strong> — React batches them for performance</li>
+  <li>Each component instance has its <strong>own independent state</strong></li>
+</ul>

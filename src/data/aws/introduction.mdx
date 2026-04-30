@@ -1,0 +1,109 @@
+import { Icon } from '@iconify/react'
+
+<Icon icon="logos:aws" height={16} style={{display: 'inline', verticalAlign: 'middle'}} /> **Amazon Web Services** is one of the world's most comprehensive cloud platforms. For Generative AI and Agentic AI workloads, the central service is **Amazon Bedrock** — a fully managed API that gives access to foundation models from Amazon, Anthropic, Meta, Mistral, and others, without managing any infrastructure.
+
+---
+
+## Why Amazon Bedrock?
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/3 min-w-0">
+    <p><Icon icon="mdi:lock-outline" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Security & Privacy</strong></p>
+    <ul className="list-arrow">
+      <li>Your data never leaves your AWS account</li>
+      <li>Models are not trained on your prompts</li>
+      <li>Fine-tuned models stay private to your account</li>
+      <li>VPC support for network isolation</li>
+    </ul>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><Icon icon="mdi:swap-horizontal" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Model Flexibility</strong></p>
+    <ul className="list-arrow">
+      <li>Single API for multiple model providers</li>
+      <li>Swap models without changing application code (Converse API)</li>
+      <li>Custom fine-tuning and continued pre-training</li>
+      <li>Cross-region inference profiles for resilience</li>
+    </ul>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><Icon icon="mdi:puzzle-outline" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Managed Agentic Stack</strong></p>
+    <ul className="list-arrow">
+      <li>Knowledge Bases for RAG (vector store included)</li>
+      <li>Agents for autonomous multi-step reasoning</li>
+      <li>Flows for visual workflow orchestration</li>
+      <li>Guardrails for safety and compliance</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## The AWS Agentic AI Stack
+
+<pre className="inline-block"><code className="language-bash">{`Agentic AI Application
+│
+├── Amazon Bedrock (core API)
+│   ├── Foundation Models      ← Nova, Claude, Llama, Mistral...
+│   ├── Converse API           ← stateful multi-turn chat
+│   ├── Prompt Management      ← versioned prompt templates
+│   └── Inference Profiles     ← cross-region routing
+│
+├── Knowledge Bases            ← RAG: S3 → embed → OpenSearch → retrieve
+├── Agents                     ← autonomous tool-use + memory
+├── Flows                      ← visual multi-step pipelines
+├── Guardrails                 ← PII, content policy, grounding checks
+│
+└── AgentCore (production hosting)
+    ├── Runtime                ← serverless agent hosting (sessions up to 8h)
+    ├── Memory                 ← short-term + long-term context
+    ├── Gateway                ← MCP-based tool integration
+    ├── Identity               ← per-agent auth + token vault
+    └── Observability          ← CloudWatch + OpenTelemetry`}</code></pre>
+
+---
+
+## Prerequisites
+
+<ul className="list-arrow">
+  <li>An <strong>AWS account</strong> with Bedrock model access enabled — <a className="brand-link" href="https://console.aws.amazon.com/bedrock" target="_blank">console.aws.amazon.com/bedrock</a></li>
+  <li>AWS CLI configured: <code>aws configure</code> (or use IAM roles / SSO in production)</li>
+  <li>Python <strong>3.10+</strong> and <code>pip</code></li>
+  <li>boto3 installed: <code>pip install boto3</code></li>
+</ul>
+
+<pre className='inline-block'><code className="language-bash">{`# Install the AWS SDK
+pip install boto3
+
+# Verify credentials
+aws sts get-caller-identity`}</code></pre>
+
+---
+
+## Regions and Inference Profiles
+
+Many Amazon foundation models require an **inference profile** rather than direct on-demand invocation. Use the system-defined cross-region prefixes:
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <pre className="overflow-x-auto"><code className="language-python">{`import boto3
+
+# Direct model IDs still work for some models
+MODEL_ID = "amazon.nova-pro-v1:0"
+
+# Cross-region inference profiles (required for Nova and others)
+EU_MODEL  = "eu.amazon.nova-micro-v1:0"   # routes across EU regions
+US_MODEL  = "us.amazon.nova-pro-v1:0"     # routes across US regions
+
+bedrock = boto3.client(
+    service_name='bedrock-runtime',
+    region_name='us-east-1',
+)`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <ul className="list-arrow">
+      <li>Enable model access in <strong>AWS Console → Bedrock → Model access</strong> before first use</li>
+      <li>If you get <em>"on-demand throughput isn't supported"</em>, switch to the cross-region inference profile ID (e.g. <code>eu.amazon.nova-micro-v1:0</code>)</li>
+      <li>Guardrail and model must be in the <strong>same region</strong> when using <code>invoke_model</code></li>
+    </ul>
+  </div>
+</div>

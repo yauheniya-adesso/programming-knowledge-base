@@ -1,0 +1,192 @@
+import { Icon } from '@iconify/react'
+
+**Amazon Bedrock AgentCore** is a suite of purpose-built, modular services that handle the production infrastructure for agentic AI applications — hosting, memory, tool integration, authentication, and observability — so you can focus on agent logic instead of undifferentiated infrastructure.
+
+---
+
+## The Traditional vs AgentCore Approach
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><Icon icon="mdi:close-circle-outline" height={20} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Traditional (DIY) approach</strong></p>
+    <ul className="list-arrow">
+      <li>Custom DynamoDB tables for conversation history</li>
+      <li>Custom Lambda + API Gateway for tool APIs</li>
+      <li>Custom auth layer (Cognito or custom JWT)</li>
+      <li>CloudWatch dashboards wired up manually</li>
+      <li>Lambda cold starts break long agent sessions</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><Icon icon="mdi:check-circle-outline" height={20} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>AgentCore approach</strong></p>
+    <ul className="list-arrow">
+      <li><strong>Runtime</strong> — serverless, sessions up to 8 hours</li>
+      <li><strong>Memory</strong> — short-term + long-term, managed</li>
+      <li><strong>Gateway</strong> — MCP-based tool integration</li>
+      <li><strong>Identity</strong> — per-agent auth + encrypted token vault</li>
+      <li><strong>Observability</strong> — automatic CloudWatch + OpenTelemetry</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Runtime — Purpose-Built Agent Hosting
+
+A serverless execution environment designed for agentic workloads. Unlike standard Lambda, it maintains agent context for **sessions up to 8 hours** with **100 MB payload capacity** for multi-modal content.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>MicroVM Isolation</strong></p>
+    <table className="brand-table">
+      <thead><tr><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Isolation</td><td>Each session runs in a dedicated microVM with isolated CPU, memory, and filesystem</td></tr>
+        <tr><td>Data safety</td><td>Complete separation prevents cross-session contamination</td></tr>
+        <tr><td>Cleanup</td><td>Automatic microVM termination and memory sanitisation after session end</td></tr>
+        <tr><td>Security</td><td>Deterministic security regardless of non-deterministic AI behaviour</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Framework & model support</strong></p>
+    <table className="brand-table">
+      <thead><tr><th>Dimension</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>Frameworks</td><td>LangGraph, CrewAI, Strands Agents, custom</td></tr>
+        <tr><td>LLM Providers</td><td>Amazon Bedrock, Anthropic, OpenAI, Google</td></tr>
+        <tr><td>Protocol</td><td>MCP (Model Context Protocol) for agent-to-tool communication</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+---
+
+## Memory — Context-Aware Intelligence
+
+Dual memory architecture giving agents the ability to remember and reason over past interactions.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Short-term memory</strong></p>
+    <ul className="list-arrow">
+      <li>Maintains full context within a session</li>
+      <li>Automatically scoped to the session ID</li>
+      <li>Available for the duration of the microVM lifetime</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Long-term memory</strong></p>
+    <ul className="list-arrow">
+      <li>Persists summaries and key facts across sessions</li>
+      <li>Configurable retention (days / session count)</li>
+      <li>Enables personalisation and continuity for returning users</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Gateway — Unified Tool Integration
+
+Gateway implements **Model Context Protocol (MCP)** as a standardised way for agents to discover and invoke tools — no custom translation code per tool.
+
+<table className="brand-table">
+  <thead><tr><th>MCP Method</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>tools/list</code></td><td>List all available tools</td></tr>
+    <tr><td><code>tools/call</code></td><td>Invoke a specific tool</td></tr>
+    <tr><td><code>x_amz_bedrock_agentcore_search</code></td><td>Semantic tool discovery</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Identity — Secure Agent Authentication
+
+Each agent receives a unique identity with fine-grained permissions — similar to Amazon Cognito but purpose-built for agents.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>SDK decorators</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`from bedrock_agentcore.identity import (
+    requires_access_token,
+    requires_api_key,
+)
+
+@requires_access_token
+def call_external_api(user_context):
+    # SDK automatically injects and validates OAuth token
+    pass
+
+@requires_api_key
+def call_third_party_service():
+    # SDK handles API key injection and validation
+    pass`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Secure Token Vault</strong></p>
+    <ul className="list-arrow">
+      <li>OAuth tokens, API keys, and client secrets encrypted at rest</li>
+      <li>Scoped access by default — agents only get what they need</li>
+      <li>Automatic credential rotation</li>
+      <li>Request verification from trusted origins</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Built-in Tools — Secure Execution Environments
+
+> Operational pattern: **Create resource → Launch session → Interact via API → Terminate session**
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><Icon icon="mdi:code-tags" height={24} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Code Interpreter</strong></p>
+    <table className="brand-table">
+      <thead><tr><th>Property</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Languages</td><td>Python, TypeScript, JavaScript</td></tr>
+        <tr><td>Security</td><td>Isolated sandbox in Bedrock-managed environment</td></tr>
+        <tr><td>Use cases</td><td>Data analysis, calculations, code generation and execution</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><Icon icon="mdi:web" height={24} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Browser Tool</strong></p>
+    <table className="brand-table">
+      <thead><tr><th>Property</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Environment</td><td>Locked-down, cloud-based browser runtime</td></tr>
+        <tr><td>Capabilities</td><td>Live web page interaction, research, web app testing</td></tr>
+        <tr><td>Security</td><td>Isolated execution with network controls</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+---
+
+## Observability — Production Monitoring
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>What is traced</strong></p>
+    <ul className="list-arrow">
+      <li><strong>Reasoning steps</strong> — complete decision-making process visibility</li>
+      <li><strong>Tool invocations</strong> — inputs, outputs, and execution time</li>
+      <li><strong>Model interactions</strong> — LLM requests, responses, and token usage</li>
+      <li><strong>Error tracking</strong> — detailed context for debugging</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Default telemetry integration</strong></p>
+    <ul className="list-arrow">
+      <li>Automatic <strong>CloudWatch</strong> integration — zero config</li>
+      <li><strong>OpenTelemetry</strong> compatibility for existing observability stacks</li>
+      <li>Key metrics: latency · token usage · session count · error rates</li>
+    </ul>
+  </div>
+</div>

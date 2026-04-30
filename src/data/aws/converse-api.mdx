@@ -1,0 +1,192 @@
+import { Icon } from '@iconify/react'
+
+---
+
+## Converse API
+
+The **Converse API** is a unified, stateful interface for conversational applications. Unlike `invoke_model`, it accepts a full conversation history and normalises the request/response format across all supported foundation models — swap models by changing one string.
+
+### Building Blocks
+
+<table className="brand-table">
+  <thead>
+    <tr><th>Field</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>system</code></td><td>Sets the model's role and constraints</td></tr>
+    <tr><td><code>messages</code></td><td>Array of <code>{`{role, content}`}</code> turns — the full conversation history</td></tr>
+    <tr><td><code>inferenceConfig</code></td><td><code>temperature</code>, <code>maxTokens</code>, <code>topP</code></td></tr>
+    <tr><td><code>toolConfig</code></td><td>Declares tools (Lambda functions, APIs) the model can call</td></tr>
+  </tbody>
+</table>
+
+### Multi-Turn Chat
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <pre className="overflow-x-auto"><code className="language-python">{`import boto3
+
+bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+MODEL   = "us.amazon.nova-pro-v1:0"
+
+def chat(history: list[dict], user_message: str) -> tuple[str, list]:
+    history.append({
+        "role": "user",
+        "content": [{"text": user_message}],
+    })
+
+    response = bedrock.converse(
+        modelId=MODEL,
+        system=[{"text": "You are a helpful assistant."}],
+        messages=history,
+        inferenceConfig={"maxTokens": 512, "temperature": 0.5},
+    )
+
+    reply = response["output"]["message"]["content"][0]["text"]
+    history.append({
+        "role": "assistant",
+        "content": [{"text": reply}],
+    })
+    return reply, history
+
+
+history = []
+reply, history = chat(history, "What is RAG?")
+print(reply)
+reply, history = chat(history, "Give me a Python example.")
+print(reply)`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Tool call flow</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import json
+
+tools = [{
+    "toolSpec": {
+        "name": "get_weather",
+        "description": "Get current weather for a city",
+        "inputSchema": {
+            "json": {
+                "type": "object",
+                "properties": {
+                    "city": {"type": "string"},
+                },
+                "required": ["city"],
+            }
+        },
+    }
+}]
+
+# 1. Send message + tool definitions
+resp = bedrock.converse(
+    modelId=MODEL,
+    messages=[{"role": "user", "content": [{"text": "Weather in Berlin?"}]}],
+    toolConfig={"tools": tools},
+)
+
+# 2. Model returns a toolUse block
+tool_call = resp["output"]["message"]["content"][0]["toolUse"]
+city = tool_call["input"]["city"]
+
+# 3. Execute tool, return result
+weather = {"temp": "18°C", "condition": "cloudy"}
+messages = [
+    {"role": "user",      "content": [{"text": "Weather in Berlin?"}]},
+    {"role": "assistant", "content": [{"toolUse": tool_call}]},
+    {"role": "user",      "content": [{"toolResult": {"toolUseId": tool_call["toolUseId"], "content": [{"json": weather}]}}]},
+]
+
+# 4. Final answer
+final = bedrock.converse(modelId=MODEL, messages=messages)
+print(final["output"]["message"]["content"][0]["text"])`}</code></pre>
+  </div>
+</div>
+
+### Production Notes
+
+<ul className="list-arrow">
+  <li>Store conversation history in <strong>DynamoDB</strong> or Redis — never in memory, which is lost on restart</li>
+  <li>Prune or summarize history before hitting the model's context window limit</li>
+  <li>Not all models support <code>system</code> prompts or every inference parameter — check model docs</li>
+</ul>
+
+---
+
+## Prompt Management
+
+Prompt Management stores prompts as versioned templates — separate from application code and consistent across environments.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Create a prompt template</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`bedrock_mgmt = boto3.client('bedrock-agent', region_name='us-east-1')
+
+prompt = bedrock_mgmt.create_prompt(
+    name="document-summariser",
+    variants=[{
+        "variantName": "v1-concise",
+        "modelId": "amazon.nova-pro-v1:0",
+        "inferenceConfig": {
+            "text": {"temperature": 0.2, "maxTokens": 300}
+        },
+        "templateConfig": {
+            "text": {
+                "text": "Summarise the following document in {{style}} style:\n\n{{document}}",
+                "inputVariables": [
+                    {"name": "style"},
+                    {"name": "document"},
+                ],
+            }
+        },
+    }],
+)
+prompt_id = prompt["id"]`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Invoke a saved prompt</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`response = bedrock.converse(
+    modelId="amazon.nova-pro-v1:0",
+    promptVariables={
+        "style":    {"text": "bullet points"},
+        "document": {"text": "...document content..."},
+    },
+    promptId=prompt_id,
+    promptVersion="DRAFT",
+)
+print(response["output"]["message"]["content"][0]["text"])`}</code></pre>
+    <p><strong>Variant fields</strong></p>
+    <table className="brand-table">
+      <thead>
+        <tr><th>Field</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>variantName</code></td><td>Identifier for A/B testing</td></tr>
+        <tr><td><code>modelId</code></td><td>Target foundation model</td></tr>
+        <tr><td><code>inferenceConfig</code></td><td>temperature, topP, stopSequences</td></tr>
+        <tr><td><code>templateConfig</code></td><td>Prompt text with <code>{`{{variable}}`}</code> placeholders</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+---
+
+## Bedrock Flows
+
+**Flows** is a visual, drag-and-drop workflow builder for multi-step generative AI pipelines — no orchestration glue code required.
+
+### Node Types
+
+<table className="brand-table">
+  <thead>
+    <tr><th>Category</th><th>Node</th><th>What It Does</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>I/O</td><td>Input / Output</td><td>Entry and exit points of the flow</td></tr>
+    <tr><td>Logic</td><td>Condition</td><td>Branches flow based on evaluated conditions</td></tr>
+    <tr><td>Logic</td><td>Iterator / Collector</td><td>Loops over arrays; re-assembles results</td></tr>
+    <tr><td>AI</td><td>Prompt Node</td><td>Calls a foundation model (inline or from Prompt Management)</td></tr>
+    <tr><td>Integration</td><td>S3 / Lambda / Lex / Agents</td><td>Connects to AWS services for data and custom logic</td></tr>
+  </tbody>
+</table>
+
+Flows are ideal for pipelines that combine **retrieval → generation → conditional branching** without writing orchestration code. Build and test visually in the Bedrock console, then invoke via SDK.

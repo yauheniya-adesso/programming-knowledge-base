@@ -1,0 +1,159 @@
+import { Icon } from '@iconify/react'
+
+**Amazon Bedrock Agents** autonomously break down a goal into steps, call tools (Action Groups), retrieve context (Knowledge Bases), and loop until the task is complete — no hard-coded workflow required.
+
+---
+
+## Key Components
+
+<table className="brand-table">
+  <thead>
+    <tr><th>Component</th><th>Role</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Foundation Model</strong></td><td>Reasons over inputs and decides which tool to call next</td></tr>
+    <tr><td><strong>Instructions</strong></td><td>Natural-language operating rules — scope, tone, constraints</td></tr>
+    <tr><td><strong>Action Groups</strong></td><td>Lambda functions or OpenAPI schemas the agent can invoke</td></tr>
+    <tr><td><strong>Knowledge Bases</strong></td><td>RAG sources for domain-specific context</td></tr>
+    <tr><td><strong>Memory</strong></td><td>Persists summaries across sessions (configurable by days or session count)</td></tr>
+  </tbody>
+</table>
+
+---
+
+## Create and Invoke an Agent
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Invoke an existing agent</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import boto3
+import uuid
+
+bedrock_agent = boto3.client(
+    'bedrock-agent-runtime',
+    region_name='us-east-1',
+)
+
+AGENT_ID    = "AGNT123456"
+AGENT_ALIAS = "TSTALIASID"
+
+response = bedrock_agent.invoke_agent(
+    agentId=AGENT_ID,
+    agentAliasId=AGENT_ALIAS,
+    sessionId=str(uuid.uuid4()),     # new session
+    inputText="Book a flight from Berlin to NYC for next Monday.",
+)
+
+# Stream the response chunks
+for event in response["completion"]:
+    if "chunk" in event:
+        text = event["chunk"]["bytes"].decode("utf-8")
+        print(text, end="", flush=True)`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Continue an existing session</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`SESSION_ID = "existing-session-id"
+
+# Reuse session to maintain context
+response = bedrock_agent.invoke_agent(
+    agentId=AGENT_ID,
+    agentAliasId=AGENT_ALIAS,
+    sessionId=SESSION_ID,
+    inputText="Make it business class instead.",
+)
+
+for event in response["completion"]:
+    if "chunk" in event:
+        print(event["chunk"]["bytes"].decode(), end="")`}</code></pre>
+    <p><strong>Session memory</strong></p>
+    <ul className="list-arrow">
+      <li>Pass the same <code>sessionId</code> to resume context</li>
+      <li>Agent memory persists summaries across sessions if enabled in config</li>
+      <li>Memory retention is configurable (days / session count) in the Bedrock console</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Action Groups — Giving the Agent Tools
+
+An Action Group connects the agent to a **Lambda function** or **OpenAPI schema**. The agent calls these tools autonomously when needed.
+
+<pre><code className="language-python">{`# Lambda handler — called by the agent
+def lambda_handler(event, context):
+    api_path   = event["apiPath"]               # e.g. "/search-flights"
+    parameters = event.get("parameters", [])
+
+    if api_path == "/search-flights":
+        origin      = next(p["value"] for p in parameters if p["name"] == "origin")
+        destination = next(p["value"] for p in parameters if p["name"] == "destination")
+        date        = next(p["value"] for p in parameters if p["name"] == "date")
+
+        # Your business logic here
+        flights = search_flights(origin, destination, date)
+
+        return {
+            "messageVersion": "1.0",
+            "response": {
+                "actionGroup": event["actionGroup"],
+                "apiPath": api_path,
+                "httpMethod": event["httpMethod"],
+                "httpStatusCode": 200,
+                "responseBody": {
+                    "application/json": {"body": str(flights)}
+                },
+            },
+        }`}</code></pre>
+
+<ul className="list-arrow">
+  <li>Define the Action Group schema as an <strong>OpenAPI 3.0 spec</strong> stored in S3 — the agent uses it to understand what tools exist and what parameters they take</li>
+  <li>Lambda permissions: grant <code>bedrock.amazonaws.com</code> the <code>lambda:InvokeFunction</code> permission on your function</li>
+</ul>
+
+---
+
+## Multi-Agent Collaboration
+
+Specialized sub-agents can be composed under an **orchestrator agent** that routes subtasks and merges results:
+
+<pre className="inline-block"><code className="language-bash">{`Orchestrator Agent
+├── receives complex user goal
+├── decomposes into subtasks
+│
+├── → Flight Booking Agent   (Action Group: search + book flights)
+├── → Calendar Agent         (Action Group: create calendar events)
+└── → Notification Agent     (Action Group: send emails / SMS)
+    │
+    └── merges all results → final response to user`}</code></pre>
+
+---
+
+## Strands Agents SDK (Alternative)
+
+**Strands Agents** is an open-source, lightweight SDK for building agents with any LLM provider — not just Bedrock.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Minimal example</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`from strands import Agent
+
+# Defaults to Amazon Bedrock (Claude Sonnet)
+agent = Agent()
+agent("Tell me about agentic AI")`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>With custom tools</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`from strands import Agent, tool
+
+@tool
+def search_docs(query: str) -> str:
+    """Search internal documentation."""
+    return retrieve_from_knowledge_base(query)
+
+agent = Agent(tools=[search_docs])
+agent("Summarise our refund policy")`}</code></pre>
+  </div>
+</div>
+
+Strands supports **streaming**, **multi-agent patterns**, built-in **observability**, and any LLM provider — Bedrock, Anthropic, OpenAI, Google.

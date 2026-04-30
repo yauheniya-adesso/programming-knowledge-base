@@ -1,0 +1,183 @@
+import { Icon } from '@iconify/react'
+
+**Amazon Bedrock** exposes foundation models via two invocation styles: synchronous `invoke_model` for text and image, and `start_async_invoke` for long-running tasks like video generation.
+
+---
+
+## Text Generation — `invoke_model`
+
+`invoke_model` sends a single request and returns the full response. It uses the **`messages-v1`** schema for Nova models.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Basic call</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import boto3
+import json
+
+MODEL_ID = "amazon.nova-pro-v1:0"
+
+bedrock = boto3.client(
+    service_name='bedrock-runtime',
+    region_name='us-east-1',
+)
+
+response = bedrock.invoke_model(
+    modelId=MODEL_ID,
+    body=json.dumps({
+        "schemaVersion": "messages-v1",
+        "messages": [
+            {
+                "role": "user",
+                "content": [{"text": "How does Amazon Bedrock compare to Azure OpenAI?"}],
+            }
+        ],
+        "inferenceConfig": {
+            "maxTokens": 500,
+            "topK": 20,
+            "temperature": 0.7,
+        },
+    }),
+)
+
+body = json.loads(response['body'].read())
+text = body["output"]["message"]["content"][0]["text"]
+print(text)`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Response structure</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`# body shape for Nova models
+{
+  "output": {
+    "message": {
+      "role": "assistant",
+      "content": [
+        {"text": "...response text..."}
+      ]
+    }
+  },
+  "stopReason": "end_turn",
+  "usage": {
+    "inputTokens": 42,
+    "outputTokens": 317,
+    "totalTokens": 359
+  }
+}`}</code></pre>
+    <p><strong>Inference parameters</strong></p>
+    <table className="brand-table">
+      <thead>
+        <tr><th>Parameter</th><th>Effect</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>temperature</code></td><td>Randomness (0 = deterministic, 1 = creative)</td></tr>
+        <tr><td><code>topK</code></td><td>Limit token sampling pool</td></tr>
+        <tr><td><code>topP</code></td><td>Nucleus sampling threshold</td></tr>
+        <tr><td><code>maxTokens</code></td><td>Max response length</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+---
+
+## Async Video Generation — `start_async_invoke`
+
+Video generation is long-running (minutes). Use `start_async_invoke` to submit a job, then poll its status. Output is written to **S3**.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Submit the job</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`VIDEO_MODEL = "amazon.nova-reel-v1:0"
+S3_OUTPUT   = "s3://my-bucket/video-output/"
+
+response = bedrock.start_async_invoke(
+    modelId=VIDEO_MODEL,
+    modelInput={
+        "taskType": "TEXT_VIDEO",
+        "textToVideoParams": {
+            "text": "A robot dancing on a mountain at sunset.",
+        },
+        "videoGenerationConfig": {
+            "durationSeconds": 6,
+            "fps": 24,
+            "dimension": "1280x720",
+            "seed": 42,
+        },
+    },
+    outputDataConfig={
+        "s3OutputDataConfig": {"s3Uri": S3_OUTPUT}
+    },
+)
+
+invocation_arn = response["invocationArn"]
+print(f"Job submitted: {invocation_arn}")`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Poll for completion</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import time
+
+def wait_for_video(invocation_arn: str, poll_seconds: int = 30):
+    while True:
+        status = bedrock.get_async_invoke(
+            invocationArn=invocation_arn
+        )
+        state = status["status"]
+        print(f"Status: {state}")
+
+        if state == "Completed":
+            s3_path = (
+                status["outputDataConfig"]
+                ["s3OutputDataConfig"]["s3Uri"]
+            )
+            print(f"Output: {s3_path}")
+            return s3_path
+
+        if state == "Failed":
+            raise RuntimeError(status.get("failureMessage"))
+
+        time.sleep(poll_seconds)
+
+
+output_path = wait_for_video(invocation_arn)`}</code></pre>
+  </div>
+</div>
+
+<ul className="list-arrow">
+  <li>The S3 bucket must be in the <strong>same region</strong> as the Bedrock client</li>
+  <li>Output filename is auto-generated inside the S3 prefix you provide</li>
+  <li>Video generation typically completes in <strong>2–5 minutes</strong> for a 6-second clip</li>
+  <li>Nova Reel does not support on-demand invocation — it always uses the async pattern</li>
+</ul>
+
+---
+
+## Build with Amazon Q Developer
+
+**Amazon Q Developer** is an AI coding assistant integrated into VS Code, JetBrains, and the AWS Console. Use it to scaffold Bedrock applications with a few prompts.
+
+### Example workflow
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>CLI app — prompt sequence</strong></p>
+    <ul className="list-arrow">
+      <li><em>"Create a Python CLI task tracker with priority sorting (1–5)"</em></li>
+      <li><em>"Add input validation and error handling"</em></li>
+      <li><em>"Convert to a Flask REST API with JSON persistence"</em></li>
+    </ul>
+    <p>Q generates the full file structure, explains each component, and suggests test cases.</p>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Flask REST API shape</strong></p>
+    <table className="brand-table">
+      <thead>
+        <tr><th>Endpoint</th><th>Method</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>/</code></td><td>GET</td><td>HTML frontend</td></tr>
+        <tr><td><code>/tasks</code></td><td>GET</td><td>List all tasks as JSON</td></tr>
+        <tr><td><code>/tasks</code></td><td>POST</td><td>Add <code>{`{name, priority}`}</code></td></tr>
+        <tr><td><code>/tasks/:id</code></td><td>DELETE</td><td>Remove by index</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

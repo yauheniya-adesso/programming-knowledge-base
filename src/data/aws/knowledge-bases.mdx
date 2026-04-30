@@ -1,0 +1,149 @@
+import { Icon } from '@iconify/react'
+
+**Amazon Bedrock Knowledge Bases** implements **Retrieval-Augmented Generation (RAG)** — grounding model responses in your own documents instead of relying solely on the model's training data. AWS manages the entire pipeline: ingestion, embedding, vector storage, and retrieval.
+
+---
+
+## How It Works
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>What Happens</th>
+      <th>AWS Service</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Ingest</strong></td>
+      <td>Documents are uploaded and chunked into text segments</td>
+      <td>Amazon S3</td>
+    </tr>
+    <tr>
+      <td><strong>2. Embed</strong></td>
+      <td>Each chunk is converted to a vector (numerical representation)</td>
+      <td>Amazon Titan Text Embeddings v2</td>
+    </tr>
+    <tr>
+      <td><strong>3. Store</strong></td>
+      <td>Vectors are indexed for fast semantic lookup</td>
+      <td>Amazon OpenSearch Serverless</td>
+    </tr>
+    <tr>
+      <td><strong>4. Query</strong></td>
+      <td>User question → embed → find similar vectors → generate answer with citations</td>
+      <td>Bedrock Foundation Model</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Setup Steps
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Console setup</strong></p>
+    <ul className="list-arrow">
+      <li><strong>1. Create</strong> — provide a name; Bedrock auto-creates the required IAM roles linking S3 and OpenSearch</li>
+      <li><strong>2. Data source</strong> — point to an S3 bucket (or Confluence, SharePoint, Salesforce, or a custom source)</li>
+      <li><strong>3. Parsing strategy</strong> — default covers text and PDF; use <em>Bedrock Data Automation</em> for multimodal content (charts, images)</li>
+      <li><strong>4. Chunking strategy</strong> — default: ~300-token chunks respecting sentence boundaries; alternatives: fixed size, hierarchical, semantic, or none</li>
+      <li><strong>5. Models & storage</strong> — choose an embedding model and a vector store; Bedrock can provision both automatically</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Recommended models</strong></p>
+    <table className="brand-table">
+      <thead>
+        <tr><th>Role</th><th>Model ID</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Embedding</td><td><code>amazon.titan-embed-text-v2:0</code></td></tr>
+        <tr><td>Generation</td><td><code>amazon.nova-pro-v1:0</code></td></tr>
+        <tr><td>Vector store</td><td>Amazon OpenSearch Serverless</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+---
+
+## Query via SDK
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Retrieve and generate (RAG)</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import boto3
+
+bedrock_agent = boto3.client(
+    'bedrock-agent-runtime',
+    region_name='us-east-1',
+)
+
+KNOWLEDGE_BASE_ID = "ABCDEF1234"
+MODEL_ARN = "arn:aws:bedrock:us-east-1::foundation-model/amazon.nova-pro-v1:0"
+
+response = bedrock_agent.retrieve_and_generate(
+    input={"text": "What is our refund policy?"},
+    retrieveAndGenerateConfiguration={
+        "type": "KNOWLEDGE_BASE",
+        "knowledgeBaseConfiguration": {
+            "knowledgeBaseId": KNOWLEDGE_BASE_ID,
+            "modelArn": MODEL_ARN,
+        },
+    },
+)
+
+print(response["output"]["text"])
+
+# Citations point back to the source documents
+for citation in response.get("citations", []):
+    for ref in citation.get("retrievedReferences", []):
+        print(ref["location"]["s3Location"]["uri"])`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Retrieve only (no generation)</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`# Get raw chunks without generating an answer
+# Useful when you want to pass context to your own prompt
+
+response = bedrock_agent.retrieve(
+    knowledgeBaseId=KNOWLEDGE_BASE_ID,
+    retrievalQuery={"text": "refund policy"},
+    retrievalConfiguration={
+        "vectorSearchConfiguration": {"numberOfResults": 5},
+    },
+)
+
+for result in response["retrievalResults"]:
+    score   = result["score"]
+    content = result["content"]["text"]
+    source  = result["location"]["s3Location"]["uri"]
+    print(f"[{score:.2f}] {source}\n{content[:200]}\n")`}</code></pre>
+  </div>
+</div>
+
+---
+
+## Sync the Index After New Uploads
+
+Whenever you add new documents to S3, trigger an ingestion job to update the index:
+
+<pre><code className="language-python">{`bedrock_mgmt = boto3.client('bedrock-agent', region_name='us-east-1')
+
+DATA_SOURCE_ID = "DATASRC123"
+
+job = bedrock_mgmt.start_ingestion_job(
+    knowledgeBaseId=KNOWLEDGE_BASE_ID,
+    dataSourceId=DATA_SOURCE_ID,
+)
+
+print(f"Ingestion job: {job['ingestionJob']['ingestionJobId']}")
+print(f"Status: {job['ingestionJob']['status']}")`}</code></pre>
+
+<ul className="list-arrow">
+  <li>Ingestion is asynchronous — poll <code>get_ingestion_job</code> or set up an EventBridge rule on completion</li>
+  <li>For continuous ingestion, enable <strong>automated sync</strong> in the Knowledge Base console</li>
+  <li>Bedrock uses <code>bedrock-agent-runtime</code> for query operations and <code>bedrock-agent</code> for management operations — two separate clients</li>
+</ul>

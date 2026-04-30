@@ -9,6 +9,7 @@ import CSS from './pages/CSS';
 import Java from './pages/Java';
 import Git from './pages/Git';
 import Azure from './pages/Azure';
+import AWS from './pages/AWS';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('Home');
@@ -43,6 +44,8 @@ export default function App() {
         return <Git />;
       case 'Azure':
         return <Azure />;
+      case 'AWS':
+        return <AWS />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }

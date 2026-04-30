@@ -14,6 +14,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
     { name: 'JavaScript', icon: 'simple-icons:javascript' },
     { name: 'React', icon: 'simple-icons:react' },
     { name: 'Git', icon: 'simple-icons:git' },
+    { name: 'Azure', icon: 'codicon:azure' },
   ];
 
   const handleNavigate = (page) => {

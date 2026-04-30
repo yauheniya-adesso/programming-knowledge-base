@@ -1,0 +1,197 @@
+import { Icon } from '@iconify/react'
+
+This section covers the five core Azure services used in Agentic AI document apps, and **exactly where to find each key or endpoint** in the Azure Portal.
+
+---
+
+## <Icon icon="devicon:azure-wordmark" height={96} style={{display: 'inline', verticalAlign: 'middle'}} /> OpenAI
+
+**Purpose:** Provides access to GPT-4, GPT-4o, and embedding models hosted by Microsoft. All API calls go through your own Azure resource — no shared OpenAI quota.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Where to find your credentials</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`Azure Portal
+└── Azure OpenAI (resource)
+    └── Resource Management
+        └── Keys and Endpoint
+            ├── KEY 1 / KEY 2        → AZURE_OPENAI_API_KEY
+            └── Endpoint             → AZURE_OPENAI_ENDPOINT`}</code></pre>
+    <ul className="list-arrow">
+      <li>The endpoint looks like: <code>https://&lt;resource-name&gt;.openai.azure.com/</code></li>
+      <li>Deployment name is set separately in <strong>Azure OpenAI Studio → Deployments</strong></li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Key environment variables</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`AZURE_OPENAI_ENDPOINT=https://<resource>.openai.azure.com/
+AZURE_OPENAI_API_KEY=<key1-or-key2>
+AZURE_OPENAI_DEPLOYMENT=gpt-4o          # chat
+AZURE_OPENAI_EMBEDDING_DEPLOYMENT=text-embedding-3-small`}</code></pre>
+  </div>
+</div>
+
+---
+
+## <Icon icon="devicon:azure-wordmark" height={96} style={{display: 'inline', verticalAlign: 'middle'}} /> AI Search
+
+**Purpose:** A managed search engine with support for full-text search, semantic re-ranking, and vector (embedding-based) search. The retrieval backbone for RAG pipelines.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Where to find your credentials</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`Azure Portal
+└── Search service (resource)
+    └── Keys
+        ├── Primary admin key   → AZURE_SEARCH_KEY
+        └── Url (Overview tab)  → AZURE_SEARCH_ENDPOINT`}</code></pre>
+    <ul className="list-arrow">
+      <li>The endpoint looks like: <code>https://&lt;resource&gt;.search.windows.net</code></li>
+      <li>Use the <strong>admin key</strong> for indexing; use a <strong>query key</strong> for read-only search in production</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Key environment variables</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`AZURE_SEARCH_ENDPOINT=https://<resource>.search.windows.net
+AZURE_SEARCH_KEY=<admin-key>
+AZURE_SEARCH_INDEX=<index-name>`}</code></pre>
+  </div>
+</div>
+
+---
+
+## <Icon icon="devicon:azure-wordmark" height={96} style={{display: 'inline', verticalAlign: 'middle'}} /> Blob Storage
+
+**Purpose:** Object storage for raw documents (PDFs, Word files, images). Acts as the ingestion source — files land here first, then get processed by Document Intelligence and indexed by AI Search.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Where to find your credentials</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`Azure Portal
+└── Storage account (resource)
+    └── Security + networking
+        └── Access keys
+            ├── key1 / key2         → part of connection string
+            └── Connection string   → AZURE_STORAGE_CONNECTION_STRING`}</code></pre>
+    <ul className="list-arrow">
+      <li>Prefer <strong>connection string</strong> for local dev; prefer <strong>Managed Identity</strong> in production</li>
+      <li>Create a dedicated <strong>container</strong> (e.g. <code>raw-documents</code>) for uploads</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Key environment variables</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;
+  AccountName=<name>;AccountKey=<key>;EndpointSuffix=core.windows.net
+AZURE_STORAGE_CONTAINER=raw-documents
+AZURE_STORAGE_QUEUE_NAME=processing-tasks`}</code></pre>
+  </div>
+</div>
+
+---
+
+## <Icon icon="devicon:azure-wordmark" height={96} style={{display: 'inline', verticalAlign: 'middle'}} /> Document Intelligence
+
+**Purpose:** AI-powered document parsing. Extracts text, tables, key-value pairs, and layout structure from PDFs, images, and Office files. Essential for turning unstructured documents into agent-readable content.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Where to find your credentials</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`Azure Portal
+└── Document Intelligence (resource)
+    └── Overview
+        ├── Endpoint   → AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT
+        └── Keys (click "Manage keys")
+            └── KEY 1  → AZURE_DOCUMENT_INTELLIGENCE_KEY`}</code></pre>
+    <ul className="list-arrow">
+      <li>The endpoint looks like: <code>https://&lt;resource&gt;.cognitiveservices.azure.com/</code></li>
+      <li>Formerly called <strong>Form Recognizer</strong> — the SDK package name is still <code>azure-ai-formrecognizer</code> in older versions; use <code>azure-ai-documentintelligence</code> for v4+</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Key environment variables</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT=https://<resource>.cognitiveservices.azure.com/
+AZURE_DOCUMENT_INTELLIGENCE_KEY=<key1>`}</code></pre>
+  </div>
+</div>
+
+---
+
+## <Icon icon="devicon:azure-wordmark" height={96} style={{display: 'inline', verticalAlign: 'middle'}} /> SQL Database + Key Vault (Entra ID Auth)
+
+**Purpose:** Structured data store (e.g., user records, metadata, audit logs). In production, credentials are stored in **Azure Key Vault** and accessed via **Entra ID (formerly Azure AD)** service principal — no hardcoded passwords.
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Where to find your credentials</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`Azure Key Vault
+└── Secrets
+    ├── AZURE-CLIENT-ID      → AZURE_CLIENT_ID
+    └── AZURE-CLIENT-SECRET  → AZURE_CLIENT_SECRET
+
+Azure Portal
+└── Microsoft Entra ID
+    └── Overview
+        └── Tenant ID        → AZURE_TENANT_ID`}</code></pre>
+    <ul className="list-arrow">
+      <li>Log in with your <code>AM-UI#@rwe.onmicrosoft.com</code> account to access the Key Vault</li>
+      <li><code>AZURE_CLIENT_ID</code> + <code>AZURE_CLIENT_SECRET</code> + <code>AZURE_TENANT_ID</code> are used together for service principal authentication</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Key environment variables</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`AZURE_CLIENT_ID=<app-registration-client-id>
+AZURE_CLIENT_SECRET=<client-secret-value>
+AZURE_TENANT_ID=<directory-tenant-id>
+AZURE_SQL_SERVER=<server>.database.windows.net
+AZURE_SQL_DATABASE=<database-name>`}</code></pre>
+    <p><strong>Python auth pattern:</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`from azure.identity import ClientSecretCredential
+
+credential = ClientSecretCredential(
+    tenant_id=os.environ["AZURE_TENANT_ID"],
+    client_id=os.environ["AZURE_CLIENT_ID"],
+    client_secret=os.environ["AZURE_CLIENT_SECRET"],
+)`}</code></pre>
+  </div>
+</div>
+
+---
+
+## Quick Reference Table
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Portal Path to Keys</th>
+      <th>Env Variable</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Azure OpenAI</strong></td>
+      <td>Resource → Resource Management → Keys and Endpoint</td>
+      <td><code>AZURE_OPENAI_API_KEY</code>, <code>AZURE_OPENAI_ENDPOINT</code></td>
+    </tr>
+    <tr>
+      <td><strong>Azure AI Search</strong></td>
+      <td>Search service → Keys</td>
+      <td><code>AZURE_SEARCH_KEY</code>, <code>AZURE_SEARCH_ENDPOINT</code></td>
+    </tr>
+    <tr>
+      <td><strong>Azure Storage</strong></td>
+      <td>Storage account → Security + networking → Access keys</td>
+      <td><code>AZURE_STORAGE_CONNECTION_STRING</code></td>
+    </tr>
+    <tr>
+      <td><strong>Document Intelligence</strong></td>
+      <td>Document Intelligence → Overview</td>
+      <td><code>AZURE_DOCUMENT_INTELLIGENCE_KEY</code>, <code>AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT</code></td>
+    </tr>
+    <tr>
+      <td><strong>SQL / Key Vault</strong></td>
+      <td>Key Vault → Secrets; Entra ID → Overview (Tenant ID)</td>
+      <td><code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_SECRET</code>, <code>AZURE_TENANT_ID</code></td>
+    </tr>
+  </tbody>
+</table>

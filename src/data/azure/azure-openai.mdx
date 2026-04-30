@@ -1,0 +1,184 @@
+import { Icon } from '@iconify/react'
+
+**Azure OpenAI** provides REST API access to OpenAI's GPT-4, GPT-4o, and embedding models, deployed within your own Azure subscription. All traffic stays within your Azure tenant — no data is sent to OpenAI's shared infrastructure.
+
+---
+
+## Concepts
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/3 min-w-0">
+    <p><strong>Resource</strong></p>
+    <p>The Azure OpenAI <em>resource</em> is the container you create in the Azure Portal. It has its own endpoint and API keys.</p>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><strong>Deployment</strong></p>
+    <p>Inside a resource, you create <em>deployments</em> — named instances of a model (e.g. <code>gpt-4o</code>). Your API calls reference the deployment name, not the raw model name.</p>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><strong>Quota</strong></p>
+    <p>Each subscription has regional <em>token-per-minute (TPM)</em> quotas per model family. Manage quotas via <strong>Azure OpenAI Studio → Quotas</strong>.</p>
+  </div>
+</div>
+
+---
+
+## Installation
+
+<pre><code className="language-bash">{`pip install openai                     # openai>=1.0.0 supports Azure natively
+pip install azure-identity             # for Managed Identity / Entra ID auth`}</code></pre>
+
+---
+
+## Chat Completions
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Basic chat call</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import os
+from openai import AzureOpenAI
+
+client = AzureOpenAI(
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    api_key=os.environ["AZURE_OPENAI_API_KEY"],
+    api_version="2024-02-01",
+)
+
+response = client.chat.completions.create(
+    model=os.environ["AZURE_OPENAI_DEPLOYMENT"],  # deployment name
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Summarise this document: ..."},
+    ],
+    temperature=0.2,
+    max_tokens=1024,
+)
+
+print(response.choices[0].message.content)`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Streaming response</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`stream = client.chat.completions.create(
+    model=os.environ["AZURE_OPENAI_DEPLOYMENT"],
+    messages=[{"role": "user", "content": "Explain RAG in 3 steps."}],
+    stream=True,
+)
+
+for chunk in stream:
+    delta = chunk.choices[0].delta
+    if delta.content:
+        print(delta.content, end="", flush=True)`}</code></pre>
+    <p><strong>Function / Tool calling</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`tools = [{
+    "type": "function",
+    "function": {
+        "name": "search_documents",
+        "description": "Search indexed documents by query",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string"},
+                "top_k": {"type": "integer", "default": 5},
+            },
+            "required": ["query"],
+        },
+    },
+}]
+
+response = client.chat.completions.create(
+    model=os.environ["AZURE_OPENAI_DEPLOYMENT"],
+    messages=[{"role": "user", "content": "What does the Q3 report say?"}],
+    tools=tools,
+    tool_choice="auto",
+)`}</code></pre>
+  </div>
+</div>
+
+---
+
+## Embeddings
+
+Embeddings convert text into a dense vector so you can find semantically similar content. Used to populate a vector index in Azure AI Search.
+
+<pre><code className="language-python">{`embedding_client = AzureOpenAI(
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    api_key=os.environ["AZURE_OPENAI_API_KEY"],
+    api_version="2024-02-01",
+)
+
+def embed_text(text: str) -> list[float]:
+    response = embedding_client.embeddings.create(
+        model=os.environ["AZURE_OPENAI_EMBEDDING_DEPLOYMENT"],  # e.g. text-embedding-3-small
+        input=text,
+    )
+    return response.data[0].embedding
+
+# Embed a document chunk
+vector = embed_text("Azure Document Intelligence extracts text from PDFs.")
+print(f"Vector length: {len(vector)}")  # 1536 for text-embedding-3-small`}</code></pre>
+
+---
+
+## Managed Identity Auth (Production)
+
+In production (e.g. Azure Container Apps, Azure Functions), avoid API keys entirely — use **Managed Identity**:
+
+<pre><code className="language-python">{`from azure.identity import DefaultAzureCredential, get_bearer_token_provider
+from openai import AzureOpenAI
+
+token_provider = get_bearer_token_provider(
+    DefaultAzureCredential(),
+    "https://cognitiveservices.azure.com/.default"
+)
+
+client = AzureOpenAI(
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    azure_ad_token_provider=token_provider,
+    api_version="2024-02-01",
+)
+
+# All subsequent calls are authenticated without an API key`}</code></pre>
+
+<ul className="list-arrow">
+  <li>Assign the <strong>Cognitive Services OpenAI User</strong> role to your app's managed identity in the Azure Portal</li>
+  <li><code>DefaultAzureCredential</code> automatically selects the right auth method: Managed Identity in Azure, <code>az login</code> locally</li>
+</ul>
+
+---
+
+## Agent Loop Pattern
+
+<pre><code className="language-python">{`import json
+
+def run_agent(user_message: str, tools: list, tool_functions: dict) -> str:
+    messages = [
+        {"role": "system", "content": "You are an agent. Use tools when needed."},
+        {"role": "user", "content": user_message},
+    ]
+
+    while True:
+        response = client.chat.completions.create(
+            model=os.environ["AZURE_OPENAI_DEPLOYMENT"],
+            messages=messages,
+            tools=tools,
+            tool_choice="auto",
+        )
+        msg = response.choices[0].message
+
+        # No tool call → final answer
+        if not msg.tool_calls:
+            return msg.content
+
+        messages.append(msg)
+
+        # Execute each tool call
+        for tool_call in msg.tool_calls:
+            fn_name = tool_call.function.name
+            fn_args = json.loads(tool_call.function.arguments)
+            result = tool_functions[fn_name](**fn_args)
+
+            messages.append({
+                "role": "tool",
+                "tool_call_id": tool_call.id,
+                "content": str(result),
+            })`}</code></pre>

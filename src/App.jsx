@@ -8,6 +8,7 @@ import HTML from './pages/HTML';
 import CSS from './pages/CSS';
 import Java from './pages/Java';
 import Git from './pages/Git';
+import Azure from './pages/Azure';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('Home');
@@ -40,6 +41,8 @@ export default function App() {
         return <Java />;
       case 'Git':
         return <Git />;
+      case 'Azure':
+        return <Azure />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }

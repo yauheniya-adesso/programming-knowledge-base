@@ -1,0 +1,194 @@
+import { Icon } from '@iconify/react'
+
+**Azure Document Intelligence** (formerly Form Recognizer) is an AI service that extracts structured content from documents — PDFs, images, Word files, and more. It understands layout, tables, key-value pairs, and document-specific patterns, making unstructured files agent-readable.
+
+---
+
+## Models Overview
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/3 min-w-0">
+    <p><strong>Prebuilt Models</strong></p>
+    <p>Ready-made models for common document types. No training required.</p>
+    <ul className="list-arrow">
+      <li><code>prebuilt-layout</code> — general text, tables, selection marks</li>
+      <li><code>prebuilt-invoice</code> — invoices (vendor, amount, line items)</li>
+      <li><code>prebuilt-receipt</code> — retail receipts</li>
+      <li><code>prebuilt-contract</code> — contracts & agreements</li>
+      <li><code>prebuilt-read</code> — plain text extraction (fastest)</li>
+    </ul>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><strong>Layout Model</strong></p>
+    <p>The most versatile prebuilt model. Extracts:</p>
+    <ul className="list-arrow">
+      <li>Full text with bounding boxes (coordinates)</li>
+      <li>Tables with row/column structure</li>
+      <li>Paragraphs and headings</li>
+      <li>Page numbers and document sections</li>
+    </ul>
+    <p>Best choice for <strong>general document ingestion</strong> in RAG pipelines.</p>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><strong>Custom Models</strong></p>
+    <p>Train on your own labelled documents via the <strong>Document Intelligence Studio</strong>. Useful when your documents have a non-standard structure (e.g. specific report formats, internal forms).</p>
+    <ul className="list-arrow">
+      <li>Label 5+ documents via the Studio UI</li>
+      <li>Train, test, and deploy</li>
+      <li>Reference by custom model ID in the SDK</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Installation
+
+<pre><code className="language-bash">{`pip install azure-ai-documentintelligence   # v4+ (current)
+pip install azure-identity`}</code></pre>
+
+---
+
+## Extract Text and Layout from a PDF
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>From a local file</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import os
+from azure.ai.documentintelligence import DocumentIntelligenceClient
+from azure.ai.documentintelligence.models import AnalyzeDocumentRequest
+from azure.core.credentials import AzureKeyCredential
+
+client = DocumentIntelligenceClient(
+    endpoint=os.environ["AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT"],
+    credential=AzureKeyCredential(os.environ["AZURE_DOCUMENT_INTELLIGENCE_KEY"]),
+)
+
+with open("report.pdf", "rb") as f:
+    poller = client.begin_analyze_document(
+        model_id="prebuilt-layout",
+        body=f,
+        content_type="application/pdf",
+    )
+
+result = poller.result()
+
+# Extract all text per page
+for page in result.pages:
+    print(f"=== Page {page.page_number} ===")
+    for line in page.lines:
+        print(line.content)`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>From a URL (e.g. Blob Storage SAS URL)</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`poller = client.begin_analyze_document(
+    model_id="prebuilt-layout",
+    body=AnalyzeDocumentRequest(
+        url_source="https://<storage>.blob.core.windows.net/raw-documents/report.pdf?<sas>"
+    ),
+)
+
+result = poller.result()
+
+# Extract tables
+for table in result.tables:
+    print(f"Table: {table.row_count} rows x {table.column_count} cols")
+    for cell in table.cells:
+        print(f"  [{cell.row_index},{cell.column_index}] {cell.content}")`}</code></pre>
+  </div>
+</div>
+
+---
+
+## Extract and Chunk for RAG
+
+The most common pattern: extract text from a document and split it into overlapping chunks for embedding + indexing.
+
+<pre><code className="language-python">{`def extract_and_chunk(file_path: str, chunk_size: int = 400, overlap: int = 50) -> list[dict]:
+    """
+    Extract text from a PDF and return chunks ready for embedding.
+    Each chunk includes the source file name and page number.
+    """
+    with open(file_path, "rb") as f:
+        poller = client.begin_analyze_document(
+            model_id="prebuilt-layout",
+            body=f,
+            content_type="application/pdf",
+        )
+    result = poller.result()
+
+    chunks = []
+
+    for page in result.pages:
+        page_text = " ".join(line.content for line in (page.lines or []))
+        words = page_text.split()
+
+        # Sliding window chunking
+        i = 0
+        while i < len(words):
+            chunk_words = words[i : i + chunk_size]
+            chunks.append({
+                "content": " ".join(chunk_words),
+                "source": os.path.basename(file_path),
+                "page": page.page_number,
+            })
+            i += chunk_size - overlap
+
+    return chunks
+
+
+# Usage
+chunks = extract_and_chunk("q3-report.pdf")
+print(f"Extracted {len(chunks)} chunks")`}</code></pre>
+
+---
+
+## Extract Tables as Structured Data
+
+<pre><code className="language-python">{`import pandas as pd
+
+def tables_to_dataframes(result) -> list[pd.DataFrame]:
+    """Convert Document Intelligence tables to pandas DataFrames."""
+    dfs = []
+    for table in (result.tables or []):
+        data = {}
+        for cell in table.cells:
+            col = cell.column_index
+            row = cell.row_index
+            if col not in data:
+                data[col] = {}
+            data[col][row] = cell.content
+
+        df = pd.DataFrame(data).sort_index()
+        # Promote first row to header
+        df.columns = df.iloc[0]
+        df = df[1:].reset_index(drop=True)
+        dfs.append(df)
+
+    return dfs`}</code></pre>
+
+---
+
+## Ingestion Pipeline: Blob → Document Intelligence → AI Search
+
+<pre><code className="language-bash">{`Blob Storage (raw-documents/)
+    │
+    ▼  triggered by Storage Queue message
+Document Intelligence (prebuilt-layout)
+    │  extract text per page, identify tables
+    ▼
+Chunking (400 tokens, 50 overlap)
+    │
+    ▼
+Azure OpenAI Embeddings (text-embedding-3-small)
+    │
+    ▼
+Azure AI Search (upload_documents)
+    │
+    ▼
+Agent can now retrieve relevant context via search_documents()`}</code></pre>
+
+<ul className="list-arrow">
+  <li>Run this pipeline as an <strong>Azure Function</strong> triggered by a Storage Queue message for fully async, scalable ingestion</li>
+  <li>Store the extracted text back to Blob Storage as <code>.txt</code> or <code>.json</code> to avoid re-processing on re-indexing</li>
+</ul>

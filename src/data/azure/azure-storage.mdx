@@ -1,0 +1,191 @@
+import { Icon } from '@iconify/react'
+
+Azure Storage provides two complementary services used together in Agentic AI document pipelines:
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Azure Blob Storage</strong></p>
+    <p>Object storage for unstructured data — PDFs, images, JSON, models. In an agentic pipeline it's the <em>landing zone</em> for raw documents before they are processed.</p>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Azure Storage Queue</strong></p>
+    <p>Simple, durable message queue. Used to trigger async processing — when a new file lands in Blob Storage, a queue message tells a worker to extract and index it.</p>
+  </div>
+</div>
+
+---
+
+## Installation
+
+<pre><code className="language-bash">{`pip install azure-storage-blob          # Blob Storage SDK
+pip install azure-storage-queue         # Queue Storage SDK
+pip install azure-identity`}</code></pre>
+
+---
+
+## Blob Storage
+
+### Upload a Document
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Upload from local file</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import os
+from azure.storage.blob import BlobServiceClient
+
+blob_service = BlobServiceClient.from_connection_string(
+    os.environ["AZURE_STORAGE_CONNECTION_STRING"]
+)
+container_client = blob_service.get_container_client(
+    os.environ["AZURE_STORAGE_CONTAINER"]
+)
+
+def upload_document(file_path: str) -> str:
+    """Upload a file to Blob Storage and return the blob name."""
+    blob_name = os.path.basename(file_path)
+    with open(file_path, "rb") as data:
+        container_client.upload_blob(
+            name=blob_name,
+            data=data,
+            overwrite=True,
+        )
+    print(f"Uploaded: {blob_name}")
+    return blob_name`}</code></pre>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Upload from bytes (e.g. API-received file)</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`import io
+
+def upload_bytes(content: bytes, blob_name: str) -> str:
+    container_client.upload_blob(
+        name=blob_name,
+        data=io.BytesIO(content),
+        overwrite=True,
+    )
+    return blob_name`}</code></pre>
+    <p><strong>List blobs in container</strong></p>
+    <pre className="overflow-x-auto"><code className="language-python">{`def list_documents() -> list[str]:
+    return [
+        blob.name
+        for blob in container_client.list_blobs()
+    ]`}</code></pre>
+  </div>
+</div>
+
+### Download and Read
+
+<pre><code className="language-python">{`def download_document(blob_name: str) -> bytes:
+    blob_client = container_client.get_blob_client(blob_name)
+    return blob_client.download_blob().readall()
+
+
+def download_to_file(blob_name: str, local_path: str) -> None:
+    blob_client = container_client.get_blob_client(blob_name)
+    with open(local_path, "wb") as f:
+        blob_client.download_blob().readinto(f)`}</code></pre>
+
+### Generate a SAS URL
+
+SAS (Shared Access Signature) URLs give time-limited, credential-free access to a blob — useful for passing to Document Intelligence:
+
+<pre><code className="language-python">{`from datetime import datetime, timedelta, timezone
+from azure.storage.blob import generate_blob_sas, BlobSasPermissions
+
+def get_sas_url(blob_name: str, expiry_hours: int = 1) -> str:
+    account_name = blob_service.account_name
+    account_key = blob_service.credential.account_key
+
+    sas_token = generate_blob_sas(
+        account_name=account_name,
+        container_name=os.environ["AZURE_STORAGE_CONTAINER"],
+        blob_name=blob_name,
+        account_key=account_key,
+        permission=BlobSasPermissions(read=True),
+        expiry=datetime.now(timezone.utc) + timedelta(hours=expiry_hours),
+    )
+    return f"https://{account_name}.blob.core.windows.net/{os.environ['AZURE_STORAGE_CONTAINER']}/{blob_name}?{sas_token}"`}</code></pre>
+
+---
+
+## Storage Queue
+
+### Enqueue a Processing Task
+
+<pre><code className="language-python">{`import json
+from azure.storage.queue import QueueClient, TextBase64EncodePolicy
+
+queue_client = QueueClient.from_connection_string(
+    os.environ["AZURE_STORAGE_CONNECTION_STRING"],
+    queue_name=os.environ["AZURE_STORAGE_QUEUE_NAME"],
+    message_encode_policy=TextBase64EncodePolicy(),
+)
+
+# Create queue if it doesn't exist
+queue_client.create_queue()
+
+def enqueue_processing_task(blob_name: str, priority: str = "normal") -> None:
+    """Tell a worker to process a newly uploaded document."""
+    message = json.dumps({
+        "blob_name": blob_name,
+        "container": os.environ["AZURE_STORAGE_CONTAINER"],
+        "priority": priority,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    })
+    queue_client.send_message(message)
+    print(f"Queued: {blob_name}")`}</code></pre>
+
+### Receive and Process Messages
+
+<pre><code className="language-python">{`from azure.storage.queue import TextBase64DecodePolicy
+
+receive_client = QueueClient.from_connection_string(
+    os.environ["AZURE_STORAGE_CONNECTION_STRING"],
+    queue_name=os.environ["AZURE_STORAGE_QUEUE_NAME"],
+    message_decode_policy=TextBase64DecodePolicy(),
+)
+
+def process_queue(process_fn) -> None:
+    """Poll queue and process each message."""
+    messages = receive_client.receive_messages(max_messages=5, visibility_timeout=60)
+
+    for msg in messages:
+        try:
+            task = json.loads(msg.content)
+            print(f"Processing: {task['blob_name']}")
+            process_fn(task)
+            receive_client.delete_message(msg)
+        except Exception as e:
+            print(f"Error processing message: {e}")
+            # Message becomes visible again after visibility_timeout
+            # Consider dead-letter queue for repeated failures`}</code></pre>
+
+---
+
+## Full Upload + Queue Pattern
+
+<pre><code className="language-python">{`def ingest_document(file_path: str) -> None:
+    """
+    Full ingestion entry point:
+    1. Upload raw file to Blob Storage
+    2. Enqueue a processing task for async extraction + indexing
+    """
+    blob_name = upload_document(file_path)
+    enqueue_processing_task(blob_name)
+    print(f"Document ingestion started: {blob_name}")
+
+
+# Worker side (Azure Function or background process):
+def handle_task(task: dict) -> None:
+    """
+    Triggered by queue message:
+    1. Download blob
+    2. Extract with Document Intelligence
+    3. Embed chunks
+    4. Upload to AI Search
+    """
+    sas_url = get_sas_url(task["blob_name"])
+    chunks = extract_from_url(sas_url)          # Document Intelligence
+    for chunk in chunks:
+        chunk["content_vector"] = embed_text(chunk["content"])
+    search_client.upload_documents(chunks)       # AI Search
+    print(f"Indexed {len(chunks)} chunks from {task['blob_name']}")`}</code></pre>

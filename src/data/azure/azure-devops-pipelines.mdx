@@ -1,0 +1,254 @@
+import { Icon } from '@iconify/react'
+
+**Azure DevOps** provides end-to-end CI/CD for Agentic AI applications — from automated testing to production deployments with secrets managed securely via Key Vault and Variable Groups.
+
+---
+
+## Key Concepts
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/4 min-w-0">
+    <p><strong>Pipeline</strong></p>
+    <p>A YAML-defined automated workflow. Triggered on push, PR, or schedule. Runs on Microsoft-hosted or self-hosted agents.</p>
+  </div>
+  <div className="w-1/4 min-w-0">
+    <p><strong>Service Connection</strong></p>
+    <p>A stored credential that lets pipelines authenticate to Azure, Docker registries, or other services, without hardcoding secrets.</p>
+  </div>
+  <div className="w-1/4 min-w-0">
+    <p><strong>Variable Group</strong></p>
+    <p>A named set of variables (including Key Vault-backed secrets) that can be shared across multiple pipelines.</p>
+  </div>
+  <div className="w-1/4 min-w-0">
+    <p><strong>Environments</strong></p>
+    <p>Represents deployment targets (dev, staging, prod) with approval gates and deployment history.</p>
+  </div>
+</div>
+
+---
+
+## Project Structure
+
+<pre className="inline-block"><code className="language-bash">{`my-agent-app/
+├── src/
+│   ├── agent.py
+│   ├── tools/
+│   │   ├── search.py
+│   │   ├── document_intelligence.py
+│   │   └── storage.py
+│   └── config.py
+├── tests/
+│   ├── test_agent.py
+│   └── test_tools.py
+├── Dockerfile
+├── requirements.txt
+├── azure-pipelines.yml            ← CI/CD pipeline definition
+└── .env.example                   ← committed template (no secrets)`}</code></pre>
+
+---
+
+## Basic CI Pipeline
+
+<pre><code className="language-yaml">{`# azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: agentic-ai-dev              # Variable Group with dev secrets
+  - name: PYTHON_VERSION
+    value: "3.11"
+
+stages:
+  - stage: CI
+    displayName: Build and Test
+    jobs:
+      - job: Test
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: $(PYTHON_VERSION)
+
+          - script: |
+              python -m pip install --upgrade pip
+              pip install -r requirements.txt
+            displayName: Install dependencies
+
+          - script: |
+              pip install pytest pytest-cov
+              pytest tests/ --cov=src --cov-report=xml
+            displayName: Run tests
+            env:
+              AZURE_OPENAI_ENDPOINT: $(AZURE_OPENAI_ENDPOINT)
+              AZURE_OPENAI_API_KEY: $(AZURE_OPENAI_API_KEY)
+              AZURE_SEARCH_ENDPOINT: $(AZURE_SEARCH_ENDPOINT)
+              AZURE_SEARCH_KEY: $(AZURE_SEARCH_KEY)
+
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: JUnit
+              testResultsFiles: "**/*.xml"`}</code></pre>
+
+---
+
+## Variable Groups and Key Vault Integration
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Create a Variable Group linked to Key Vault</strong></p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`# In Azure DevOps:
+# Pipelines → Library → + Variable group
+# 
+# Name: agentic-ai-prod
+# ✅ Link secrets from Azure Key Vault
+#
+# Select your Key Vault and which secrets to expose:
+# - AZURE-OPENAI-API-KEY
+# - AZURE-SEARCH-KEY  
+# - AZURE-STORAGE-CONNECTION-STRING
+# - AZURE-DOCUMENT-INTELLIGENCE-KEY
+# - AZURE-CLIENT-SECRET`}</code></pre>
+    <ul className="list-arrow">
+      <li>Secrets are fetched at pipeline runtime — never stored in the pipeline YAML</li>
+      <li>Key Vault secret names use hyphens; pipeline variable names use underscores — Azure DevOps maps them automatically</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Reference in pipeline YAML</strong></p>
+    <pre className="overflow-x-auto"><code className="language-yaml">{`variables:
+  - group: agentic-ai-prod          # Key Vault-backed group
+
+steps:
+  - script: python src/agent.py
+    env:
+      # Variables from the group are available as $(VAR_NAME)
+      AZURE_OPENAI_API_KEY: $(AZURE-OPENAI-API-KEY)
+      AZURE_CLIENT_ID: $(AZURE-CLIENT-ID)
+      AZURE_CLIENT_SECRET: $(AZURE-CLIENT-SECRET)
+      AZURE_TENANT_ID: $(AZURE-TENANT-ID)
+    displayName: Run agent`}</code></pre>
+  </div>
+</div>
+
+---
+
+## Docker Build and Push
+
+<pre><code className="language-yaml">{`  - stage: Docker
+    displayName: Build and Push Image
+    dependsOn: CI
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: DockerBuildPush
+        steps:
+          - task: Docker@2
+            displayName: Build and push image
+            inputs:
+              command: buildAndPush
+              repository: my-agent-app
+              containerRegistry: my-acr-service-connection   # Service Connection name
+              dockerfile: Dockerfile
+              tags: |
+                $(Build.BuildId)
+                latest`}</code></pre>
+
+### Example Dockerfile
+
+<pre><code className="language-dockerfile">{`FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY src/ ./src/
+
+# Don't bake secrets into the image — inject via env vars at runtime
+CMD ["python", "src/agent.py"]`}</code></pre>
+
+---
+
+## Deploy to Azure Container Apps
+
+<pre><code className="language-yaml">{`  - stage: Deploy
+    displayName: Deploy to Container Apps
+    dependsOn: Docker
+    jobs:
+      - deployment: DeployDev
+        environment: dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureCLI@2
+                  displayName: Deploy to Azure Container Apps
+                  inputs:
+                    azureSubscription: my-azure-service-connection
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      az containerapp update \
+                        --name my-agent-app \
+                        --resource-group my-rg \
+                        --image myacr.azurecr.io/my-agent-app:$(Build.BuildId) \
+                        --set-env-vars \
+                          AZURE_OPENAI_ENDPOINT=$(AZURE_OPENAI_ENDPOINT) \
+                          AZURE_SEARCH_ENDPOINT=$(AZURE_SEARCH_ENDPOINT) \
+                          AZURE_STORAGE_CONTAINER=$(AZURE_STORAGE_CONTAINER)`}</code></pre>
+
+---
+
+## Service Connection Setup
+
+Service Connections are created in **Azure DevOps → Project Settings → Service Connections**:
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Azure Resource Manager connection</strong></p>
+    <ul className="list-arrow">
+      <li>Type: <strong>Azure Resource Manager</strong></li>
+      <li>Auth: Service principal (automatic) or Workload identity federation (recommended for production)</li>
+      <li>Scope: Resource group or subscription</li>
+      <li>Used by: <code>AzureCLI@2</code>, <code>AzureWebApp@1</code>, container app tasks</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>Container Registry connection</strong></p>
+    <ul className="list-arrow">
+      <li>Type: <strong>Docker Registry</strong> → <strong>Azure Container Registry</strong></li>
+      <li>Auth: Service principal or admin account</li>
+      <li>Select your ACR resource directly</li>
+      <li>Used by: <code>Docker@2</code> build and push tasks</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Full Pipeline Summary
+
+<pre className="inline-block"><code className="language-bash">{`git push → main
+│
+├── Stage: CI
+│   ├── Install dependencies (pip)
+│   ├── Run unit tests (pytest)
+│   └── Publish test results
+│
+├── Stage: Docker  [only on main]
+│   └── Build + push image to ACR
+│
+└── Stage: Deploy  [only on main]
+    ├── Environment: dev (auto-approve)
+    └── Environment: prod (manual approval gate)
+        └── az containerapp update`}</code></pre>
+
+<ul className="list-arrow">
+  <li>Use <strong>approval gates</strong> on the <code>prod</code> environment to require a human sign-off before deploying</li>
+  <li>Use <strong>deployment slots</strong> (App Service) or <strong>traffic splitting</strong> (Container Apps) for blue/green deployments</li>
+  <li>Store all secrets in Key Vault; reference via Variable Group — never commit secrets to YAML or <code>.env</code></li>
+</ul>

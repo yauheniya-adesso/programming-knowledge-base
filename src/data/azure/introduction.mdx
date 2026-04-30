@@ -1,0 +1,108 @@
+import { Icon } from '@iconify/react'
+
+<Icon icon="devicon:azure-wordmark" height={72} style={{display: 'inline', verticalAlign: 'middle'}} /> is Microsoft's cloud computing platform offering 200+ services across infrastructure, data, AI, and developer tools. It provides the building blocks to design, build, and operate **Agentic AI** applications at scale.
+
+An **Agentic AI** application is one where an AI model doesn't just respond to a single prompt — it autonomously plans, uses tools, retrieves context, and takes multi-step actions to complete complex goals. Azure provides a managed, production-ready stack for every layer of these apps.
+
+---
+
+## What Makes an App "Agentic"?
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/3 min-w-0">
+    <p><Icon icon="mdi:brain" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Reasoning</strong></p>
+    <ul className="list-arrow">
+      <li>LLM decides the next action based on context</li>
+      <li>Can call tools, query data, or delegate to sub-agents</li>
+      <li>Maintains state across multiple turns</li>
+    </ul>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><Icon icon="mdi:wrench" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Tool Use</strong></p>
+    <ul className="list-arrow">
+      <li>Search knowledge bases (Azure AI Search)</li>
+      <li>Read/write documents (Blob Storage, Document Intelligence)</li>
+      <li>Query structured data (Azure SQL)</li>
+      <li>Send messages (Storage Queue)</li>
+    </ul>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><Icon icon="mdi:file-document-outline" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)'}} /> <strong>Document Awareness</strong></p>
+    <ul className="list-arrow">
+      <li>Extract text and structure from PDFs, Word, images</li>
+      <li>Chunk and embed content for semantic retrieval</li>
+      <li>Index and search over large document corpora</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## The <Icon icon="devicon:azure-wordmark" height={72} style={{display: 'inline', verticalAlign: 'middle'}} /> Agentic AI Stack
+
+<pre className="inline-block"><code className="language-bash">{`Agentic AI Application
+│
+├── Orchestration Layer (your Python app / LangChain / Semantic Kernel)
+│   ├── Agent loop: plan → act → observe → repeat
+│   └── Tool registry: search, read_doc, query_db, enqueue_task
+│
+├── Azure OpenAI                  ← reasoning & embeddings
+├── Azure AI Search               ← semantic & vector retrieval
+├── Azure Document Intelligence   ← parse PDFs, tables, forms
+├── Azure Blob Storage            ← raw document store
+├── Azure Storage Queue           ← async task coordination
+├── Azure SQL / Cosmos DB         ← structured data
+└── Azure DevOps                  ← CI/CD, secrets, deployments`}</code></pre>
+
+---
+
+## Prerequisites
+
+Before building, you'll need:
+
+<ul className="list-arrow">
+  <li>An <strong>Azure subscription</strong> — <a className="brand-link" href="https://portal.azure.com" target="_blank">portal.azure.com</a></li>
+  <li>The <strong>Azure CLI</strong> installed: <code>brew install azure-cli</code> (macOS) or <a className="brand-link" href="https://learn.microsoft.com/en-us/cli/azure/install-azure-cli" target="_blank">docs</a></li>
+  <li>Python <strong>3.10+</strong> with <code>pip</code></li>
+  <li>Required Python packages (install per section below)</li>
+</ul>
+
+<pre className="inline-block"><code className="language-bash">{`# Authenticate locally
+az login
+
+# Set active subscription
+az account set --subscription "<your-subscription-id>"
+
+# Verify
+az account show`}</code></pre>
+
+---
+
+## Environment Variables Pattern
+
+All Azure services are connected via environment variables. Follow this pattern throughout the tutorials:
+
+<pre className="inline-block"><code className="language-bash">{`# .env
+AZURE_OPENAI_ENDPOINT=https://<resource>.openai.azure.com/
+AZURE_OPENAI_API_KEY=<key>
+AZURE_OPENAI_DEPLOYMENT=<deployment-name>
+
+AZURE_SEARCH_ENDPOINT=https://<resource>.search.windows.net
+AZURE_SEARCH_KEY=<admin-key>
+AZURE_SEARCH_INDEX=<index-name>
+
+AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;...
+AZURE_STORAGE_CONTAINER=<container-name>
+
+AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT=https://<resource>.cognitiveservices.azure.com/
+AZURE_DOCUMENT_INTELLIGENCE_KEY=<key>
+
+# For SQL / Entra ID auth
+AZURE_CLIENT_ID=<app-client-id>
+AZURE_CLIENT_SECRET=<client-secret>
+AZURE_TENANT_ID=<tenant-id>`}</code></pre>
+
+<ul className="list-arrow">
+  <li>Never commit <code>.env</code> to source control — add it to <code>.gitignore</code></li>
+  <li>In production (Azure DevOps pipelines / App Service), inject these as <strong>pipeline variables</strong> or <strong>Key Vault secrets</strong></li>
+</ul>

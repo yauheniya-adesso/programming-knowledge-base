@@ -13,7 +13,7 @@ import abstractClasses from './java/abstract-classes.html?raw';
 import interfaces from './java/interfaces.html?raw';
 
 export const javaContent = {
-  icon: "ri:java-fill",
+  icon: "logos:java",
   title: "Java",
   sections: [
     {

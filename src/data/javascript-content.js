@@ -14,7 +14,7 @@ import restApis from './javascript/rest-apis.html?raw';
 import domNodes from './javascript/dom-nodes.html?raw';
 
 export const javascriptContent = {
-  icon: "simple-icons:javascript",
+  icon: "logos:javascript",
   title: "JavaScript",
   sections: [
     {

@@ -5,7 +5,7 @@ import bodyTag from './html/body.html?raw';
 import formTag from './html/form.html?raw';
 
 export const htmlContent = {
-  icon: "simple-icons:html5",
+  icon: "vscode-icons:file-type-html",
   title: "HTML",
   sections: [
     {

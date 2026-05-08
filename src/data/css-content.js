@@ -5,7 +5,7 @@ import Tailwind from './css/tailwind.mdx';
 import Bootstrap from './css/bootstrap.mdx';
 
 export const cssContent = {
-  icon: "simple-icons:css3",
+  icon: "vscode-icons:file-type-css2",
   title: "CSS",
   sections: [
     {

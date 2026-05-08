@@ -8,7 +8,7 @@ import correctingCommits from './git/correcting-commits.html?raw';
 import githubSSH from './git/github-ssh.html?raw';
 
 export const gitContent = {
-  icon: "simple-icons:git",
+  icon: "devicon:git",
   title: "Git",
   sections: [
     {

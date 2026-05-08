@@ -6,7 +6,7 @@ import ClaudeCodePermissions from './claude-code/permissions-and-plan-mode.mdx';
 import ClaudeCodeHowAgentsWork from './claude-code/how-agents-work.mdx';
 
 export const claudeCodeContent = {
-  icon: "simple-icons:claude",
+  icon: "logos:claude-icon",
   title: "Claude Code",
   sections: [
     {

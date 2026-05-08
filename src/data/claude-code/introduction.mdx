@@ -1,0 +1,108 @@
+import { Icon } from '@iconify/react'
+
+<div className="flex gap-6 items-start">
+  <div className="flex-1 min-w-0">
+    <p>
+      <Icon icon="logos:claude-icon" height={14} style={{display: 'inline', verticalAlign: 'middle'}} /> <strong>Claude Code</strong> is <Icon icon="simple-icons:anthropic" height={14} style={{display: 'inline', verticalAlign: 'middle'}} /> <strong>Anthropic's</strong> official agentic coding assistant. It runs Claude <em>inside your project</em>, lets the model read and edit files, run shell commands, and use tools — all under your control.
+    </p>
+    <p>
+      Claude Code was released in <strong>February 2025</strong> and is built on the <strong>Claude Agent SDK</strong> — the same toolkit behind Anthropic's other agent offerings, such as the <strong>Computer Use</strong> API (Claude controlling a desktop via screenshots and actions), <strong>Claude.ai</strong> with web search and research, and the third-party agents teams build on top of the public SDK. They all share the same two foundations:
+    </p>
+    <ul className="list-arrow">
+      <li><strong>Agentic loop</strong> — the model plans, calls a tool, observes the real result, and decides what to do next, repeating until the task is done.</li>
+      <li>
+        <strong>Tool use</strong> — instead of executing anything itself, the model emits structured tool calls (read a file, run a command, fetch a URL) that the harness runs and feeds back as the next observation.
+        <ul className="list-dash">
+          <li><strong>Model</strong> — the LLM (e.g. Claude Opus or Sonnet). It can only <em>produce text</em>, including JSON-shaped tool calls. It cannot touch your files or your network on its own.</li>
+          <li><strong>Harness</strong> — the program around the model (the Claude Code CLI / VS Code extension). It receives the tool call, actually runs it on your machine, and enforces permissions.</li>
+          <li><strong>Next observation</strong> — the tool's result (file contents, command output, error message) appended to the conversation as the next message the model reads before deciding the next step.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <figure className="w-1/3 shrink-0 m-0">
+    <img
+      src="images/ClaudeCode.png"
+      alt="Claude Code for VS Code extension by Anthropic"
+      className="rounded-lg border border-blue w-full h-auto"
+    />
+    <figcaption className="text-xs text-brown text-center mt-2 italic">
+      <em>Claude Code for VS Code</em> — Anthropic's official VS Code extension.
+    </figcaption>
+  </figure>
+</div>
+
+---
+
+## Where Claude Code Runs
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/4 min-w-0">
+    <p><Icon icon="codicon:terminal" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)', marginRight: '0.75rem'}} /> <strong>Terminal (CLI)</strong></p>
+    <ul className="list-arrow">
+      <li>Original surface — <code>claude</code> command in any shell</li>
+      <li>Works on macOS, Linux, and Windows (WSL)</li>
+      <li>Best for power users and scripting</li>
+    </ul>
+  </div>
+  <div className="w-1/4 min-w-0">
+    <p><Icon icon="simple-icons:visualstudiocode" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)', marginRight: '0.75rem'}} /> <strong>IDE Extensions</strong></p>
+    <ul className="list-arrow">
+      <li><strong>VS Code</strong> native extension</li>
+      <li><strong>JetBrains</strong> plugin (IntelliJ, PyCharm, …)</li>
+      <li>File context and selection are passed automatically</li>
+    </ul>
+  </div>
+  <div className="w-1/4 min-w-0">
+    <p><Icon icon="lucide:app-window" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)', marginRight: '0.75rem'}} /> <strong>Desktop App</strong></p>
+    <ul className="list-arrow">
+      <li>Standalone app for <strong>macOS</strong> and <strong>Windows</strong></li>
+      <li>Same agent — graphical session view</li>
+    </ul>
+  </div>
+  <div className="w-1/4 min-w-0">
+    <p><Icon icon="lucide:cloud" height={32} style={{display: 'inline', verticalAlign: 'middle', color: 'var(--color-blue)', marginRight: '0.75rem'}} /> <strong>Web</strong></p>
+    <ul className="list-arrow">
+      <li><code>claude.ai/code</code> — runs in the cloud</li>
+      <li>No local install required</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Models You Can Use
+
+Claude Code lets you switch between Claude models for different trade-offs of capability, speed, and cost. Switch with <code>/model</code> at any time.
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Strength</th>
+      <th>When to pick it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Opus 4.7</strong></td>
+      <td>Highest reasoning, supports a 1M-token context window</td>
+      <td>Long, complex changes spanning many files</td>
+    </tr>
+    <tr>
+      <td><strong>Sonnet 4.6</strong></td>
+      <td>Balanced quality and speed</td>
+      <td>Default for most day-to-day work</td>
+    </tr>
+    <tr>
+      <td><strong>Haiku 4.5</strong></td>
+      <td>Fastest and cheapest</td>
+      <td>Quick edits, simple questions, throwaway scripts</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul className="list-arrow">
+  <li>The <strong>knowledge cutoff</strong> for Claude 4.x is January 2026 — for newer libraries, point Claude at the docs</li>
+  <li>Long sessions auto-compress context once it gets close to the model's limit</li>
+</ul>

@@ -1,0 +1,117 @@
+import { Icon } from '@iconify/react'
+
+Claude Code has three input prefixes that change how your message is interpreted: <code>/</code> for slash commands, <code>#</code> to write to memory, and <code>!</code> to run a shell command. Plus <code>@</code> to reference a file.
+
+---
+
+## Slash Commands
+
+Type <code>/</code> in the chat to open the command palette. The most useful ones:
+
+<div className="border-l-4 border-blue bg-blue-50 px-4 py-2 my-3 text-sm">
+  <strong>Note:</strong> the descriptions below match the <strong>Claude Code CLI</strong>. The VS Code, JetBrains, and Desktop extensions surface the same commands but may render the result differently (e.g. <code>/status</code> shows account &amp; usage in VS Code instead of the CLI's Status view). Open VS Code settings via <code>Cmd ,</code> / <code>Ctrl ,</code> → search <em>"Claude Code"</em> for extension-specific options.
+</div>
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/help</code></td>
+      <td>Show all available commands</td>
+    </tr>
+    <tr>
+      <td><code>/model</code></td>
+      <td>View or switch the active model (Opus, Sonnet, Haiku)</td>
+    </tr>
+    <tr>
+      <td><code>/status</code></td>
+      <td>Open the Settings → Status view (version, account, connectivity; in the CLI also shows the active model)</td>
+    </tr>
+    <tr>
+      <td><code>/clear</code></td>
+      <td>Reset the conversation (start fresh)</td>
+    </tr>
+    <tr>
+      <td><code>/init</code></td>
+      <td>Generate a starter <code>CLAUDE.md</code> for the current project</td>
+    </tr>
+    <tr>
+      <td><code>/review</code></td>
+      <td>Review a pull request (pass a PR number or URL)</td>
+    </tr>
+    <tr>
+      <td><code>/security-review</code></td>
+      <td>Run a security review of pending changes on the current branch</td>
+    </tr>
+    <tr>
+      <td><code>/agents</code></td>
+      <td>Manage and inspect subagents available in your project</td>
+    </tr>
+    <tr>
+      <td><code>/permissions</code></td>
+      <td>Edit which tools and commands Claude is allowed to run</td>
+    </tr>
+    <tr>
+      <td><code>/cost</code></td>
+      <td>Show token usage and cost for the current session</td>
+    </tr>
+    <tr>
+      <td><code>/config</code></td>
+      <td>Edit theme, model, and other settings</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Special Input Prefixes
+
+<div className="flex gap-4 items-start">
+  <div className="w-1/3 min-w-0">
+    <p><strong><code>#</code> — Save to memory</strong></p>
+    <p>Add a fact to project memory (<code>CLAUDE.md</code>) without leaving the chat.</p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`# Always run \`pnpm test\`,
+# never \`npm test\`.`}</code></pre>
+    <p>Claude appends the line to the appropriate <code>CLAUDE.md</code> and asks where to store it.</p>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><strong><code>!</code> — Run a shell command</strong></p>
+    <p>Run a command yourself and let Claude see the output.</p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`!git status
+
+!npm test`}</code></pre>
+    <p>Useful when you want to drive the shell directly but keep Claude in the loop.</p>
+  </div>
+  <div className="w-1/3 min-w-0">
+    <p><strong><code>@</code> — Reference a file</strong></p>
+    <p>Drop a file or folder into the message as context.</p>
+    <pre className="overflow-x-auto"><code className="language-bash">{`Refactor @src/api/user.ts
+to use the new schema.`}</code></pre>
+    <p>Tab-completion shows matching paths from your workspace.</p>
+  </div>
+</div>
+
+---
+
+## Keyboard Shortcuts
+
+<ul className="list-arrow">
+  <li>
+    <strong>Shift + Tab</strong> — cycle through the four permission modes:
+    <ul className="list-dash">
+      <li><span className="mode-pill"><Icon icon="ic:outline-front-hand" height={18} /> <strong>Ask before edits</strong></span> — default; Claude requests permission before any file edit or shell command</li>
+      <li><span className="mode-pill"><Icon icon="iconoir:code" height={18} /> <strong>Edit automatically</strong></span> — file edits are auto-approved, shell commands still prompt</li>
+      <li><span className="mode-pill"><Icon icon="pepicons-pencil:electricity" height={18} /> <strong>Auto mode</strong></span> — fully autonomous; Claude runs edits and commands without asking (use only in trusted/sandboxed projects)</li>
+      <li><span className="mode-pill"><Icon icon="fluent-mdl2:script" height={18} /> <strong>Plan mode</strong></span> — read-only; Claude explores and produces a plan but cannot modify anything</li>
+    </ul>
+  </li>
+  <li><strong>Esc</strong> — interrupt the current response</li>
+  <li><strong>Esc Esc</strong> — rewind to a previous message</li>
+  <li><strong>Ctrl + C</strong> — cancel input; press twice to exit Claude Code</li>
+  <li><strong>Up arrow</strong> — recall previous prompts</li>
+</ul>

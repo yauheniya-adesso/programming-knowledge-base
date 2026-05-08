@@ -1,0 +1,125 @@
+import { Icon } from '@iconify/react'
+
+Claude Code can edit files and run shell commands on your machine. To stay safe, **you decide what it's allowed to do**. The two daily controls are *permission modes* and *plan mode*.
+
+---
+
+## Permission Modes
+
+Set the global posture with <code>/permissions</code> or via <code>.claude/settings.json</code>.
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Behaviour</th>
+      <th>When to use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>default</strong></td>
+      <td>Asks for permission for every write or shell command</td>
+      <td>Unfamiliar repo, sensitive code</td>
+    </tr>
+    <tr>
+      <td><strong>acceptEdits</strong></td>
+      <td>Auto-approves file edits, still asks for shell commands</td>
+      <td>Trusted refactors, doc updates</td>
+    </tr>
+    <tr>
+      <td><strong>plan</strong></td>
+      <td>Read-only — Claude can explore but not modify anything</td>
+      <td>Before changing anything risky</td>
+    </tr>
+    <tr>
+      <td><strong>bypassPermissions</strong></td>
+      <td>Skips all prompts (autonomous mode)</td>
+      <td>Sandboxed environments only — use with care</td>
+    </tr>
+  </tbody>
+</table>
+
+You can also pre-approve specific commands so they don't prompt every time:
+
+<pre className="inline-block"><code className="language-json">{`// .claude/settings.json
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm test:*)",
+      "Bash(pnpm typecheck)",
+      "Read",
+      "Edit"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}`}</code></pre>
+
+---
+
+## Plan Mode
+
+Press <strong>Shift + Tab</strong> (or pass <code>--permission-mode plan</code>) to enter plan mode. Claude will:
+
+<ul className="list-arrow">
+  <li>Read files, run searches, and inspect the codebase</li>
+  <li><strong>Refuse</strong> to write, edit, or run anything that mutates state</li>
+  <li>Produce a structured plan for your review before any change happens</li>
+</ul>
+
+You then approve, edit, or reject the plan. Plan mode is the safest way to start a non-trivial task — it forces Claude to think before touching code.
+
+<div className="flex gap-4 items-start mt-4">
+  <div className="w-1/2 min-w-0">
+    <p><strong>Good prompts in plan mode</strong></p>
+    <ul className="list-dash">
+      <li>"Plan the migration from REST to tRPC for the user routes."</li>
+      <li>"Plan how to add OAuth — list every file that needs to change."</li>
+      <li>"Plan the refactor; don't write code yet."</li>
+    </ul>
+  </div>
+  <div className="w-1/2 min-w-0">
+    <p><strong>When <em>not</em> to use it</strong></p>
+    <ul className="list-dash">
+      <li>One-line bug fixes — overhead isn't worth it</li>
+      <li>Pure questions ("how does X work?") — already read-only</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Hooks — Automating Guardrails
+
+Hooks are shell scripts the Claude Code harness runs around tool calls. They're configured in <code>settings.json</code>:
+
+<pre className="inline-block"><code className="language-json">{`{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": ".claude/hooks/check-bash.sh" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "pnpm test --run" }
+        ]
+      }
+    ]
+  }
+}`}</code></pre>
+
+<ul className="list-arrow">
+  <li><strong>PreToolUse</strong> — block or allow a tool call before it runs</li>
+  <li><strong>PostToolUse</strong> — react to the result (lint, format, audit)</li>
+  <li><strong>Stop</strong> — run when Claude finishes a turn (run tests, type-check)</li>
+</ul>
+
+Hooks are how you enforce policies (e.g. "always run tests after edits", "never let Claude touch <code>main</code>") — the rule is checked by your script, not by trusting the model.

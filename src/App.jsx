@@ -10,6 +10,7 @@ import Java from './pages/Java';
 import Git from './pages/Git';
 import Azure from './pages/Azure';
 import AWS from './pages/AWS';
+import ClaudeCode from './pages/ClaudeCode';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('Home');
@@ -46,6 +47,8 @@ export default function App() {
         return <Azure />;
       case 'AWS':
         return <AWS />;
+      case 'Claude Code':
+        return <ClaudeCode initialSection={targetSection} />;
       default:
         return <Home onNavigate={handleNavigate} />;
     }

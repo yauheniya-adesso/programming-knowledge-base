@@ -398,3 +398,53 @@ pre:hover .copy-button {
   /* 4px orange band painted on the inside-bottom of the button */
   box-shadow: inset 0 -4px 0 var(--color-orange);
 }
+
+.mode-pill-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--color-blue);
+  border-radius: 0.5rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.mode-pill-card .mode-pill-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-blue);
+  transition: color 0.2s ease;
+}
+
+.mode-pill-card strong {
+  color: inherit;
+}
+
+.mode-pill-card:hover {
+  box-shadow: inset 0 -4px 0 var(--color-orange);
+}
+
+.mode-pill-card:hover .mode-pill-card-title {
+  color: var(--color-pink);
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-blue);
+  transition: color 0.2s ease;
+}
+
+.checklist-item:hover {
+  color: var(--color-pink);
+}
+
+.checklist-item.star:hover {
+  color: var(--color-orange);
+}
+
+.checklist-item span {
+  color: black;
+}

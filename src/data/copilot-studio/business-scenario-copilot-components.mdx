@@ -1,0 +1,175 @@
+import { Icon } from '@iconify/react'
+
+## Scenario
+
+<div className=" flex gap-6 items-center">
+  <div className="flex-[7] min-w-0 rounded-lg border border-blue/40 p-8 ">
+    <p>
+      Imagine you're building a Copilot agent to handle <strong>vacation request processing</strong> for your company.
+      <ul className="list-arrow">
+        <li>Employees want to check leave balances, submit time-off requests, and understand approval timelines —
+        all through natural conversation.</li>
+        <li>Your task is to analyze this workflow and break it down into Copilot Studio's building blocks:
+        <strong> trigger phrases</strong>, <strong>topics</strong>, <strong>actions</strong>, and <strong>generative fallbacks</strong>.</li>
+      </ul>
+    </p>
+  </div>
+  <div className="flex-[3] flex justify-center items-center shrink-0">
+    <Icon icon="noto:beach-with-umbrella" width={256} height={256} />
+  </div>
+</div>
+
+---
+
+## Instructions
+
+### Step 1 — Define the Triggers
+
+Write **5–7 natural-language phrases** users might say to begin this interaction.
+
+<ul className="list-arrow">
+  <li>"Request vacation"</li>
+  <li>"How many days off do I have left?"</li>
+  <li>"I want to take time off next week"</li>
+  <li>"Submit a leave request"</li>
+  <li>"Check my leave balance"</li>
+  <li>"When will my vacation be approved?"</li>
+  <li>"Cancel my time-off request"</li>
+</ul>
+
+---
+
+### Step 2 — Outline the Topics
+
+Break the interaction into **2–3 reusable topics**. For each topic, sketch the logic flow:
+
+<div className="grid grid-cols-1 gap-4 my-4">
+
+  <div className="rounded-lg border border-blue p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:calendar-checkmark-24-regular" height={20} style={{color: 'var(--color-blue)'}} />
+      <strong>Topic 1 — Check Leave Balance</strong>
+    </div>
+    <ul className="list-arrow m-0">
+      <li><strong>Bot asks:</strong> "Which type of leave would you like to check? (Annual / Sick / Unpaid)"</li>
+      <li><strong>Condition:</strong> If employee ID is not on record, prompt for employee ID</li>
+      <li><strong>Action:</strong> Call Power Automate flow → query HRIS for balance</li>
+      <li><strong>Response:</strong> Return remaining days by leave type</li>
+    </ul>
+  </div>
+
+  <div className="rounded-lg border border-blue p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:edit-24-regular" height={20} style={{color: 'var(--color-blue)'}} />
+      <strong>Topic 2 — Submit a Time-Off Request</strong>
+    </div>
+    <ul className="list-arrow m-0">
+      <li><strong>Bot asks:</strong> Start date, end date, leave type, optional reason</li>
+      <li><strong>Condition:</strong> Check if requested days ≤ available balance</li>
+      <li><strong>Branch:</strong> If insufficient balance → inform user and suggest alternatives</li>
+      <li><strong>Action:</strong> Trigger Power Automate flow → submit request to approval system (e.g., SharePoint list / HRIS)</li>
+      <li><strong>Response:</strong> Confirmation message with request ID and expected approval timeline</li>
+    </ul>
+  </div>
+
+  <div className="rounded-lg border border-blue p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:dismiss-circle-24-regular" height={20} style={{color: 'var(--color-blue)'}} />
+      <strong>Topic 3 — Cancel a Leave Request</strong>
+    </div>
+    <ul className="list-arrow m-0">
+      <li><strong>Bot asks:</strong> Request ID or date range of the leave to cancel</li>
+      <li><strong>Condition:</strong> Check if request is still in "Pending" status</li>
+      <li><strong>Branch:</strong> If already approved → escalate to HR or provide manual instructions</li>
+      <li><strong>Action:</strong> Power Automate flow → update request status in HRIS</li>
+      <li><strong>Response:</strong> Cancellation confirmation or escalation notice</li>
+    </ul>
+  </div>
+
+</div>
+
+---
+
+### Step 3 — Add Generative Fallbacks
+
+Consider open-ended questions a user might ask **outside** of defined topics.
+
+<div className="rounded-lg border border-blue/40 p-4 mb-2">
+  <p><strong>Example question:</strong> <em>"Can I take half-days on Fridays in August?"</em></p>
+  <p className="m-0"><strong>Fallback strategy:</strong></p>
+  <ul className="list-arrow m-0">
+    <li>The bot uses a <strong>knowledge source</strong> (e.g., HR policy document in SharePoint) to generate a grounded answer via generative AI.</li>
+    <li>If no relevant content is found → the bot acknowledges it cannot answer with certainty and <strong>escalates to a human HR agent</strong> via handoff.</li>
+    <li>Generative answers are clearly labeled as AI-generated and link back to the source policy document.</li>
+  </ul>
+</div>
+
+---
+
+### Step 4 — Document the Flow
+
+```
+User Input
+    │
+    ▼
+[Trigger Matching]
+    ├── "check balance"      → Topic: Check Leave Balance
+    │                              └── Power Automate → HRIS query
+    │
+    ├── "submit / request"   → Topic: Submit Time-Off Request
+    │                              └── Power Automate → HRIS / SharePoint write
+    │
+    ├── "cancel"             → Topic: Cancel Leave Request
+    │                              └── Power Automate → HRIS update
+    │
+    └── No match             → Generative Fallback
+                                   ├── Knowledge source (SharePoint HR Docs)
+                                   └── Escalate to HR agent if unresolved
+```
+
+**Tool integrations:**
+<ul className="list-arrow">
+  <li><strong>SharePoint</strong> — HR policy knowledge base + leave request list</li>
+  <li><strong>HRIS</strong> (e.g., SAP, Workday) — leave balances and approvals via Power Automate connector</li>
+  <li><strong>Power Automate</strong> — orchestrates all backend actions</li>
+</ul>
+
+---
+
+## Checklist for Success
+
+<ul className="list-none p-0">
+  <li className="checklist-item"><Icon icon="fluent:checkmark-circle-24-filled" height={18} /><span>Triggers are diverse, clear, and realistic</span></li>
+  <li className="checklist-item"><Icon icon="fluent:checkmark-circle-24-filled" height={18} /><span>Topics are logically grouped and modular</span></li>
+  <li className="checklist-item"><Icon icon="fluent:checkmark-circle-24-filled" height={18} /><span>Generative response has a thoughtful fallback plan</span></li>
+  <li className="checklist-item"><Icon icon="fluent:checkmark-circle-24-filled" height={18} /><span>Overall flow is complete and Copilot-ready</span></li>
+  <li className="checklist-item star"><Icon icon="fluent:star-24-filled" height={18} /><span><strong>Bonus:</strong> Topics 1 and 3 are reusable for other HR processes (e.g., sick leave, expense approvals)</span></li>
+</ul>
+
+---
+
+## Submission
+
+<div className="grid grid-cols-2 gap-4 my-4">
+  <div className="rounded-lg border border-blue/40 p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:document-24-regular" height={20} style={{color: 'var(--color-blue)'}} />
+      <strong>What to Submit</strong>
+    </div>
+    <ul className="list-arrow m-0">
+      <li>A short write-up or diagram outlining your <strong>trigger → topic → response</strong> map</li>
+      <li>A brief explanation (2–3 sentences) of how you ensured <strong>modularity</strong> and <strong>fallback resilience</strong></li>
+    </ul>
+  </div>
+  <div className="rounded-lg border border-blue/40 p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:lightbulb-24-regular" height={20} style={{color: 'var(--color-blue)'}} />
+      <strong>Reflection Prompt</strong>
+    </div>
+    <p className="m-0">
+      Once you've drafted your Copilot structure, reflect on how well your model
+      <strong> anticipates user behavior</strong>, handles ambiguity, and supports
+      <strong> reuse across business workflows</strong>.
+    </p>
+  </div>
+</div>

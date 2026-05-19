@@ -114,7 +114,9 @@ const LanguagePage = ({ content, initialSection }) => {
         <div className="sticky top-16 z-10 -mx-8 px-8 -mt-8 pt-8 pb-3 bg-white">
           <h1 className="text-4xl font-bold flex items-center gap-4 text-black">
             {content.icon && (
-              <Icon icon={content.icon} width={36} height={36} color="#006EC7" />
+              /\.(png|svg|jpg|webp)$/.test(content.icon)
+                ? <img src={content.icon} width={36} height={36} alt="" />
+                : <Icon icon={content.icon} width={36} height={36} color="#006EC7" />
             )}
             {content.title}
           </h1>

@@ -1,0 +1,191 @@
+import { Icon } from '@iconify/react'
+
+The core building blocks of every Copilot Studio agent — understand these and you can design any conversational workflow.
+
+---
+
+## Topics
+
+A **topic** is the fundamental unit of conversation logic. Each topic:
+
+<div className="grid grid-cols-2 gap-4 my-4">
+
+  <div className="rounded-lg border border-blue p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:comment-multiple-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+      <strong>Trigger Phrases</strong>
+    </div>
+    <p className="text-sm">3–10 example phrases that activate the topic. The NLU model matches user input against these phrases to decide which topic fires.</p>
+    <p className="text-sm m-0"><em>Example: "How many vacation days do I have?", "Check my leave balance"</em></p>
+  </div>
+
+  <div className="rounded-lg border border-blue p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:branch-fork-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+      <strong>Conversation Nodes</strong>
+    </div>
+    <ul className="list-arrow m-0 text-sm">
+      <li><strong>Message</strong> — bot sends text, cards, images</li>
+      <li><strong>Question</strong> — bot asks &amp; captures input into a variable</li>
+      <li><strong>Condition</strong> — branch on variable values</li>
+      <li><strong>Action</strong> — call a Power Automate flow</li>
+      <li><strong>Redirect</strong> — hand off to another topic</li>
+      <li><strong>End conversation</strong> — close or escalate</li>
+    </ul>
+  </div>
+
+</div>
+
+> **System topics** are built-in topics (Greeting, Escalate, Fallback, End of Conversation) that handle universal conversation moments. You can customize but not delete them.
+
+---
+
+## Entities & Variables
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Entity</strong></td>
+      <td>A typed data extractor — e.g. <code>Number</code>, <code>Date</code>, <code>Email</code>, custom lists. Used in Question nodes to validate and parse user input automatically.</td>
+    </tr>
+    <tr>
+      <td><strong>Variable</strong></td>
+      <td>A named slot that stores a value during a conversation. Can be <code>topic</code> (local) or <code>global</code> (shared across topics).</td>
+    </tr>
+    <tr>
+      <td><strong>System variables</strong></td>
+      <td>Pre-built variables like <code>System.User.DisplayName</code>, <code>System.LastMessage.Text</code>, <code>System.Activity.Channel</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Actions (Power Automate Flows)
+
+Actions connect your bot to real systems:
+
+<div className="rounded-lg border border-blue/40 p-4 my-4">
+  <ul className="list-arrow m-0">
+    <li>An <strong>Action node</strong> calls a Power Automate cloud flow synchronously.</li>
+    <li>The flow can query <strong>Dataverse</strong>, call <strong>REST APIs</strong>, send emails, update SharePoint lists, or write to any connector.</li>
+    <li>Input and output parameters bind directly to topic variables.</li>
+    <li>You can also call <strong>HTTP requests</strong> directly (without a flow) using the HTTP action node (preview).</li>
+  </ul>
+</div>
+
+---
+
+## Generative AI Features
+
+<div className="grid grid-cols-3 gap-4 my-4">
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:document-search-24-regular" height={22} />
+      <strong>Generative Answers</strong>
+    </div>
+    <p className="text-sm m-0">Automatically search configured knowledge sources (SharePoint, public URLs, files, Dataverse) and synthesize an answer with source citations — no topics required.</p>
+  </div>
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:brain-circuit-24-regular" height={22} />
+      <strong>Generative Orchestration</strong>
+    </div>
+    <p className="text-sm m-0">Let the AI model decide which topic or action to invoke based on the user's intent — instead of rigid trigger phrase matching. Powered by GPT.</p>
+  </div>
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:sparkle-24-regular" height={22} />
+      <strong>Copilot Agent</strong>
+    </div>
+    <p className="text-sm m-0">Publish your copilot as an agent inside <strong>M365 Copilot Chat</strong>. Surface it to users alongside Word, Teams, and other Microsoft AI entry points.</p>
+  </div>
+
+</div>
+
+---
+
+## Knowledge Sources
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Source Type</th>
+      <th>How it Works</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>SharePoint site / page</strong></td>
+      <td>Crawled and indexed; used for generative answers</td>
+    </tr>
+    <tr>
+      <td><strong>Uploaded files</strong> (PDF, Word, Excel)</td>
+      <td>Chunked and embedded in real time</td>
+    </tr>
+    <tr>
+      <td><strong>Public website</strong></td>
+      <td>Bing-indexed content used for grounding</td>
+    </tr>
+    <tr>
+      <td><strong>Dataverse tables</strong></td>
+      <td>Structured query via connector</td>
+    </tr>
+    <tr>
+      <td><strong>Azure AI Search index</strong></td>
+      <td>Bring your own vector/semantic index</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Channels & Handoff
+
+<div className="grid grid-cols-2 gap-4 my-4">
+
+  <div className="rounded-lg border border-blue/40 p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:arrow-export-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+      <strong>Human Handoff</strong>
+    </div>
+    <p className="text-sm m-0">Use the <strong>Transfer to agent</strong> node to escalate a conversation to a live agent. Integrates with Omnichannel for Customer Service, Genesys, Salesforce, and others via the Direct Line channel.</p>
+  </div>
+
+  <div className="rounded-lg border border-blue/40 p-4">
+    <div className="flex gap-2 items-center mb-2">
+      <Icon icon="fluent:organization-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+      <strong>Environment & ALM</strong>
+    </div>
+    <p className="text-sm m-0">Copilots live in a <strong>Power Platform environment</strong>. Use <strong>Solutions</strong> to package and migrate copilots across dev → test → prod with version control support.</p>
+  </div>
+
+</div>
+
+---
+
+## Quick Mental Model
+
+```
+User message
+    │
+    ▼
+NLU / Generative Orchestrator
+    ├── Matches topic trigger  →  Topic flow
+    │                               ├── Questions (collect variables)
+    │                               ├── Conditions (branch)
+    │                               ├── Actions (call flows / APIs)
+    │                               └── Messages (respond)
+    │
+    └── No topic match        →  Generative Answers (knowledge sources)
+                                        └── Still no answer → Escalate / Fallback topic
+```

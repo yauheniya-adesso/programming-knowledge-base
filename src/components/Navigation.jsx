@@ -17,6 +17,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
     { name: 'Azure', icon: 'codicon:azure' },
     { name: 'AWS', icon: 'fontisto:aws' },
     { name: 'Claude Code', icon: 'simple-icons:claude' },
+    { name: 'Copilot Studio', icon: 'mingcute:layers-fill', flipX: true },
   ];
 
   const handleNavigate = (page) => {
@@ -93,7 +94,9 @@ const Navigation = ({ currentPage, onNavigate }) => {
                   isActive ? 'active' : ''
                 }`}
               >
-                {page.icon && <Icon icon={page.icon} width={20} height={20} className="nav-icon transition-colors" />}
+                {page.icon && (/\.(png|svg|jpg|webp)$/.test(page.icon)
+                  ? <img src={page.icon} width={20} height={20} className="nav-icon transition-colors" alt="" />
+                  : <Icon icon={page.icon} width={20} height={20} className="nav-icon transition-colors" style={page.flipX ? {transform: 'scaleX(-1)'} : undefined} />)}
                 {page.name}
               </button>
             );
@@ -122,7 +125,9 @@ const Navigation = ({ currentPage, onNavigate }) => {
                     isActive ? 'active' : ''
                   }`}
                 >
-                  {page.icon && <Icon icon={page.icon} width={20} height={20} className="nav-icon transition-colors" />}
+                  {page.icon && (/\.(png|svg|jpg|webp)$/.test(page.icon)
+                    ? <img src={page.icon} width={20} height={20} className="nav-icon transition-colors" alt="" />
+                    : <Icon icon={page.icon} width={20} height={20} className="nav-icon transition-colors" style={page.flipX ? {transform: 'scaleX(-1)'} : undefined} />)}
                   {page.name}
                 </button>
               );

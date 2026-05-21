@@ -2,6 +2,46 @@ import { Icon } from '@iconify/react'
 
 The core building blocks of every Copilot Studio agent — understand these and you can design any conversational workflow.
 
+## Anatomy of an Agent
+
+Every Copilot Studio agent is made of four layers that work together:
+
+<div className="grid grid-cols-2 gap-4 my-4">
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:comment-multiple-24-regular" height={22} />
+      <strong>1. Topics</strong>
+    </div>
+    <p className="text-sm m-0">Self-contained conversation flows, each with trigger phrases and a sequence of nodes. The agent routes every user message to the best-matching topic.</p>
+  </div>
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:target-arrow-24-regular" height={22} />
+      <strong>2. Trigger Phrases</strong>
+    </div>
+    <p className="text-sm m-0">3–10 example sentences that teach the NLU model what the user is trying to do. The model generalises — you do not need to enumerate every variant.</p>
+  </div>
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:web-asset-24-regular" height={22} />
+      <strong>3. Nodes</strong>
+    </div>
+    <p className="text-sm m-0">The building blocks inside a topic: <strong>Message</strong>, <strong>Question</strong>, <strong>Condition</strong>, <strong>Action</strong>, <strong>Redirect</strong>, and <strong>End conversation</strong>. Arranged in a visual canvas (like a flowchart).</p>
+  </div>
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:channel-24-regular" height={22} />
+      <strong>4. Channels</strong>
+    </div>
+    <p className="text-sm m-0">Where the agent is published: Teams, websites, SharePoint, M365 Copilot Chat, and more. The same agent logic runs on all channels simultaneously.</p>
+  </div>
+
+</div>
+
 ---
 
 ## Topics
@@ -153,26 +193,65 @@ A **topic** is the fundamental unit of conversation logic. Each topic:
 
 ---
 
-## Channels & Handoff
+## Channels
 
-<div className="grid grid-cols-2 gap-4 my-4">
+A **channel** is a surface where end users interact with the agent. You configure channels in the **Publish** section of Copilot Studio. The same agent and topic logic runs on every channel — no duplication needed.
 
-  <div className="mode-pill-card">
-    <div className="mode-pill-card-title">
-      <Icon icon="fluent:arrow-export-24-regular" height={22}  />
-      <strong>Human Handoff</strong>
-    </div>
-    <p className="text-sm m-0">Use the <strong>Transfer to agent</strong> node to escalate a conversation to a live agent. Integrates with Omnichannel for Customer Service, Genesys, Salesforce, and others via the Direct Line channel.</p>
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Channel</th>
+      <th>Audience</th>
+      <th>How to enable</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><Icon icon="bi:microsoft-teams" height={16} className="inline mr-1" /><strong>Microsoft Teams</strong></td>
+      <td>Internal employees</td>
+      <td>One-click publish; agent appears as a Teams app in the org app catalog</td>
+    </tr>
+    <tr>
+      <td><Icon icon="fluent:globe-24-regular" height={16} className="inline mr-1" /><strong>Website</strong></td>
+      <td>Any web visitor</td>
+      <td>Copy a JavaScript embed snippet into the target page's HTML</td>
+    </tr>
+    <tr>
+      <td><Icon icon="simple-icons:microsoftsharepoint" height={16} className="inline mr-1" /><strong>SharePoint</strong></td>
+      <td>Intranet users</td>
+      <td>Add the Copilot Studio web part to a SharePoint page</td>
+    </tr>
+    <tr>
+      <td><Icon icon="lineicons:copilot" height={16} className="inline mr-1" /><strong>M365 Copilot Chat</strong></td>
+      <td>M365 Copilot licence holders</td>
+      <td>Publish as a <em>Copilot agent</em> — surfaces in the right-hand agent panel in Teams / Office</td>
+    </tr>
+    <tr>
+      <td><Icon icon="fluent:phone-24-regular" height={16} className="inline mr-1" /><strong>Telephony / IVR</strong></td>
+      <td>Call-centre callers</td>
+      <td>Connect via Azure Communication Services or partner adapters (Nuance, AudioCodes)</td>
+    </tr>
+    <tr>
+      <td><Icon icon="fluent:arrow-export-24-regular" height={16} className="inline mr-1" /><strong>Direct Line API</strong></td>
+      <td>Custom apps, mobile</td>
+      <td>REST API + WebSocket; build any UI on top of the agent back end</td>
+    </tr>
+  </tbody>
+</table>
+
+### Human Handoff
+
+<div className="mode-pill-card my-4">
+  <div className="mode-pill-card-title">
+    <Icon icon="fluent:person-call-24-regular" height={22} />
+    <strong>Transfer to Agent node</strong>
   </div>
-
-  <div className="mode-pill-card">
-    <div className="mode-pill-card-title">
-      <Icon icon="fluent:organization-24-regular" height={22}  />
-      <strong>Environment & ALM</strong>
-    </div>
-    <p className="text-sm m-0">Copilots live in a <strong>Power Platform environment</strong>. Use <strong>Solutions</strong> to package and migrate copilots across dev → test → prod with version control support.</p>
-  </div>
-
+  <ul className="list-arrow m-0 text-sm">
+    <li>Insert a <strong>Transfer to agent</strong> node at any point in a topic to escalate to a human.</li>
+    <li>The bot passes the full conversation transcript to the live-agent dashboard.</li>
+    <li>Native integration with <strong>Dynamics 365 Customer Service (Omnichannel)</strong>; also supports Genesys, Salesforce Service Cloud, and others via the Direct Line channel.</li>
+    <li>A <strong>Fallback</strong> system topic can auto-escalate after repeated unrecognised messages.</li>
+  </ul>
 </div>
 
 ---

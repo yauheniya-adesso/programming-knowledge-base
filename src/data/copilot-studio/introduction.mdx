@@ -68,6 +68,152 @@ import { Icon } from '@iconify/react'
 
 ---
 
+## Where Copilot Studio Sits in Power Platform
+
+Microsoft **Power Platform** is a suite of five interconnected low-code tools. Copilot Studio is the conversational AI layer that ties them together.
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>Pillar</th>
+      <th>Product</th>
+      <th>What it does</th>
+      <th>How it relates to Copilot Studio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><Icon icon="fluent:data-histogram-24-regular" height={18} className="inline mr-1" /><strong>Analyse</strong></td>
+      <td>Power BI</td>
+      <td>Business intelligence &amp; dashboards</td>
+      <td>Copilot Studio agents can surface report insights in chat</td>
+    </tr>
+    <tr>
+      <td><Icon icon="fluent:phone-desktop-24-regular" height={18} className="inline mr-1" /><strong>Build</strong></td>
+      <td>Power Apps</td>
+      <td>Canvas &amp; model-driven apps</td>
+      <td>Embed a copilot chat widget inside any Power App</td>
+    </tr>
+    <tr>
+      <td><Icon icon="fluent:arrow-repeat-all-24-regular" height={18} className="inline mr-1" /><strong>Automate</strong></td>
+      <td>Power Automate</td>
+      <td>Cloud &amp; desktop flows</td>
+      <td><strong>Primary action layer</strong> — Action nodes call flows to query APIs, update records, send emails</td>
+    </tr>
+    <tr>
+      <td><Icon icon="fluent:bot-24-regular" height={18} className="inline mr-1" /><strong>Chat</strong></td>
+      <td><strong>Copilot Studio</strong></td>
+      <td>AI agent / chatbot builder</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><Icon icon="fluent:web-asset-24-regular" height={18} className="inline mr-1" /><strong>Pages</strong></td>
+      <td>Power Pages</td>
+      <td>External-facing websites</td>
+      <td>Publish copilot as a live chat widget on a Power Pages site</td>
+    </tr>
+  </tbody>
+</table>
+
+<div className="border-l-4 border-blue pl-4 py-1 my-4 text-sm">
+  All five pillars share a common data layer — <strong>Microsoft Dataverse</strong> — and are managed through the same admin center, environment model, and Azure Active Directory tenant.
+</div>
+
+---
+
+## Environments, Solutions & Licensing
+
+### Environments
+
+<div className="grid grid-cols-3 gap-4 my-4">
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:globe-shield-24-regular" height={22} />
+      <strong>What is an Environment?</strong>
+    </div>
+    <p className="text-sm m-0">An isolated container in Power Platform with its own Dataverse database, users, roles, and resources. Think of it as a <em>namespace</em> for all your apps, flows, and copilots.</p>
+  </div>
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:arrow-move-24-regular" height={22} />
+      <strong>Dev → Test → Prod</strong>
+    </div>
+    <p className="text-sm m-0">Best practice: maintain separate environments for development, testing, and production. Copilots and their dependencies are migrated between them using <strong>Solutions</strong>.</p>
+  </div>
+
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:person-settings-24-regular" height={22} />
+      <strong>Environment Types</strong>
+    </div>
+    <ul className="list-arrow m-0 text-sm">
+      <li><strong>Default</strong> — shared sandbox, every tenant has one</li>
+      <li><strong>Sandbox</strong> — for dev &amp; test; can be reset</li>
+      <li><strong>Production</strong> — live workloads, backed up</li>
+      <li><strong>Developer</strong> — personal, free, 1 GB Dataverse</li>
+    </ul>
+  </div>
+
+</div>
+
+### Solutions
+
+<div className="mode-pill-card my-4">
+  <div className="mode-pill-card-title">
+    <Icon icon="fluent:box-24-regular" height={22} />
+    <strong>Solutions are deployment packages</strong>
+  </div>
+  <ul className="list-arrow m-0">
+    <li>A solution bundles a copilot together with its flows, environment variables, connection references, and security roles.</li>
+    <li><strong>Managed solutions</strong> are locked (for production) — changes must come through the pipeline.</li>
+    <li><strong>Unmanaged solutions</strong> are editable (for development).</li>
+    <li>Export as a <code>.zip</code> and import into another environment, or use <strong>Power Platform Pipelines</strong> / Azure DevOps for automated ALM.</li>
+    <li>Always build copilots <em>inside a solution</em> — copilots created outside solutions cannot be easily migrated.</li>
+  </ul>
+</div>
+
+### Licensing Basics
+
+<table className="brand-table">
+  <thead>
+    <tr>
+      <th>License</th>
+      <th>Who needs it</th>
+      <th>Key notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Copilot Studio (per-tenant)</strong></td>
+      <td>Makers / builders</td>
+      <td>Included in M365 E3/E5 for internal copilots with limited messages; standalone license for higher volume or external users</td>
+    </tr>
+    <tr>
+      <td><strong>Messages / Sessions</strong></td>
+      <td>Runtime consumption</td>
+      <td>Each tenant gets a monthly message quota; a <em>session</em> is up to 60 min of conversation. Additional messages purchasable as add-ons.</td>
+    </tr>
+    <tr>
+      <td><strong>Power Platform Premium</strong></td>
+      <td>End users triggering premium connectors</td>
+      <td>Required when flows used by the copilot call premium connectors (e.g. Dataverse, SAP, custom HTTP)</td>
+    </tr>
+    <tr>
+      <td><strong>M365 Copilot</strong></td>
+      <td>End users of M365 Copilot Chat agents</td>
+      <td>Needed to interact with a copilot published as an M365 Copilot agent</td>
+    </tr>
+  </tbody>
+</table>
+
+<div className="border-l-4 border-blue pl-4 py-1 my-4 text-sm">
+  <strong>Tip for trainers:</strong> The <em>Developer Environment</em> (free, personal) is the fastest way to get students hands-on without consuming production quotas.
+</div>
+
+---
+
 ## Deployment Channels
 
 <div className="grid grid-cols-2 gap-4 my-4">

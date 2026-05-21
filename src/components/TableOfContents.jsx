@@ -28,7 +28,7 @@ const TableOfContents = ({ sections, activeSection, onSectionClick }) => {
                 {/* Chevron icon */}
                 <ChevronRight
                   size={16}
-                  className={`relative z-10 transition-colors ${
+                  className={`relative z-10 shrink-0 transition-colors ${
                     isActive ? 'text-white' : 'group-hover:text-white text-[#006EC7]'
                   }`}
                 />

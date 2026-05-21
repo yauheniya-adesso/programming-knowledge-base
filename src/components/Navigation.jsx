@@ -72,7 +72,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
         }
       `}</style>
       
-      <div className="flex items-center justify-between px-4 md:px-8 h-16">
+      <div className="flex items-center justify-between gap-4 px-4 md:px-8 py-3 min-h-16 flex-wrap">
         {/* Logo + Title */}
         <button
           onClick={() => onNavigate('Home')}
@@ -83,14 +83,14 @@ const Navigation = ({ currentPage, onNavigate }) => {
         </button>
 
         {/* Desktop links */}
-        <div className="hidden md:flex space-x-2">
+        <div className="hidden md:flex flex-wrap justify-end gap-1">
           {pages.map((page) => {
             const isActive = currentPage === page.name;
             return (
               <button
                 key={page.name}
                 onClick={() => handleNavigate(page.name)}
-                className={`nav-link flex items-center gap-2 text-white font-medium cursor-pointer ${
+                className={`nav-link flex items-center gap-2 text-white font-medium cursor-pointer whitespace-nowrap ${
                   isActive ? 'active' : ''
                 }`}
               >
@@ -113,7 +113,7 @@ const Navigation = ({ currentPage, onNavigate }) => {
 
       {/* Mobile menu */}
       {isMobileOpen && (
-        <div className="md:hidden absolute top-16 right-4 rounded-lg shadow-lg mobile-menu">
+        <div className="md:hidden absolute top-full right-4 rounded-lg shadow-lg mobile-menu">
           <div className="flex flex-col space-y-2 px-4 py-3">
             {pages.map((page) => {
               const isActive = currentPage === page.name;

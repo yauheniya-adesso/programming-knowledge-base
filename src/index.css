@@ -423,6 +423,7 @@ pre:hover .copy-button {
 
 .mode-pill-card:hover {
   box-shadow: inset 0 -4px 0 var(--color-orange);
+
 }
 
 .mode-pill-card:hover .mode-pill-card-title {

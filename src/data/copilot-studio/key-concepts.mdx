@@ -10,18 +10,18 @@ A **topic** is the fundamental unit of conversation logic. Each topic:
 
 <div className="grid grid-cols-2 gap-4 my-4">
 
-  <div className="rounded-lg border border-blue p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="fluent:comment-multiple-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:comment-multiple-24-regular" height={22} />
       <strong>Trigger Phrases</strong>
     </div>
     <p className="text-sm">3–10 example phrases that activate the topic. The NLU model matches user input against these phrases to decide which topic fires.</p>
     <p className="text-sm m-0"><em>Example: "How many vacation days do I have?", "Check my leave balance"</em></p>
   </div>
 
-  <div className="rounded-lg border border-blue p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="fluent:branch-fork-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:branch-fork-24-regular" height={22} />
       <strong>Conversation Nodes</strong>
     </div>
     <ul className="list-arrow m-0 text-sm">
@@ -71,7 +71,7 @@ A **topic** is the fundamental unit of conversation logic. Each topic:
 
 Actions connect your bot to real systems:
 
-<div className="rounded-lg border border-blue/40 p-4 my-4">
+<div className="mode-pill-card">
   <ul className="list-arrow m-0">
     <li>An <strong>Action node</strong> calls a Power Automate cloud flow synchronously.</li>
     <li>The flow can query <strong>Dataverse</strong>, call <strong>REST APIs</strong>, send emails, update SharePoint lists, or write to any connector.</li>
@@ -153,17 +153,17 @@ Actions connect your bot to real systems:
 
 <div className="grid grid-cols-2 gap-4 my-4">
 
-  <div className="rounded-lg border border-blue/40 p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="fluent:arrow-export-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:arrow-export-24-regular" height={22}  />
       <strong>Human Handoff</strong>
     </div>
     <p className="text-sm m-0">Use the <strong>Transfer to agent</strong> node to escalate a conversation to a live agent. Integrates with Omnichannel for Customer Service, Genesys, Salesforce, and others via the Direct Line channel.</p>
   </div>
 
-  <div className="rounded-lg border border-blue/40 p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="fluent:organization-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:organization-24-regular" height={22}  />
       <strong>Environment & ALM</strong>
     </div>
     <p className="text-sm m-0">Copilots live in a <strong>Power Platform environment</strong>. Use <strong>Solutions</strong> to package and migrate copilots across dev → test → prod with version control support.</p>

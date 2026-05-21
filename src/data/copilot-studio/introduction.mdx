@@ -15,7 +15,7 @@ import { Icon } from '@iconify/react'
     </p>
   </div>
   <div className="shrink-0">
-    <img src="images/copilotstudio.svg" width={96} height={96} alt="Copilot Studio" />
+    <img src="images/PowerPlatform_scalable.svg" width={96} height={96} alt="Power Platform" />
   </div>
 </div>
 
@@ -25,9 +25,9 @@ import { Icon } from '@iconify/react'
 
 <div className="grid grid-cols-3 gap-4 my-4">
 
-  <div className="rounded-lg border border-blue p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="fluent:building-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:building-24-regular" height={22} />
       <strong>What it is</strong>
     </div>
     <ul className="list-arrow m-0 text-sm">
@@ -38,9 +38,9 @@ import { Icon } from '@iconify/react'
     </ul>
   </div>
 
-  <div className="rounded-lg border border-blue p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="fluent:person-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:person-24-regular" height={22} />
       <strong>Who uses it</strong>
     </div>
     <ul className="list-arrow m-0 text-sm">
@@ -51,9 +51,9 @@ import { Icon } from '@iconify/react'
     </ul>
   </div>
 
-  <div className="rounded-lg border border-blue p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="fluent:plug-connected-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:plug-connected-24-regular" height={22} />
       <strong>Key integrations</strong>
     </div>
     <ul className="list-arrow m-0 text-sm">
@@ -72,33 +72,33 @@ import { Icon } from '@iconify/react'
 
 <div className="grid grid-cols-2 gap-4 my-4">
 
-  <div className="rounded-lg border border-blue/40 p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="logos:microsoft-teams" height={22} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="bi:microsoft-teams" height={22} />
       <strong>Microsoft Teams</strong>
     </div>
     <p className="m-0 text-sm">Publish as a Teams app so employees can chat with your copilot directly in their workspace — no URL or login flow required.</p>
   </div>
 
-  <div className="rounded-lg border border-blue/40 p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="fluent:globe-24-regular" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="fluent:globe-24-regular" height={22}  />
       <strong>Website / Custom App</strong>
     </div>
     <p className="m-0 text-sm">Embed a one-line JavaScript snippet on any webpage or intranet portal to surface the copilot as a live chat widget.</p>
   </div>
 
-  <div className="rounded-lg border border-blue/40 p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="simple-icons:microsoftsharepoint" height={22} style={{color: '#038387'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="simple-icons:microsoftsharepoint" height={22} />
       <strong>SharePoint</strong>
     </div>
     <p className="m-0 text-sm">Add the copilot as a SharePoint web part so users get contextual answers while browsing company sites and documents.</p>
   </div>
 
-  <div className="rounded-lg border border-blue/40 p-4">
-    <div className="flex gap-2 items-center mb-2">
-      <Icon icon="lineicons:copilot" height={22} style={{color: 'var(--color-blue)'}} />
+  <div className="mode-pill-card">
+    <div className="mode-pill-card-title">
+      <Icon icon="lineicons:copilot" height={22}  />
       <strong>Microsoft 365 Copilot</strong>
     </div>
     <p className="m-0 text-sm">Register as a <em>Copilot agent</em> inside M365 Copilot Chat — your custom logic surfaces alongside Microsoft's native AI features.</p>
@@ -106,16 +106,3 @@ import { Icon } from '@iconify/react'
 
 </div>
 
----
-
-## Pricing Essentials
-
-<div className="rounded-lg border border-blue/40 p-4 mb-2">
-  <ul className="list-arrow m-0">
-    <li><strong>Messages</strong> — billed per conversation message (classic topics + generative AI replies).</li>
-    <li><strong>Sessions</strong> — a session is up to 60 minutes of conversation; billed on a monthly basis.</li>
-    <li><strong>Included capacity</strong> — M365 E3/E5 and Power Platform per-user plans include a monthly message allowance.</li>
-    <li><strong>Add-on packs</strong> — purchase additional message packs when usage exceeds the included quota.</li>
-    <li><strong>Azure OpenAI costs</strong> — generative (AI Search + GPT) answers consume separate Azure token budget.</li>
-  </ul>
-</div>

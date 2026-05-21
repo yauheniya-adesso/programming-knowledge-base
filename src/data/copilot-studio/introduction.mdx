@@ -72,51 +72,65 @@ import { Icon } from '@iconify/react'
 
 Microsoft **Power Platform** is a suite of five interconnected low-code tools. Copilot Studio is the conversational AI layer that ties them together.
 
-<table className="brand-table">
-  <thead>
-    <tr>
-      <th>Pillar</th>
-      <th>Product</th>
-      <th>What it does</th>
-      <th>How it relates to Copilot Studio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><Icon icon="fluent:data-histogram-24-regular" height={18} className="inline mr-1" /><strong>Analyse</strong></td>
-      <td>Power BI</td>
-      <td>Business intelligence &amp; dashboards</td>
-      <td>Copilot Studio agents can surface report insights in chat</td>
-    </tr>
-    <tr>
-      <td><Icon icon="fluent:phone-desktop-24-regular" height={18} className="inline mr-1" /><strong>Build</strong></td>
-      <td>Power Apps</td>
-      <td>Canvas &amp; model-driven apps</td>
-      <td>Embed a copilot chat widget inside any Power App</td>
-    </tr>
-    <tr>
-      <td><Icon icon="fluent:arrow-repeat-all-24-regular" height={18} className="inline mr-1" /><strong>Automate</strong></td>
-      <td>Power Automate</td>
-      <td>Cloud &amp; desktop flows</td>
-      <td><strong>Primary action layer</strong> — Action nodes call flows to query APIs, update records, send emails</td>
-    </tr>
-    <tr>
-      <td><Icon icon="fluent:bot-24-regular" height={18} className="inline mr-1" /><strong>Chat</strong></td>
-      <td><strong>Copilot Studio</strong></td>
-      <td>AI agent / chatbot builder</td>
-      <td>—</td>
-    </tr>
-    <tr>
-      <td><Icon icon="fluent:web-asset-24-regular" height={18} className="inline mr-1" /><strong>Pages</strong></td>
-      <td>Power Pages</td>
-      <td>External-facing websites</td>
-      <td>Publish copilot as a live chat widget on a Power Pages site</td>
-    </tr>
-  </tbody>
-</table>
+<div className="grid grid-cols-5 gap-3 my-4" style={{perspective: '1000px'}}>
+  {[
+    {
+      img: 'images/PowerBI_scalable.svg',
+      product: 'Power BI',
+      label: 'Analyse',
+      front: 'Business intelligence & dashboards',
+      back: 'Copilot Studio agents can surface report insights directly in chat conversations.',
+    },
+    {
+      img: 'images/PowerApps_scalable.svg',
+      product: 'Power Apps',
+      label: 'Build',
+      front: 'Canvas & model-driven apps',
+      back: 'Embed a copilot chat widget inside any Power App for in-app assistance.',
+    },
+    {
+      img: 'images/PowerAutomate_scalable.svg',
+      product: 'Power Automate',
+      label: 'Automate',
+      front: 'Cloud & desktop flows',
+      back: 'Primary action layer — Action nodes call flows to query APIs, update records, and send emails.',
+      highlight: true,
+    },
+    {
+      img: 'images/copilotstudio.svg',
+      product: 'Copilot Studio',
+      label: 'Chat',
+      front: 'AI agent / chatbot builder',
+      back: 'You are here — the conversational AI layer connecting all Power Platform products.',
+      active: true,
+    },
+    {
+      img: 'images/PowerPages_scalable.svg',
+      product: 'Power Pages',
+      label: 'Pages',
+      front: 'External-facing websites',
+      back: 'Publish your copilot as a live chat widget on any Power Pages site.',
+    },
+  ].map(({ img, product, label, front, back, highlight, active }) => (
+    <div key={product} className="flip-card">
+      <div className="flip-card-inner">
+        <div className={`flip-card-front ${active ? 'border-2 border-blue' : ''}`}>
+          <img src={img} alt={product} className="w-10 h-10 mb-2" />
+          <span className={`text-xs font-semibold uppercase tracking-wide mb-1 ${active ? 'text-blue' : 'text-brown'}`}>{label}</span>
+          <span className="text-sm font-bold text-black">{product}</span>
+          <span className="text-xs text-center text-black/70 mt-2 leading-snug">{front}</span>
+        </div>
+        <div className="flip-card-back">
+          <span className="text-xs font-semibold uppercase tracking-wide mb-2 text-white/70">{product}</span>
+          <span className="text-xs text-center text-white leading-snug">{back}</span>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
 
 <div className="border-l-4 border-blue pl-4 py-1 my-4 text-sm">
-  All five pillars share a common data layer — <strong>Microsoft Dataverse</strong> — and are managed through the same admin center, environment model, and Azure Active Directory tenant.
+  All five products share a common data layer — <strong>Microsoft Dataverse</strong> — and are managed through the same admin center, environment model, and Azure Active Directory tenant.
 </div>
 
 ---

@@ -36,7 +36,9 @@ A **topic** is the fundamental unit of conversation logic. Each topic:
 
 </div>
 
-> **System topics** are built-in topics (Greeting, Escalate, Fallback, End of Conversation) that handle universal conversation moments. You can customize but not delete them.
+<div className="border-l-4 border-blue pl-4 py-1 my-4 text-sm">
+  <strong>System topics</strong> are built-in topics (Greeting, Escalate, Fallback, End of Conversation) that handle universal conversation moments. You can customize but not delete them.
+</div>
 
 ---
 
@@ -69,9 +71,11 @@ A **topic** is the fundamental unit of conversation logic. Each topic:
 
 ## Actions (Power Automate Flows)
 
-Actions connect your bot to real systems:
-
 <div className="mode-pill-card">
+  <div className="mode-pill-card-title">
+    <Icon icon="fluent:plug-connected-24-regular" height={22} />
+    <strong>Actions connect your bot to real systems</strong>
+  </div>
   <ul className="list-arrow m-0">
     <li>An <strong>Action node</strong> calls a Power Automate cloud flow synchronously.</li>
     <li>The flow can query <strong>Dataverse</strong>, call <strong>REST APIs</strong>, send emails, update SharePoint lists, or write to any connector.</li>

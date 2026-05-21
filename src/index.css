@@ -78,6 +78,10 @@ ul.list-arrow li::before {
   font-weight: bold !important;
 }
 
+ul.list-arrow li:hover::before {
+  color: #FF9868 !important;
+}
+
 ul.list-arrow li::marker {
   content: none !important;
 }

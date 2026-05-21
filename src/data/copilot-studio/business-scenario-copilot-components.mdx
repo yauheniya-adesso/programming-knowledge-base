@@ -2,21 +2,18 @@ import { Icon } from '@iconify/react'
 
 ## Scenario
 
-<div className=" flex gap-6 items-center">
-  <div className="flex-[7] min-w-0 rounded-lg border border-blue/40 p-8 ">
-    <p>
-      Imagine you're building a Copilot agent to handle <strong>vacation request processing</strong> for your company.
-      <ul className="list-arrow">
-        <li>Employees want to check leave balances, submit time-off requests, and understand approval timelines —
-        all through natural conversation.</li>
-        <li>Your task is to analyze this workflow and break it down into Copilot Studio's building blocks:
-        <strong> trigger phrases</strong>, <strong>topics</strong>, <strong>actions</strong>, and <strong>generative fallbacks</strong>.</li>
-      </ul>
-    </p>
+<div className="mode-pill-card">
+  <div className="mode-pill-card-title">
+    <Icon icon="fluent-emoji-high-contrast:beach-with-umbrella" height={22} />
+    <strong>Vacation Request Processing</strong>
   </div>
-  <div className="flex-[3] flex justify-center items-center shrink-0">
-    <Icon icon="noto:beach-with-umbrella" width={256} height={256} />
-  </div>
+  <ul className="list-arrow m-0">
+    <li>Imagine you're building a Copilot agent to handle <strong>vacation request processing</strong> for your company.</li>
+    <li>Employees want to check leave balances, submit time-off requests, and understand approval timelines —
+    all through natural conversation.</li>
+    <li>Your task is to analyze this workflow and break it down into Copilot Studio's building blocks:
+    <strong> trigger phrases</strong>, <strong>topics</strong>, <strong>actions</strong>, and <strong>generative fallbacks</strong>.</li>
+  </ul>
 </div>
 
 ---
@@ -146,30 +143,4 @@ User Input
   <li className="checklist-item star"><Icon icon="fluent:star-24-filled" height={18} /><span><strong>Bonus:</strong> Topics 1 and 3 are reusable for other HR processes (e.g., sick leave, expense approvals)</span></li>
 </ul>
 
----
 
-## Submission
-
-<div className="grid grid-cols-2 gap-4 my-4">
-  <div className="mode-pill-card">
-    <div className="mode-pill-card-title">
-      <Icon icon="fluent:document-24-regular" height={20} style={{color: 'var(--color-blue)'}} />
-      <strong>What to Submit</strong>
-    </div>
-    <ul className="list-arrow m-0">
-      <li>A short write-up or diagram outlining your <strong>trigger → topic → response</strong> map</li>
-      <li>A brief explanation (2–3 sentences) of how you ensured <strong>modularity</strong> and <strong>fallback resilience</strong></li>
-    </ul>
-  </div>
-  <div className="mode-pill-card">
-    <div className="mode-pill-card-title">
-      <Icon icon="fluent:lightbulb-24-regular" height={20} style={{color: 'var(--color-blue)'}} />
-      <strong>Reflection Prompt</strong>
-    </div>
-    <p className="m-0">
-      Once you've drafted your Copilot structure, reflect on how well your model
-      <strong> anticipates user behavior</strong>, handles ambiguity, and supports
-      <strong> reuse across business workflows</strong>.
-    </p>
-  </div>
-</div>
